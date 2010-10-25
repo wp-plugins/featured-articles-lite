@@ -93,6 +93,14 @@ do_action('admin_head');
 				font-size:10px;
 				height:30px;
 			}
+		span.alert{
+			display:block;
+			position:relative;
+			padding:20px 0px 0px;
+			text-align:center;
+			fint-size:16px;
+			color:#FF0000;
+		}	
 </style>
 
 <script language="javascript" type="text/javascript">
@@ -152,8 +160,12 @@ do_action('admin_head');
 				<a href="<?php echo $medium_size[0];?>" title=""><img src="<?php echo $th[0];?>" alt="" /></a>
 			</div>	
 		</div>
-	<?
+	<?php
 			endforeach;
+		else:
+	?>
+		<span class="alert"><?php _e('Sorry, no images in your Media Library. Try uploading some images first.');?></span>
+	<?php		
 		endif;
 	?>	
 	</div>

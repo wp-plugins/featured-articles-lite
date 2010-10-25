@@ -337,7 +337,7 @@ function FA_admin_init(){
  */
 function FA_add_meta(){
 	global $post;
-	echo '<a href="../wp-content/plugins/wp_featured_articles/add_meta.php?height=300&width=800&post='.$post->ID.'&TB_iframe=true" class="thickbox" title="'.__('Add new image for Featured Articles','wp_featured_articles').'""><img src="'.get_bloginfo('wpurl').'/wp-content/plugins/wp_featured_articles/styles/custom-image.png" alt="'.__('Add custom image field','wp_featured_articles').'"></a>';	
+	echo '<a href="../wp-content/plugins/featured-articles-lite/add_meta.php?height=300&width=800&post='.$post->ID.'&TB_iframe=true" class="thickbox" title="'.__('Add new image for Featured Articles','wp_featured_articles').'""><img src="'.get_bloginfo('wpurl').'/wp-content/plugins/featured-articles-lite/styles/custom-image.png" alt="'.__('Add custom image field','wp_featured_articles').'"></a>';	
 }
 
 /**
