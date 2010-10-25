@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: slider, featured, articles, posts, pages
 Requires at least: 2.7
 Tested up to: 3.0.1
-Stable tag: 1.0
+Stable tag: 2.0
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage. Plenty of options from wp admin and theme support. Comes with 3 default themes.
 
@@ -13,10 +13,12 @@ Put featured posts or pages into a fancy JavaScript slider that can be set to di
 Features
 
 - SEO friendly
-- Autoslide – Set the slider to animate at any interval when your visitors come to your website.
-- Animation direction – Make it yours! Choose between slides coming from top or from left to mimic a vertical or horizontal slider.
-- Themes – Default themes available; easy implementation for new themes, guide below (see How to create a theme)
-- Options – various options available, from thumbnail display to categories to gather articles from and JavaScript settings, all available from Wordpress admin (see Settings below).
+- Autoslide
+– Set the slider to animate at any interval when your visitors come to your website.
+- Animation direction 
+– Make it yours! Choose between slides coming from top or from left to mimic a vertical or horizontal slider.
+- Themes – Default themes available; easy implementation for new themes
+- Options – various options available, from thumbnail display to categories to gather articles from and JavaScript settings, all available from Wordpress admin
 - Navigation – Make a choice between forward-backwards navigation and individual navigation or use both with only 2 clicks. Also, mouse wheel navigation available.
 
 More information can be found on [php-help.ro](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/ "Wordpress Featured Articles plugin").
