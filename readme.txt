@@ -6,7 +6,7 @@ Requires at least: 2.7
 Tested up to: 3.0.1
 Stable tag: 2.0
 
-Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage. Plenty of options from wp admin and theme support. Comes with 3 default themes.
+Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
 
 == Description ==
 
