@@ -26,7 +26,7 @@ More information can be found on [php-help.ro](http://www.php-help.ro/mootools-1
 == Installation ==
 
 1. Download and extract folder wp_featured_articles
-2. Upload the whole wp_featured_articles folder to the `/wp-content/plugins/` directory
+2. Upload the whole *featured-articles-lite* folder to the `/wp-content/plugins/` directory
 3. Activate the plugin through the 'Plugins' menu in WordPress
 4. Go to WP Admin->Settings->Featured articles and configure your slider
 5. For any clarifications, please read [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/ "WP Featured Articles plugin")
