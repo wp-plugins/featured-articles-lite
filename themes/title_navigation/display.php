@@ -19,11 +19,9 @@
 		</div>	
 	<?php endforeach;?>			
 	</div>
-	<?php if( $options['bottom_nav'] && count($postslist) > 1 ):?>
-		<ul class="FA_navigation">
-		<?php foreach ($postslist as $post):?>
-			<li><a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a></li>
-		<?php endforeach;?>
-		</ul>			
-	<?php endif;?>	
+	<ul class="FA_navigation">
+	<?php foreach ($postslist as $post):?>
+		<li><a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a></li>
+	<?php endforeach;?>
+	</ul>
 </div>

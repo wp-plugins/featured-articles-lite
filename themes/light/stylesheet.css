@@ -66,7 +66,8 @@ focus {
 	color:#303030;
 	font-weight:normal;
 	font-family:Georgia, "Times New Roman", Times, serif;
-	border:none;
+	border:none;	
+	clear:none;
 }
 
 #FA_featured_articles .FA_article span.FA_date{
