@@ -5,9 +5,9 @@
  * @version 1.0
  */
 /*
-Plugin Name: WP FeaturedArticles
+Plugin Name: Featured articles Lite
 Plugin URI: http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/
-Description: JavaScript slider plugin to highlight any featured content on any blog page, category page or home page.
+Description: Put a fancy JavaScript slider on any blog page, category page or home page to highlight your featured content.
 Author: Constantin Boiangiu
 Version: 2.0
 Author URI: http://www.php-help.ro
@@ -174,6 +174,7 @@ function FA_add_styles(){
  * @return bool
  */
 function FA_check_display(){
+	
 	global $FA_default;
 	$options = get_option('FA_options', $FA_default);
 	$display = true;
