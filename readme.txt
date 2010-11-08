@@ -14,12 +14,12 @@ Features
 
 - SEO friendly
 - Autoslide
-– Set the slider to animate at any interval when your visitors come to your website.
-- Animation direction 
-– Make it yours! Choose between slides coming from top or from left to mimic a vertical or horizontal slider.
-- Themes – Default themes available; easy implementation for new themes
-- Options – various options available, from thumbnail display to categories to gather articles from and JavaScript settings, all available from Wordpress admin
-- Navigation – Make a choice between forward-backwards navigation and individual navigation or use both with only 2 clicks. Also, mouse wheel navigation available.
+- Set the slider to animate at any interval when your visitors come to your website.
+- Animation direction
+- Make it yours! Choose between slides coming from top or from left to mimic a vertical or horizontal slider.
+- Themes - Default themes available; easy implementation for new themes
+- Options - various options available, from thumbnail display to categories to gather articles from and JavaScript settings, all available from Wordpress admin
+- Navigation - Make a choice between forward-backwards navigation and individual navigation or use both with only 2 clicks. Also, mouse wheel navigation available.
 
 More information can be found on [php-help.ro](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/ "Wordpress Featured Articles plugin").
 
