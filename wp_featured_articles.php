@@ -2,7 +2,7 @@
 /**
  * @package Featured articles
  * @author Constantin Boiangiu ( constantin[at]php-help.ro )
- * @version 1.0
+ * @version 2.1
  */
 /*
 Plugin Name: Featured articles Lite
