@@ -52,7 +52,7 @@ For any clarifications, please read [WP featured articles Lite homepage](http://
 * New option to display the slider manually by adding a function to theme files ( function is FA_display_slider - see installation for instructions ) 
 * Slider mouse wheel navigation can be enabled/disabled from wp admin
 * Links in article text allowed 
-* For automatic placement, option to choose loop top display on top of 
+* For automatic placement, option to choose loop to display on top of 
 
 = 2.0 =
 Initial release for the new redesigned Wordpress Featured Articles
