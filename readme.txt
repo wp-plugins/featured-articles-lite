@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: slider, featured, articles, posts, pages
 Requires at least: 2.7
 Tested up to: 3.0.1
-Stable tag: 2.1
+Stable tag: trunk
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
 
