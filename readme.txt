@@ -34,7 +34,7 @@ More information can be found on [php-help.ro](http://www.php-help.ro/mootools-1
 
 `<?php FA_display_slider(); ?>`
 
-6. For any clarifications, please read [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/ "WP Featured Articles plugin")
+For any clarifications, please read [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/ "WP Featured Articles plugin")
 
 == Screenshots ==
 
