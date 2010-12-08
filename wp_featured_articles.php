@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/
 Description: Put a fancy JavaScript slider on any blog page, category page or home page to highlight your featured content.
 Author: Constantin Boiangiu
-Version: 2.0
+Version: 2.1
 Author URI: http://www.php-help.ro
 */
 
