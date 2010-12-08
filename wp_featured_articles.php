@@ -246,7 +246,8 @@ function FA_add_scripts(){
 		'fadeDist'			=>$options['fadeDist'],
 		'fadePosition'		=>$options['fadePosition'],
 		'stopSlideOnClick'	=>$options['stopSlideOnClick'],
-		'autoSlide'			=>$options['autoSlide']		
+		'autoSlide'			=>$options['autoSlide'],
+		'mouseWheelNav'		=>$options['mouseWheelNav']		
 	));
 }
 /**
