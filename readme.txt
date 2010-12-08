@@ -32,11 +32,7 @@ More information can be found on [php-help.ro](http://www.php-help.ro/mootools-1
 4. Go to WP Admin->Settings->Featured articles and configure your slider
 5. To display the slider, you can either choose sections from admin ( pages or categories ) or place the following code in your template: 
 
-<?php	
-	if( function_exists('FA_display_slider') ){	
-		FA_display_slider();
-	}	
-?>
+`<?php FA_display_slider(); ?>`
 
 6. For any clarifications, please read [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/ "WP Featured Articles plugin")
 
