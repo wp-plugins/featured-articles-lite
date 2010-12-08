@@ -10,6 +10,11 @@
             <label for="section_display" title="<?php _e('Choose whether to display the slider title or not');?>"><?php _e('Display title:');?> </label><input type="checkbox" name="section_display" id="section_display" value="1" <?php if($saved_settings['section_display']): ?> checked="checked"<?php endif;?> /> 
         </div>	
         
+        <label for="loop_display" title="<?php _e('If you have multiple articles columns displaying in your page, change this value to the column number you want the slider to display on top of.');?>"><?php _e('Display on loop:');?></label> 
+        <div class="FA_input">
+            <input type="text" id="loop_display" name="loop_display" value="<?php echo $saved_settings['loop_display']; ?>" class="FA-small FA_number" /> 
+        </div>
+        
         <label for="desc_truncate" title="<?php _e('Posts or pages with image will have maximum this many characters');?>"><?php _e('Truncate descriptions to:');?></label> <div class="FA_input"><input type="text" name="desc_truncate" id="desc_truncate" value="<?php echo $saved_settings['desc_truncate']; ?>" class="FA-small FA_number" /> characters (numeric)</div>
         <label for="desc_truncate_noimg" title="<?php _e('Posts or pages without image will have maximum this many characters');?>"><?php _e('Truncate descriptions without image to:');?></label> <div class="FA_input"><input type="text" name="desc_truncate_noimg" id="desc_truncate_noimg" value="<?php echo $saved_settings['desc_truncate_noimg']; ?>" class="FA-small FA_number" /> <?php _e('characters (numeric)');?></div>
         <label for="num_articles" title="<?php _e('Maximum number of posts or pages to display into the slider');?>"><?php _e('Number of articles:');?></label> <div class="FA_input"><input type="text" name="num_articles" id="num_articles" value="<?php echo $saved_settings['num_articles']; ?>" class="FA-small FA_number" /> <?php _e('(numeric)');?></div>
@@ -27,7 +32,7 @@
             <input type="text" name="th_height" id="FA_th_height" value="<?php echo $saved_settings['th_height']; ?>" class="FA-small FA_number" />px
         </div>
         <label for="thumbnail_display" class="FA_inline" title="<?php _e('Choose to display thumbnails or not')?>"><?php _e('Display thumbnail:');?></label> <div class="FA_input FA_inline"><input type="checkbox" id="thumbnail_display" name="thumbnail_display"<?php if($saved_settings['thumbnail_display']) echo ' checked="checked"';?> value="1" /></div><br />
-        <label for="drop_moo" class="FA_inline" title="<?php _e('If already loaded by other plugin, unload MooTools framework')?>"><?php _e('Unload MooTools framework');?></label> <div class="FA_input FA_inline"><input type="checkbox" id="drop_moo" name="drop_moo" value="1"<?php if( $saved_settings['drop_moo'] ): ?> checked="checked"<?php endif;?> /></div>           
+        <label for="drop_moo" class="FA_inline" title="<?php _e('If already loaded by other plugin, unload MooTools framework')?>"><?php _e('Unload MooTools framework');?></label> <div class="FA_input FA_inline"><input type="checkbox" id="drop_moo" name="drop_moo" value="1"<?php if( $saved_settings['drop_moo'] ): ?> checked="checked"<?php endif;?> /></div>
     </div>
     
     <div class="FA-pannel">
@@ -69,6 +74,16 @@
 				</select>
 	       </div> 
         </div>
+	    
+	    <label for="read_more" class="FA_inline" title="<?php _e('Read more link on article will display this text.');?>"><?php _e('Read more link text:');?></label> 
+        <div class="FA_input FA_inline">
+            <input type="text" id="read_more" name="read_more" value="<?php echo $saved_settings['read_more']; ?>" />
+        </div><br />
+	    
+	    <label for="title_click" class="FA_inline" title="<?php _e('Article title becomes a link pointing to full article');?>"><?php _e('Article title is clickable');?>:</label>
+        <div class="FA_input FA_inline"><input type="checkbox" name="title_click" id="title_click" value="1"<?php if( $saved_settings['title_click'] ):?> checked="checked"<?php endif;?> /></div><br />
+		
+		<h2><?php _e('Display Settings');?></h2>
 	       
         <label for="" title="<?php _e('Choose where to display the slider')?>"><?php _e('Display slider on');?>:</label>
         <div class="FA_input">
@@ -114,6 +129,7 @@
             <input type="radio" id="fadeTop" name="fadePosition" value="top"<?php if( $saved_settings['fadePosition'] == 'top' ):?> checked="checked"<?php endif;?> /> <label for="fadeTop">top</label>
         </div>
         <label for="stopSlideOnClick" title="<?php _e('When autoslide in effect, it will stop if user clicks navigation');?>"><?php _e('Navigation click stops auto sliding:');?></label><div class="FA_input"><input type="checkbox" id="stopSlideOnClick" name="stopSlideOnClick"<?php if($saved_settings['stopSlideOnClick']) echo ' checked="checked"';?> value="1" /></div>
+        <label for="mouseWheelNav" title="<?php _e('Enable/disable mouse wheel navigation in slider');?>"><?php _e('Enable mouse wheel navigation:');?></label><div class="FA_input"><input type="checkbox" id="mouseWheelNav" name="mouseWheelNav"<?php if($saved_settings['mouseWheelNav']) echo ' checked="checked"';?> value="1" /></div>
         <label for="autoSlide"><?php _e('Autoslide:');?></label><div class="FA_input"><input type="checkbox" id="autoSlide" name="autoSlide"<?php if($saved_settings['autoSlide']) echo ' checked="checked"';?> value="1" /> <?php _e('every');?> <input type="text" name="slideDuration" value="<?php echo $saved_settings['slideDuration']; ?>" class="FA-small FA_number float" /> <?php _e('seconds (numeric)');?></div>
     </div>    
     

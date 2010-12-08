@@ -1,29 +1,28 @@
-#FA_overall_container {
+.FA_overall_container {
 	display:block;
 	position:relative;
 	clear:both;
 	margin:0px 10px 0px;
 }	
 
-#FA_overall_container a:focus {
+.FA_overall_container a:focus {
 	outline:0px;
 }
 focus {
 	outline:0px;
 }
 
-#FA_overall_container h3.FA_title_section { 	
+.FA_overall_container h3.FA_title_section { 	
 	padding:0px;
 	margin:0px;
 	font-size:30px;
-	font-family:Georgia, "Times New Roman", Times, serif;
 	letter-spacing:3px;
 	color:#003333; 
 	font-weight:normal;
 	font-style:italic;
 }
 
-#FA_featured_articles {
+.FA_featured_articles {
 	display:block;
 	position:relative;
 	clear:both;
@@ -34,7 +33,7 @@ focus {
 	border-bottom:none;
 }
 
-#FA_featured_articles .FA_article{
+.FA_featured_articles .FA_article{
 	display:block;
 	position:relative;
 	clear:both;
@@ -47,7 +46,7 @@ focus {
 	text-align:justify;
 }
 
-#FA_featured_articles .FA_article .image_container{
+.FA_featured_articles .FA_article .image_container{
 	/*
 	display:block;
 	position:relative;
@@ -59,7 +58,7 @@ focus {
 	border:1px #3b3b3b solid;
 }
 
-#FA_featured_articles .FA_article h2{
+.FA_featured_articles .FA_article h2{
 	margin:0px;
 	padding:0px;
 	font-size:22px;
@@ -70,14 +69,14 @@ focus {
 	clear:none;
 }
 
-#FA_featured_articles .FA_article span.FA_date{
+.FA_featured_articles .FA_article span.FA_date{
 	font-size:14px;
 	color:#545454;
 	font-family:Georgia, "Times New Roman", Times, serif;
 	font-style:italic;
 }
 
-#FA_featured_articles .FA_article p{
+.FA_featured_articles .FA_article p{
 	font-size:12px; 
 	color:#000000;
 	margin:0px;
@@ -85,7 +84,7 @@ focus {
 	line-height:18px;
 }
 
-#FA_featured_articles .FA_article a.FA_read_more{
+.FA_featured_articles .FA_article a.FA_read_more{
 	font-size:16px;
 	color:#ffffff;
 	background:#3b3b3b;
@@ -137,12 +136,12 @@ ul.FA_navigation {
 			padding-left:35px;
 		}
 	
-#FA_overall_container .FA_navigation a.active{
+.FA_overall_container .FA_navigation a.active{
 	background-position:top center;
 	color:#EEE;
 }
 
-#FA_overall_container .FA_navigation a:hover{
+.FA_overall_container .FA_navigation a:hover{
 	background-position:top center;
 }
 

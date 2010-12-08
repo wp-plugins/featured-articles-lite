@@ -22,10 +22,13 @@ $FA_default = array(
 	'thumbnail_display'=>true,
 	'section_title'=>'Featured articles',
 	'section_display'=>1,
+	'loop_display'=>0,
 	'desc_truncate'=>500,
 	'desc_truncate_noimg'=>800,
 	'display_from_category'=>array(),
 	'display_pages'=>array(),
+	'read_more'=>'Read more',
+	'title_click'=>false,
 	'displayed_content'=>1,
 	'display_in_category'=>array(),
 	'display_in_page'=>array(),
@@ -40,6 +43,7 @@ $FA_default = array(
 	'fadePosition'=>'left',
 	'stopSlideOnClick'=>false,
 	'autoSlide'=>false,
+	'mouseWheelNav'=>true,
 	/* Navigation options */
 	'bottom_nav'=>true,
 	'sideways_nav'=>true,
@@ -49,18 +53,121 @@ $FA_default = array(
 /**
  * Do not change this. It enables the script to display the plugin only for the first loop
  */
-$FA_displayed = 0;
+$FA_current_loop = 0;
 /**
  * Displays the featured articles box on index page
  *
  */
 function wp_featured_articles(){
-	global $FA_default, $FA_displayed;
-	$options = get_option('FA_options', $FA_default);
+	global $FA_current_loop;
+	$options = FA_get_options();
 	
-	if( !FA_check_display() || $FA_displayed > 0 ) return;
+	if( !FA_check_display() || $FA_current_loop != $options['loop_display'] ){
+		$FA_current_loop += 1;
+		return;
+	}
+	$FA_current_loop += 1;
 	
-	$FA_displayed = 1;
+	$postslist = FA_get_content();
+	
+	global $post, $id;
+	// save the original post
+	$original_post = $post;
+	// this is used for comments. The comments function uses a global $id variable to count comments. the current id is for the first item in loop
+	$original_id = $id;
+	
+	/* theme display */
+	$theme = 'themes/'.$options['active_theme'].'/display.php';
+	if( !is_file( FA_dir($theme) ) )
+		$theme = 'themes/dark/display.php';	
+	include( $theme );
+		
+	// give $post and $id his original value 
+	$post = $original_post;
+	$id = $original_id;	
+}
+/**
+ * Manual loading function. Place this in theme files like this:
+ * 
+ * <?php	
+ *		if( function_exists('FA_display_slider') ){	
+ *			FA_display_slider();
+ *		}	
+ *	?>
+ */
+function FA_display_slider(){
+
+	$options = FA_get_options();
+	$postslist = FA_get_content();
+	
+	define('FA_MANUALLY_LOADED', true);
+	
+	global $post, $id;
+	// save the original post
+	$original_post = $post;
+	// this is used for comments. The comments function uses a global $id variable to count comments. the current id is for the first item in loop
+	$original_id = $id;
+	
+	/* theme display */
+	$theme = 'themes/'.$options['active_theme'].'/display.php';
+	if( !is_file( FA_dir($theme) ) )
+		$theme = 'themes/dark/display.php';	
+	include( $theme );
+		
+	// give $post and $id his original value 
+	$post = $original_post;
+	$id = $original_id;		
+}
+/**
+ * Function to load stylesheets and scripts into the footer.
+ * This is needed for manually defined sliders to load scripts and stylesheets 
+ * only when needed
+ */
+function FA_load_scripts(){
+	
+	if( defined('FA_FOOTER_LOADED') || !defined('FA_MANUALLY_LOADED') || FA_check_display() ) return;
+
+	define('FA_FOOTER_LOADED', true);
+	$options = FA_get_options();
+	
+echo
+"<script type='text/javascript'>
+var FA_settings = {
+	'container':'.FA_featured_articles',
+	'slides':'.FA_article',
+	'slideDuration':".($options['slideDuration']*1000).",
+	'effectDuration':".($options['effectDuration']*1000).",
+	'fadeDist':".$options['fadeDist'].",
+	'fadePosition':'".$options['fadePosition']."',
+	'stopSlideOnClick':'".$options['stopSlideOnClick']."',
+	'autoSlide':'".$options['autoSlide']."',
+	'mouseWheelNav':'".$options['mouseWheelNav']."'
+}
+</script>\n";
+	
+	$scripts = array();
+	if( !$options['drop_moo'] ){
+		$scripts[] = FA_path('scripts/mootools-1.2.4-core-yc.js');	
+	}	
+	$scripts[] = FA_path('scripts/FeaturedArticles.js');
+	
+	foreach( $scripts as $script_path ){
+		echo '<script language="javascript" type="text/javascript" src="'.$script_path.'"></script>'."\n";
+	}
+	
+	// load stylesheet
+	$theme = 'themes/'.$options['active_theme'].'/stylesheet.css';
+	if( !is_file( FA_dir($theme) ) )
+		$theme = 'themes/dark/stylesheet.css';	
+	echo '<link rel="stylesheet" type="text/css" href="'.FA_path( $theme ).'" />'."\n";	
+}
+
+/**
+ * Returns the content list according to the settings
+ */
+function FA_get_content(){
+	$options = FA_get_options();
+	
 	switch ($options['display_order']){
 		case 1:
 			$order = 'ASC';
@@ -102,23 +209,17 @@ function wp_featured_articles(){
 	}else{
 		$postslist = get_pages($args);
 	}	
-	
-	global $post, $id;
-	/* save the original post */
-	$original_post = $post;
-	/* this is used for comments. The comments function uses a global $id variable to count comments. the current id is for the first item in loop */
-	$original_id = $id;
-	
-	/* theme display */
-	$theme = 'themes/'.$options['active_theme'].'/display.php';
-	if( !is_file( FA_dir($theme) ) )
-		$theme = 'themes/dark/display.php';	
-	include( 'themes/'.$options['active_theme'].'/display.php' );
-	
-	/* give $post and $id his original value */
-	$post = $original_post;
-	$id = $original_id;	
+	return $postslist;
 }
+/**
+ * Returns the plugin options
+ */
+function FA_get_options(){
+	global $FA_default;
+	$options = get_option('FA_options', $FA_default);
+	return $options;
+}
+
 /**
  * Add JavaScript
  *
@@ -127,8 +228,7 @@ function FA_add_scripts(){
 	
 	if( !FA_check_display() ) return ;
 	
-	global $FA_default;
-	$options = get_option('FA_options', $FA_default);
+	$options = FA_get_options();
 	
 	$dependency = null;
 	if( !$options['drop_moo'] ){
@@ -138,9 +238,8 @@ function FA_add_scripts(){
 	/* add featured articles Javascript functionality */
 	wp_enqueue_script( 'FeaturedArticles', FA_path('scripts/FeaturedArticles.js'), $dependency, '1.0' );	
 	wp_localize_script( 'FeaturedArticles', 'FA_settings', array(
-  		'container'			=>'FA_featured_articles',
+  		'container'			=>'.FA_featured_articles',
 		'slides'			=>'.FA_article',		
-		'infoContainers'	=>'.FA_info',
 		/* Dynamic options */
 		'slideDuration'		=>$options['slideDuration']*1000,
 		'effectDuration'	=>$options['effectDuration']*1000,
@@ -155,17 +254,20 @@ function FA_add_scripts(){
  *
  */
 function FA_add_styles(){
-	if( !FA_check_display() ) return;
 	
-	global $FA_default;
-	$options = get_option('FA_options', $FA_default);
+	$is_main_slider = FA_check_display();
 	
-	$theme = 'themes/'.$options['active_theme'].'/stylesheet.css';
-	if( !is_file( FA_dir($theme) ) )
-		$theme = 'themes/dark/stylesheet.css';	
+	if( !$is_main_slider ) return;
 	
-	wp_register_style('FA_styles', FA_path( $theme ));
-	wp_enqueue_style( 'FA_styles');
+	$options = FA_get_options();
+	
+	if( $is_main_slider ){	
+		$theme = 'themes/'.$options['active_theme'].'/stylesheet.css';
+		if( !is_file( FA_dir($theme) ) )
+			$theme = 'themes/dark/stylesheet.css';	
+		wp_register_style('FA_styles', FA_path( $theme ));
+		wp_enqueue_style( 'FA_styles');
+	}		
 }
 /**
  * Used to verify if scripts and stylesheets need to be added.
@@ -175,8 +277,7 @@ function FA_add_styles(){
  */
 function FA_check_display(){
 	
-	global $FA_default;
-	$options = get_option('FA_options', $FA_default);
+	$options = FA_get_options();
 	$display = true;
 	
 	if( is_home() ){
@@ -202,8 +303,19 @@ function FA_check_display(){
  * @return string - image path
  */
 function FA_article_image ($post){
+	// if thumbnails are stopped from admin, return false
+	$options = FA_get_options();
+	if( !$options['thumbnail_display'] ) 
+		return false;
+	
+		
+	// check for custom field image	
+	$meta_image = get_post_meta($post->ID, 'fa_image', true);
+	if( $meta_image )
+		return $meta_image;
+	// check for image in text
 	preg_match_all("#\<img(.*)src\=(\"|\')(.*)(\"|\')#Ui", $post->post_content, $matches);
-	return isset($matches[3][0]) ? $matches[3][0] : '';		
+	return isset($matches[3][0]) ? $matches[3][0] : false;		
 }
 /**
  * Truncates a text on a given number of characters. Based on the Smarty plugin
@@ -215,12 +327,12 @@ function FA_article_image ($post){
  * @param bool $middle
  * @return string
  */
-function truncate_text($string, $length = 80, $etc = '...', $break_words = false, $middle = false){
+function FA_truncate_text($string, $length = 80, $etc = '...', $break_words = false, $middle = false){
     if ($length == 0)
         return '';
-
-    $string = strip_tags($string);    
-    /* remove captions from text */
+	// remove all HTML tags except links
+    $string = strip_tags($string, '<a>');    
+    // remove captions from text
     $string = preg_replace( "|\[(.+?)\](.+?\[/\\1\])?|s", "", $string );
             
     if (strlen($string) > $length) {
@@ -269,7 +381,6 @@ function FA_dir( $file ){
 	else 
 		return $path.'/'.$file;	
 }
-
 /**
  * Outputs the admin page
  *
@@ -324,9 +435,6 @@ function FA_plugin_options(){
 function FA_admin_init(){
 	
 	if( !is_admin() ) return ;
-	if( !strpos( $_GET['page'], basename(__FILE__) ) ) return;
-	
-	$dependency = array();
 	wp_enqueue_script( 'FA_script_settings', FA_path('scripts/FA_admin.js'), array( 'jquery' ), '1.0' );
 	wp_register_style('FA_admin_styles', FA_path('styles/admin.css'));
 	wp_enqueue_style( 'FA_admin_styles');
@@ -344,11 +452,13 @@ function FA_add_meta(){
 /**
  * Hooks
  */
-
 add_action('admin_init', 'FA_admin_init');
 add_action('admin_menu', 'FA_plugin_menu');
+// script loading in header
 add_action('wp_print_scripts', 'FA_add_scripts');
 add_action('wp_print_styles','FA_add_styles');
+// script loading in footer for manually implemented sliders
+add_action('wp_footer', 'FA_load_scripts');
 add_action('loop_start', 'wp_featured_articles',1);
 add_action('media_buttons', 'FA_add_meta', 20);
 ?>

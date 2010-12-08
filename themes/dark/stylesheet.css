@@ -1,50 +1,50 @@
-#FA_overall_container {
+.FA_overall_container {
 	display:block;
 	position:relative;
 	clear:both;
 	margin:0px 10px 0px;
 }	
 
-#FA_overall_container a:focus {
+.FA_overall_container a:focus {
 	outline:0px;
 }
 focus {
 	outline:0px;
 }
 
-#FA_overall_container h3.FA_title_section { 	
+.FA_overall_container h3.FA_title_section { 	
 	padding:0px;
 	margin:0px;
 	font-size:30px;
-	font-family:Georgia, "Times New Roman", Times, serif;
-	letter-spacing:3px;
 	color:#003333; 
 	font-weight:normal;
 	font-style:italic;
 }
 
-#FA_featured_articles {
+.FA_featured_articles {
 	display:block;
 	position:relative;
 	clear:both;
 	height:330px;
 	overflow:hidden;
 	background:#282828;
+	border:1px solid #282828;
 }
 
-#FA_featured_articles .FA_article{
+.FA_featured_articles .FA_article{
 	display:block;
 	position:relative;
 	clear:both;
 	height:300px;
 	/* if you plan on using left slide morph, set width on the elements */
+	width:88%;
 	color:#CCCCCC;
 	padding:30px 40px;
-	overflow:hidden;
-	text-align:justify;
+	overflow:hidden;	
+	text-align:justify;	
 }
 
-#FA_featured_articles .FA_article .image_container{
+.FA_featured_articles .FA_article .image_container{
 	/*
 	display:block;
 	position:relative;
@@ -56,33 +56,32 @@ focus {
 	border:1px #666666 solid;
 }
 
-#FA_featured_articles .FA_article h2{
+.FA_featured_articles .FA_article h2{
 	margin:0px;
 	padding:0px;
 	font-size:22px;
 	color:#eeeeee;
 	font-weight:normal;
-	font-family:Georgia, "Times New Roman", Times, serif;
 	border:none;
 	clear:none;
 }
 
-#FA_featured_articles .FA_article span.FA_date{
+.FA_featured_articles .FA_article span.FA_date{
 	font-size:14px;
 	color:#a8a8a8;
-	font-family:Georgia, "Times New Roman", Times, serif;
 	font-style:italic;
 }
 
-#FA_featured_articles .FA_article p{
+.FA_featured_articles .FA_article p{
 	font-size:12px; 
 	color:#FFFFFF;
 	margin:0px;
 	padding:30px 0px 30px;
-	line-height:18px;
+	line-height:18px;	
+	text-align:justify;
 }
 
-#FA_featured_articles .FA_article a.FA_read_more{
+.FA_featured_articles .FA_article a.FA_read_more{
 	font-size:16px;
 	color:#ffffff;
 	background:#3b3b3b;
@@ -132,12 +131,12 @@ ul.FA_navigation {
 			padding-left:35px;
 		}
 	
-#FA_overall_container .FA_navigation a.active{
+.FA_overall_container .FA_navigation a.active{
 	background-position:top center;
 	color:#EEE;
 }
 
-#FA_overall_container .FA_navigation a:hover{
+.FA_overall_container .FA_navigation a:hover{
 	background-position:top center;
 }
 
