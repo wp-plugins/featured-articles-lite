@@ -84,8 +84,8 @@ function wp_featured_articles(){
 	
 	/* theme display */
 	$theme = 'themes/'.$options['active_theme'].'/display.php';
-	
-	//$styles = FA_style_size();		
+	// get slider size
+	$styles = FA_style_size();		
 	
 	if( !is_file( FA_dir($theme) ) )
 		$theme = 'themes/dark/display.php';	
