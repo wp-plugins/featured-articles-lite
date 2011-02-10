@@ -41,8 +41,8 @@ require_once(ABSPATH.'wp-admin/admin.php');
 if( isset($_POST['post']) && isset($_POST['value']) )
 {
 	$post_id = (int)$_POST['post'];
-	if( !add_post_meta( $post_id, 'fa_image', $_POST['value'], true )){
-		update_post_meta( $post_id, 'fa_image', $_POST['value'] );
+	if( !add_post_meta( $post_id, '_fa_image', $_POST['value'], true )){
+		update_post_meta( $post_id, '_fa_image', $_POST['value'] );
 	}
 }
 
@@ -156,8 +156,8 @@ do_action('admin_head');
 	?>
 		<div class="image">
 			<strong><?php the_title(); ?></strong>
-			<div style="width:150px; height:150px; margin:0px auto 0px;">
-				<a href="<?php echo $medium_size[0];?>" title=""><img src="<?php echo $th[0];?>" alt="" /></a>
+			<div style="width:150px; margin:0px auto 0px;">
+				<a href="<?php echo $post->ID;?>" title=""><img src="<?php echo $th[0];?>" alt="" /></a>
 			</div>	
 		</div>
 	<?php

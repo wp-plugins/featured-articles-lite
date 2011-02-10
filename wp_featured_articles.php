@@ -2,14 +2,14 @@
 /**
  * @package Featured articles
  * @author Constantin Boiangiu ( constantin[at]php-help.ro )
- * @version 2.1
+ * @version 2.2
  */
 /*
 Plugin Name: Featured articles Lite
 Plugin URI: http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/
 Description: Put a fancy JavaScript slider on any blog page, category page or home page to highlight your featured content.
 Author: Constantin Boiangiu
-Version: 2.1
+Version: 2.2
 Author URI: http://www.php-help.ro
 */
 
@@ -25,6 +25,7 @@ $FA_default = array(
 	'loop_display'=>0,
 	'desc_truncate'=>500,
 	'desc_truncate_noimg'=>800,
+	'allowed_tags'=>'<a>',
 	'display_from_category'=>array(),
 	'display_pages'=>array(),
 	'read_more'=>'Read more',
@@ -35,7 +36,10 @@ $FA_default = array(
 	'firstpage_display'=>true,
 	'th_width'=>250,
 	'th_height'=>250,
+	'slider_width'=>'100%',
+	'slider_height'=>300,
 	'drop_moo'=>false,
+	'show_author'=>true,
 	/* JavaScript Settings */
 	'slideDuration'=>5,
 	'effectDuration'=>.6,
@@ -50,6 +54,8 @@ $FA_default = array(
 	/* Theme options */
 	'active_theme'=>'dark'
 );
+// Slider administration capability name
+define('FA_CAPABILITY', 'edit_FA_slider');
 /**
  * Do not change this. It enables the script to display the plugin only for the first loop
  */
@@ -78,14 +84,34 @@ function wp_featured_articles(){
 	
 	/* theme display */
 	$theme = 'themes/'.$options['active_theme'].'/display.php';
+	
+	//$styles = FA_style_size();		
+	
 	if( !is_file( FA_dir($theme) ) )
 		$theme = 'themes/dark/display.php';	
 	include( $theme );
-		
+	FA_dev_by();	
 	// give $post and $id his original value 
 	$post = $original_post;
 	$id = $original_id;	
 }
+
+/*
+ * Returns a simple array with width and height styling for easy access in theme.
+ * These values are used for resizing the slider according to admin user settings
+ */
+function FA_style_size(){
+	$options = FA_get_options();
+	$size = array('x'=>'', 'y'=>'');
+	if( !empty( $options['slider_width'] ) && $options['slider_width'] != 0 ){
+		$size['x'] = 'width:'.$options['slider_width'].( is_numeric( $options['slider_width'] ) ? 'px':'' );
+	}	
+	if( !empty( $options['slider_height'] ) && $options['slider_height'] !=0 ){
+		$size['y'] = 'height:'.$options['slider_height'].( is_numeric( $options['slider_height'] ) ? 'px':'' );
+	}	
+	return $size;
+}
+
 /**
  * Manual loading function. Place this in theme files like this:
  * 
@@ -108,16 +134,31 @@ function FA_display_slider(){
 	// this is used for comments. The comments function uses a global $id variable to count comments. the current id is for the first item in loop
 	$original_id = $id;
 	
+	$styles = FA_style_size();
 	/* theme display */
 	$theme = 'themes/'.$options['active_theme'].'/display.php';
 	if( !is_file( FA_dir($theme) ) )
 		$theme = 'themes/dark/display.php';	
 	include( $theme );
-		
+	FA_dev_by();	
 	// give $post and $id his original value 
 	$post = $original_post;
 	$id = $original_id;		
 }
+/**
+ * Developer link at the bottom of the slider. Don't delete this, you can disable it from administration panel under Featured articles Settings->Show author link
+ * I would appreciate it if you could display the link to help spreading the word about this plugin. 
+ * Thank you in advance.
+ */
+function FA_dev_by(){
+	$options = FA_get_options();
+	if( !$options['show_author'] ) return;
+	$output = '<div class="wpf-dev">';
+	$output.= '<a href="http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/" title="Wordpress Featured Articles plugin" target="_blank">developed by php-help.ro</a>';
+	$output.= '</div>';
+	echo $output;
+}
+
 /**
  * Function to load stylesheets and scripts into the footer.
  * This is needed for manually defined sliders to load scripts and stylesheets 
@@ -154,12 +195,13 @@ var FA_settings = {
 	foreach( $scripts as $script_path ){
 		echo '<script language="javascript" type="text/javascript" src="'.$script_path.'"></script>'."\n";
 	}
-	
+	echo '<script language="javascript" type="text/javascript" src="'.FA_path('scripts/fa_dev.js').'"></script>'."\n";
 	// load stylesheet
 	$theme = 'themes/'.$options['active_theme'].'/stylesheet.css';
 	if( !is_file( FA_dir($theme) ) )
 		$theme = 'themes/dark/stylesheet.css';	
-	echo '<link rel="stylesheet" type="text/css" href="'.FA_path( $theme ).'" />'."\n";	
+	echo '<link rel="stylesheet" type="text/css" href="'.FA_path( $theme ).'" />'."\n";
+	echo '<link rel="stylesheet" type="text/css" href="'.FA_path( 'styles/fa_dev.css' ).'" />'."\n";	
 }
 
 /**
@@ -196,11 +238,14 @@ function FA_get_content(){
 		break;	
 		case 2:
 			$args['orderby'] = 'post_date';
-			$args['meta_key'] = 'FA_featured';
+			$args['meta_key'] = '_fa_featured';
 			$args['meta_value'] = 1;
 		break;
 		case 3:
 			$args['orderby'] = 'comment_count post_date';
+		break;
+		case 4:
+			$args['orderby'] = 'rand';
 		break;
 	}	
 	
@@ -249,6 +294,9 @@ function FA_add_scripts(){
 		'autoSlide'			=>$options['autoSlide'],
 		'mouseWheelNav'		=>$options['mouseWheelNav']		
 	));
+	if( $options['show_author'] ){
+		wp_enqueue_script( 'FA_dev', FA_path('scripts/fa_dev.js'), $dependency, '1.0' );
+	}	
 }
 /**
  * Add stylesheets
@@ -268,6 +316,10 @@ function FA_add_styles(){
 			$theme = 'themes/dark/stylesheet.css';	
 		wp_register_style('FA_styles', FA_path( $theme ));
 		wp_enqueue_style( 'FA_styles');
+		if( $options['show_author'] ) {
+			wp_register_style('FA_dev', FA_path( 'styles/fa_dev.css' ));
+			wp_enqueue_style( 'FA_dev');
+		}	
 	}		
 }
 /**
@@ -311,9 +363,11 @@ function FA_article_image ($post){
 	
 		
 	// check for custom field image	
-	$meta_image = get_post_meta($post->ID, 'fa_image', true);
+	$meta_image_id = get_post_meta($post->ID, '_fa_image', true);
+	$meta_image = wp_get_attachment_image_src( $meta_image_id, array($options['th_width'], $options['th_height']) );
+	
 	if( $meta_image )
-		return $meta_image;
+		return $meta_image[0];
 	// check for image in text
 	preg_match_all("#\<img(.*)src\=(\"|\')(.*)(\"|\')#Ui", $post->post_content, $matches);
 	return isset($matches[3][0]) ? $matches[3][0] : false;		
@@ -331,10 +385,13 @@ function FA_article_image ($post){
 function FA_truncate_text($string, $length = 80, $etc = '...', $break_words = false, $middle = false){
     if ($length == 0)
         return '';
-	// remove all HTML tags except links
-    $string = strip_tags($string, '<a>');    
-    // remove captions from text
-    $string = preg_replace( "|\[(.+?)\](.+?\[/\\1\])?|s", "", $string );
+	
+    $options = FA_get_options();    
+    // remove shortcodes from content
+    $string = strip_shortcodes( $string );    
+    // remove all HTML tags except links
+    $string = strip_tags($string, $options['allowed_tags']);    
+    
             
     if (strlen($string) > $length) {
         $length -= strlen($etc);
@@ -352,11 +409,43 @@ function FA_truncate_text($string, $length = 80, $etc = '...', $break_words = fa
 }
 
 /**
- * Adds the admin page menu for the settings 
+ * Adds the admin menu for the settings 
  *
  */
 function FA_plugin_menu(){
- 	add_options_page('Featured articles settings', 'Featured articles', 2, __FILE__, 'FA_plugin_options');
+	add_menu_page( 'FA Lite', 'FA Lite', FA_CAPABILITY, __FILE__, 'FA_plugin_options', FA_path('styles/ico.png') ); 
+	add_submenu_page( __FILE__, 'Settings', 'FA Lite Settings', FA_CAPABILITY, __FILE__, 'FA_plugin_options');
+	// only administrator can manage slider settings user capabilities
+	add_submenu_page( __FILE__, 'Permissions', 'Permissions', 'manage_options', __FILE__ . '/FA_permissions', 'FA_permissions'); 	
+}
+/**
+ * Manages permissions page
+ */
+function FA_permissions(){
+	$options = FA_get_options();
+	global $wp_roles;
+	if( !empty($_POST) ){
+		if( !wp_verify_nonce($_POST['FA_perm'],'FA_permissions') ){
+			die('Sorry, your action is invalid.');
+		}else{
+			// get wordpress roles
+			$roles = $wp_roles->get_names();
+			foreach( $roles as $role=>$name ){
+				// administrator has default access so skip this role
+				if( 'administrator' == $role ) continue;
+				// add/remove editing capabilities
+				if( isset( $_POST['role'][$role] ) ){
+					$wp_roles->add_cap($role, FA_CAPABILITY);
+				}else{
+					$wp_roles->remove_cap($role, FA_CAPABILITY);
+				}
+			}
+			wp_redirect('admin.php?page=featured-articles-lite/wp_featured_articles.php/FA_permissions');	
+			exit();	
+		}	
+	}
+	// display edit form
+	include('displays/permissions.php');
 }
 
 /**
@@ -439,15 +528,58 @@ function FA_admin_init(){
 	wp_enqueue_script( 'FA_script_settings', FA_path('scripts/FA_admin.js'), array( 'jquery' ), '1.0' );
 	wp_register_style('FA_admin_styles', FA_path('styles/admin.css'));
 	wp_enqueue_style( 'FA_admin_styles');
+	
+	// give permission to administrator to change slider settings
+	if( current_user_can('manage_options') ){
+		if( !current_user_can( FA_CAPABILITY ) ){
+			global $wp_roles;
+			$wp_roles->add_cap('administrator', FA_CAPABILITY);
+		}
+	}	
 }
 
 /**
- * Admin action to add media button
- *
+ * Add box into sidebar for posts and pages
  */
-function FA_add_meta(){
+function FA_post_actions() {
+    add_meta_box( 'FA-actions', 'Featured Articles Lite', 'FA_meta_box', 'post', 'side', 'high' );
+    add_meta_box( 'FA-actions', 'Featured Articles Lite', 'FA_meta_box', 'page', 'side', 'high' );
+}
+/**
+ * Display the meta box for posts and pages
+ */
+function FA_meta_box(){
 	global $post;
-	echo '<a href="../wp-content/plugins/featured-articles-lite/add_meta.php?height=300&width=800&post='.$post->ID.'&TB_iframe=true" class="thickbox" title="'.__('Add new image for Featured Articles','wp_featured_articles').'""><img src="'.get_bloginfo('wpurl').'/wp-content/plugins/featured-articles-lite/styles/custom-image.png" alt="'.__('Add custom image field','wp_featured_articles').'"></a>';	
+	// get current image attached by the user for FA Artiles
+	$current_image_id = get_post_meta($post->ID, '_fa_image', true);
+	$current_image = false;
+	if( $current_image_id ){
+		$image = wp_get_attachment_image_src( $current_image_id, 'thumbnail' );
+		$current_image = $image[0];
+	}
+		
+	// check if post is already featured or not
+	$featured = get_post_meta($post->ID, '_fa_featured', true);
+		
+	include('displays/meta_box.php');
+}
+/**
+ * Saves the data for featured posts
+ */
+function FA_save_meta(){
+	if( isset($_POST['fa_nonce']) && wp_verify_nonce($_POST['fa_nonce'],'fa_article_featured') ){
+		$id = (int)$_POST['post_ID'];
+		// feature post
+		if( isset( $_POST['_fa_featured'] ) ){
+			update_post_meta( $_POST['post_ID'], '_fa_featured', 1 );
+		}else{
+			delete_post_meta( $_POST['post_ID'], '_fa_featured' );	
+		}
+		// delete custom image
+		if( isset( $_POST['fa_remove_meta_image'] ) ){
+			delete_post_meta( $_POST['post_ID'], '_fa_image' );	
+		}	
+	}
 }
 
 /**
@@ -455,11 +587,12 @@ function FA_add_meta(){
  */
 add_action('admin_init', 'FA_admin_init');
 add_action('admin_menu', 'FA_plugin_menu');
+add_action('admin_menu', 'FA_post_actions');
+add_action( 'save_post', 'FA_save_meta' );
 // script loading in header
 add_action('wp_print_scripts', 'FA_add_scripts');
 add_action('wp_print_styles','FA_add_styles');
 // script loading in footer for manually implemented sliders
 add_action('wp_footer', 'FA_load_scripts');
 add_action('loop_start', 'wp_featured_articles',1);
-add_action('media_buttons', 'FA_add_meta', 20);
 ?>

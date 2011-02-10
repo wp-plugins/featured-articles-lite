@@ -44,6 +44,19 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 == Changelog ==
 
+= 2.2 =
+* User specified HTML tags allowed into slider description
+* Meta box to ease the way custom images and custom content is added to the slider
+* Possibility to display posts/pages in random order into the slider
+* Featured articles slider resizable from administration area ( default values get specified into stylesheet )
+* Author link ( if you want to support the plugin ) that can be disabled from administration
+* Slider settings access is restricted to administrators only with the possibility to give access to any other group of users available in wordpress
+* Menu no longer available under Settings->Featured articles but directly in Wordpress admin sidebar ( look for FA Lite )
+* Themes modified to support featured slider resizing ( both CSS files and display files have changed a little ). If you update the plugin and you made custom themes, back-up first your themes folder.
+* Custom post/pages images improved usage and interface
+* Easy setting for featured posts and pages to be displayed into the slider
+
+
 = 2.1 =
 * Date format in article short description displays according to blog date format option setting
 * Editable text for read more link

@@ -2,7 +2,8 @@
 	display:block;
 	position:relative;
 	clear:both;
-	margin:0px 10px 0px;
+	border:1px solid #b5b5b5;
+	background:#eaeaea;
 }	
 
 .FA_overall_container a:focus {
@@ -26,25 +27,25 @@ focus {
 	display:block;
 	position:relative;
 	clear:both;
-	height:330px;
+	height:300px;
 	overflow:hidden;
-	background:#eaeaea;
-	border:1px solid #b5b5b5;
-	border-bottom:none;
+	width:100%;
 }
 
 .FA_featured_articles .FA_article{
 	display:block;
 	position:relative;
 	clear:both;
-	height:300px;
 	/* if you plan on using left slide morph, set width on the elements */
-	width:88%;
+	width:100%;
 	color:#CCCCCC;
-	padding:30px 40px;
+	padding:0px;
 	overflow:hidden;
 	text-align:justify;
 }
+	.FA_featured_articles .FA_article .FA_wrap{
+		padding:30px 40px;
+	}
 
 .FA_featured_articles .FA_article .image_container{
 	/*
@@ -67,7 +68,11 @@ focus {
 	font-family:Georgia, "Times New Roman", Times, serif;
 	border:none;	
 	clear:none;
+	text-align:left;
 }
+	.FA_featured_articles .FA_article h2 a{
+		color:#303030;
+	}
 
 .FA_featured_articles .FA_article span.FA_date{
 	font-size:14px;
@@ -105,14 +110,15 @@ ul.FA_navigation {
 	list-style-type:none;
 	margin:0px;
 	text-align:left;
-	padding-left:35px;
 	height:17px;
-	border:1px solid #b5b5b5;
-	border-top:none;
+	width:100%;
 }
 	ul.FA_navigation li{
 		display:inline;
 	}
+		ul.FA_navigation li.first{
+			margin-left:35px;
+		}
 		ul.FA_navigation li a{
 			display:inline-block;
 			width:12px;

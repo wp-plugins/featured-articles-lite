@@ -2,10 +2,10 @@
 	display:block;
 	position:relative;
 	clear:both;
-	margin:0px 10px 0px;
-	float:left;
+	margin:0px 0px 0px;
 	width:100%;
 	z-index:1000;
+	height:300px;
 }	
 
 .FA_overall_container a:focus {
@@ -31,7 +31,7 @@ focus {
 	display:block;
 	position:relative;
 	clear:both;
-	height:330px;
+	height:300px;
 	width:60%;
 	float:left;
 	overflow:hidden;
@@ -45,10 +45,13 @@ focus {
 	clear:both;
 	height:300px;
 	color:#CCCCCC;
-	padding:30px;
 	overflow:hidden;
 	text-align:justify;
+	width:100%;
 }
+	.FA_featured_articles .FA_article .FA_wrap{
+		padding:30px;
+	}
 
 .FA_featured_articles .FA_article .image_container{
 	/*
@@ -72,8 +75,12 @@ focus {
 	font-family:Georgia, "Times New Roman", Times, serif;
 	border:none;
 	clear:none;
+	text-align:left;
 }
-
+	.FA_featured_articles .FA_article h2 a{
+		color:#303030;
+	}	
+	
 .FA_featured_articles .FA_article span.FA_date{
 	font-size:14px;
 	color:#545454;
@@ -114,10 +121,10 @@ ul.FA_navigation {
 	margin:0px;
 	text-align:left;
 	width:40%;
-	height:330px;
+	height:300px;
 	float:right;
 	background:#383838;	
-	overflow:hidden;
+	overflow:visible;
 }
 	ul.FA_navigation li{
 		display:block;

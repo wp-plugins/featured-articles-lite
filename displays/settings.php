@@ -17,12 +17,16 @@
         
         <label for="desc_truncate" title="<?php _e('Posts or pages with image will have maximum this many characters');?>"><?php _e('Truncate descriptions to:');?></label> <div class="FA_input"><input type="text" name="desc_truncate" id="desc_truncate" value="<?php echo $saved_settings['desc_truncate']; ?>" class="FA-small FA_number" /> characters (numeric)</div>
         <label for="desc_truncate_noimg" title="<?php _e('Posts or pages without image will have maximum this many characters');?>"><?php _e('Truncate descriptions without image to:');?></label> <div class="FA_input"><input type="text" name="desc_truncate_noimg" id="desc_truncate_noimg" value="<?php echo $saved_settings['desc_truncate_noimg']; ?>" class="FA-small FA_number" /> <?php _e('characters (numeric)');?></div>
+        
+        <label for="allowed_tags" title="<?php _e('The tags you specify here will not be stripped from the description.');?>"><?php _e('Allow these HTML tags:');?></label> <div class="FA_input"><input type="text" name="allowed_tags" id="allowed_tags" value="<?php echo $saved_settings['allowed_tags']; ?>" class="FA-large" /><span class="note">Example to allow links and paragraphs: &lt;a&gt;&lt;p&gt;</span></div>
+        
         <label for="num_articles" title="<?php _e('Maximum number of posts or pages to display into the slider');?>"><?php _e('Number of articles:');?></label> <div class="FA_input"><input type="text" name="num_articles" id="num_articles" value="<?php echo $saved_settings['num_articles']; ?>" class="FA-small FA_number" /> <?php _e('(numeric)');?></div>
         <label for="" title="<?php _e('For featured posts, set on posts or pages a custom field FA_featured having value 1');?>"><?php _e('Display order:');?></label>
         <div class="FA_input">
             <input type="radio" name="display_order" value="1"<?php if($saved_settings['display_order']=='1'): ?> checked="checked"<?php endif;?> id="FA_order_date" /> <label for="FA_order_date"><?php _e('Newest posts');?></label><br />
             <input type="radio" name="display_order" value="2"<?php if($saved_settings['display_order']=='2'): ?> checked="checked"<?php endif;?> id="FA_meta_posts" /> <label for="FA_meta_posts" title="<?php _e('To display posts using this feature, set a custom field on any post having as name FA_featured and as value 1 (ie. FA_featured=1)');?>"><?php _e('Featured posts');?></label><br />
-            <input type="radio" name="display_order" value="3"<?php if($saved_settings['display_order']=='3'): ?> checked="checked"<?php endif;?> id="FA_comments_posts" /> <label for="FA_comments_posts"><?php _e('Most commented');?></label>
+            <input type="radio" name="display_order" value="3"<?php if($saved_settings['display_order']=='3'): ?> checked="checked"<?php endif;?> id="FA_comments_posts" /> <label for="FA_comments_posts"><?php _e('Most commented');?></label><br />
+            <input type="radio" name="display_order" value="4"<?php if($saved_settings['display_order']=='4'): ?> checked="checked"<?php endif;?> id="FA_comments_posts" /> <label for="FA_comments_posts"><?php _e('Random order');?></label>
         </div>
         <label for="" title="<?php _e('Set thumbnails maximum size if displayed');?>"><?php _e('Thumbnail max size:');?></label> 
         <div class="FA_input">
@@ -31,8 +35,19 @@
             <label for="FA_th_height"><?php _e('height:');?> </label>
             <input type="text" name="th_height" id="FA_th_height" value="<?php echo $saved_settings['th_height']; ?>" class="FA-small FA_number" />px
         </div>
+        
+        <label for="" title="<?php _e('Set slider size');?>"><?php _e('Slider size:');?></label> 
+        <div class="FA_input">
+            <label for="slider_width"><?php _e('width:');?> </label>
+            <input type="text" name="slider_width" id="slider_width" value="<?php echo $saved_settings['slider_width']; ?>" class="FA-small" />px; 
+            <label for="slider_height"><?php _e('height:');?> </label>
+            <input type="text" name="slider_height" id="slider_height" value="<?php echo $saved_settings['slider_height']; ?>" class="FA-small" />px<br />
+			<span class="note">Use numbers for exact dimensions. For percents, simply add % ( ie: 800 - for 800px or 50% ). To disable size control, enter 0 for size.</span>
+        </div>
+        
         <label for="thumbnail_display" class="FA_inline" title="<?php _e('Choose to display thumbnails or not')?>"><?php _e('Display thumbnail:');?></label> <div class="FA_input FA_inline"><input type="checkbox" id="thumbnail_display" name="thumbnail_display"<?php if($saved_settings['thumbnail_display']) echo ' checked="checked"';?> value="1" /></div><br />
-        <label for="drop_moo" class="FA_inline" title="<?php _e('If already loaded by other plugin, unload MooTools framework')?>"><?php _e('Unload MooTools framework');?></label> <div class="FA_input FA_inline"><input type="checkbox" id="drop_moo" name="drop_moo" value="1"<?php if( $saved_settings['drop_moo'] ): ?> checked="checked"<?php endif;?> /></div>
+        <label for="drop_moo" class="FA_inline" title="<?php _e('If already loaded by other plugin, unload MooTools framework')?>"><?php _e('Unload MooTools framework');?></label> <div class="FA_input FA_inline"><input type="checkbox" id="drop_moo" name="drop_moo" value="1"<?php if( $saved_settings['drop_moo'] ): ?> checked="checked"<?php endif;?> /></div><br />
+        <label for="show_author" class="FA_inline" title="<?php _e('Display author link')?>"><?php _e('Show author link');?></label> <div class="FA_input FA_inline"><input type="checkbox" id="show_author" name="show_author" value="1"<?php if( $saved_settings['show_author'] ): ?> checked="checked"<?php endif;?> /></div>
     </div>
     
     <div class="FA-pannel">

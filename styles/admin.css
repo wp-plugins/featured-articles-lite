@@ -30,13 +30,17 @@
 	clear:none;
 	background:none;
 }
-
+.FA-wrapper form .note{
+	color:#999999;
+	font-size:11px;
+	font-style:italic;
+}
 .FA-wrapper form input.FA-large{
 	width:100%;
 	margin:0px;
 }
 .FA-wrapper form input.FA-small{
-	width:40px;
+	width:45px;
 }
 
 .FA-wrapper form .FA_input label{
