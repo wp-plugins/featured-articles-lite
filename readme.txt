@@ -26,13 +26,17 @@ More information can be found on [php-help.ro](http://www.php-help.ro/mootools-1
 
 == Installation ==
 
+If you are upgrading to the current version, make sure you backup first your existing themes especially if you made changes to them.
+
 1. Download and extract folder wp_featured_articles
 2. Upload the whole *featured-articles-lite* folder to the `/wp-content/plugins/` directory
 3. Activate the plugin through the 'Plugins' menu in WordPress
-4. Go to WP Admin->Settings->Featured articles and configure your slider
+4. Go to WP Admin->FA Lite->FA Lite Settings and configure your slider
 5. To display the slider, you can either choose sections from admin ( pages or categories ) or place the following code in your template: 
 
 `<?php FA_display_slider(); ?>`
+
+6. To display only certain posts into the slider, set under Display order: Featured posts. After you select the option, open the posts or pages you want to set as featured for editing and from the panel from the right sidebar (in post edit mode) follow the instructions.
 
 For any clarifications, please read or leave a comment on [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/ "WP Featured Articles plugin")
 
