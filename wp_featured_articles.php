@@ -373,9 +373,41 @@ function FA_article_image ($post){
 	
 	if( $meta_image )
 		return $meta_image[0];
-	// check for image in text
-	preg_match_all("#\<img(.*)src\=(\"|\')(.*)(\"|\')#Ui", $post->post_content, $matches);
-	return isset($matches[3][0]) ? $matches[3][0] : false;		
+	// check for images in text
+	preg_match_all("#\<img(.*)src\=(\"|\')(.*)(\"|\')(/?[^\>]+)\>#Ui", $post->post_content, $matches);
+	if( !$matches[0][0] ){ 
+		return false;
+	}
+	
+	// get image attributes in order to determine the attachment guid
+	preg_match_all("#([a-z]+)=\"(.*)\"#Ui", $matches[0][0], $attrs);
+	$inversed = array_flip($attrs[1]);
+	
+	// if image doesn't have width/height attributes set on it, there's no point in going further
+	if( !array_key_exists('width', $inversed) || !array_key_exists('height', $inversed) ){
+		return $matches[3][0];
+	}
+	
+	// image attributes hold the image URL. Replace those to get the real image guid
+	$img_size_url = '-'.$attrs[2][$inversed['width']].'x'.$attrs[2][$inversed['height']];
+	$real_image_guid = str_replace( $img_size_url, '', $matches[3][0] );
+	
+	global $wpdb;
+	$the_image = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE guid = '$real_image_guid' AND post_type='attachment'" ) );
+	// if unsuccessful, return the image url from content
+	if( !$the_image ){
+		return $matches[3][0];
+	}
+	// get the image according to size settings from FA Lite settings
+	// this is very useful if for example in post there's the ful image but in slider there's a 150x150 pixels image
+	$meta_image = wp_get_attachment_image_src( $the_image->ID, array($options['th_width'], $options['th_height']) );
+	if( $meta_image ){
+		// if meta image was found, set the id as custom field for the post so that all the query work won't be needed again
+		update_post_meta($post->ID, '_fa_image', $the_image->ID);
+		return $meta_image[0];
+	}else{
+		return $matches[3][0];
+	}		
 }
 /**
  * Truncates a text on a given number of characters. Based on the Smarty plugin
