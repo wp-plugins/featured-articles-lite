@@ -39,6 +39,7 @@ $FA_default = array(
 	'slider_width'=>'100%',
 	'slider_height'=>300,
 	'drop_moo'=>false,
+	'styles_in_header'=>false,
 	'show_author'=>true,
 	/* JavaScript Settings */
 	'slideDuration'=>5,
@@ -195,13 +196,20 @@ var FA_settings = {
 	foreach( $scripts as $script_path ){
 		echo '<script language="javascript" type="text/javascript" src="'.$script_path.'"></script>'."\n";
 	}
-	echo '<script language="javascript" type="text/javascript" src="'.FA_path('scripts/fa_dev.js').'"></script>'."\n";
-	// load stylesheet
+	if( $options['show_author'] ){
+		echo '<script language="javascript" type="text/javascript" src="'.FA_path('scripts/fa_dev.js').'"></script>'."\n";
+	}	
+	
+	// load stylesheet only if wasn't defined to load in header always
+	if($options['styles_in_header']) return;
+	
 	$theme = 'themes/'.$options['active_theme'].'/stylesheet.css';
 	if( !is_file( FA_dir($theme) ) )
 		$theme = 'themes/dark/stylesheet.css';	
 	echo '<link rel="stylesheet" type="text/css" href="'.FA_path( $theme ).'" />'."\n";
-	echo '<link rel="stylesheet" type="text/css" href="'.FA_path( 'styles/fa_dev.css' ).'" />'."\n";	
+	if( $options['show_author'] ){
+		echo '<link rel="stylesheet" type="text/css" href="'.FA_path( 'styles/fa_dev.css' ).'" />'."\n";
+	}		
 }
 
 /**
@@ -305,22 +313,19 @@ function FA_add_scripts(){
 function FA_add_styles(){
 	
 	$is_main_slider = FA_check_display();
-	
-	if( !$is_main_slider ) return;
-	
 	$options = FA_get_options();
 	
-	if( $is_main_slider ){	
-		$theme = 'themes/'.$options['active_theme'].'/stylesheet.css';
-		if( !is_file( FA_dir($theme) ) )
-			$theme = 'themes/dark/stylesheet.css';	
-		wp_register_style('FA_styles', FA_path( $theme ));
-		wp_enqueue_style( 'FA_styles');
-		if( $options['show_author'] ) {
-			wp_register_style('FA_dev', FA_path( 'styles/fa_dev.css' ));
-			wp_enqueue_style( 'FA_dev');
-		}	
-	}		
+	if( !$is_main_slider && !$options['styles_in_header'] ) return;
+	
+	$theme = 'themes/'.$options['active_theme'].'/stylesheet.css';
+	if( !is_file( FA_dir($theme) ) )
+		$theme = 'themes/dark/stylesheet.css';	
+	wp_register_style('FA_styles', FA_path( $theme ));
+	wp_enqueue_style( 'FA_styles');
+	if( $options['show_author'] ) {
+		wp_register_style('FA_dev', FA_path( 'styles/fa_dev.css' ));
+		wp_enqueue_style( 'FA_dev');
+	}			
 }
 /**
  * Used to verify if scripts and stylesheets need to be added.
