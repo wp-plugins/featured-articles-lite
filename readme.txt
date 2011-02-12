@@ -45,6 +45,7 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 1. Theme Light
 2. Theme Dark
 3. Sideway titles navigation
+4. Theme Smoke (for this theme, in settings set slider and thumbnail size to have same values)
 
 == Changelog ==
 
