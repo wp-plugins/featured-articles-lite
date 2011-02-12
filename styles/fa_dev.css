@@ -16,5 +16,6 @@ body .wpf-dev a{
 	line-height:20px;
 	background:url(dev_info.png) left center no-repeat;
 	padding-left:20px;
-	font-size:11px;
+	font-size:11px; 
+	white-space:nowrap;
 }
