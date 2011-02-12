@@ -61,7 +61,7 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 * Custom post/pages images improved usage and interface
 * Easy setting for featured posts and pages to be displayed into the slider
 * Image detection improved even more. Currently there are 2 ways to set an image for a certain post: by setting the image as a custom field and second by detecting the image from post content. For images detected in post content, the plugin tries to identify the exact attachment from the database and if found, it automatically sets the image into the custom field. The only thing it needs is for the image to have the width and height attributes set in HTML.
-
+* New theme available (Smoke). See screenshots for details and [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/#additional-themes "WP Featured Articles plugin - theme Smoke settings") for instructions on how to set up this theme.
 
 = 2.1 =
 * Date format in article short description displays according to blog date format option setting
