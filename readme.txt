@@ -75,3 +75,14 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 = 2.0 =
 Initial release for the new redesigned Wordpress Featured Articles
+
+== Troubleshooting ==
+
+The slider script is developed using MooTools 1.2. Since the framework isn't bundled in Wordpress (as jQuery is), the plugin adds the MooTools framework along with the other scripts it needs to run into the blog header. If other plugins running on MooTools are installed the page will issue Javascript errors. To solve this problem, in slider administration page there's an option to drop the MooTools script so that conflicts no longer occur.
+
+Another known problem is if any of the plugin installed use Prototype framework. MooTools and Prototype are conflicting and the only solution would be to remove one of the plugins (either the MooTools based or the Prototype based plugins).
+
+Usually, after you install Featured Articles Lite into your blog and you go see it in front-end and the slider doesn't work it's a clear sign that there's a framework conflict. First thing to to is to go to wp-admin and open the FA Lite settings panel. Look for option Unload MooTools framework and uncheck it. Go back to front-end and see if the slider works. If it does, this means that another plugin uses MooTools and there was a conflict because MooTools was included twice in header.
+If the slider still doesn't work, look into page source and do a search for "prototype.js". If you can see it in your page source it's time to make a decision: use FA Lite and deactivate the plugin using Prototype or drop FA Lite and continue using the other plugin.
+
+If you need help troubleshooting leave a comment on [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/#additional-themes "WP Featured Articles plugin homepage").
