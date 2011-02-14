@@ -40,10 +40,11 @@ require_once(ABSPATH.'wp-admin/admin.php');
 
 if( isset($_POST['post']) && isset($_POST['value']) )
 {
-	$post_id = (int)$_POST['post'];
-	if( !add_post_meta( $post_id, '_fa_image', $_POST['value'], true )){
-		update_post_meta( $post_id, '_fa_image', $_POST['value'] );
-	}
+	$post_id = (int)$_POST['post'];	
+	update_post_meta( $post_id, '_fa_image', $_POST['value'] );
+	$th = wp_get_attachment_image_src( (int)$_POST['value'], 'thumbnail' );
+	echo $th[0];
+	exit();	
 }
 
 wp_enqueue_script( 'jquery' );
@@ -121,6 +122,14 @@ do_action('admin_head');
 			jQuery.post('add_meta.php', data, function(response) {
 				var win = window.dialogArguments || opener || parent || top;
 				win.tb_remove();
+				var img = jQuery('#FA-current-image', window.parent.document);
+				if( img.length > 0 ){
+					jQuery('#FA-current-image', window.parent.document).attr('src', response);
+				}else{
+					var wrapper = jQuery('#FA-curr-img-wrap', window.parent.document);
+					var h = '<p>Current image is: <img src="' + response + '" alt="Current Featured Articles image set for this post." style="padding:2px; border:1px #000 solid" id="FA-current-image" /></p><p><label><input type="checkbox" value="1" name="fa_remove_meta_image" /> Remove this image</label></p>';
+					wrapper.html(h);			
+				}
 			});
 		})			
 	});
