@@ -579,6 +579,7 @@ function FA_admin_init(){
  * Add box into sidebar for posts and pages
  */
 function FA_post_actions() {
+	if( !current_user_can(FA_CAPABILITY) ) return;
     add_meta_box( 'FA-actions', 'Featured Articles Lite', 'FA_meta_box', 'post', 'side', 'high' );
     add_meta_box( 'FA-actions', 'Featured Articles Lite', 'FA_meta_box', 'page', 'side', 'high' );
 }
@@ -604,6 +605,7 @@ function FA_meta_box(){
  * Saves the data for featured posts
  */
 function FA_save_meta(){
+	if( !current_user_can(FA_CAPABILITY) ) return;
 	if( isset($_POST['fa_nonce']) && wp_verify_nonce($_POST['fa_nonce'],'fa_article_featured') ){
 		$id = (int)$_POST['post_ID'];
 		// feature post
