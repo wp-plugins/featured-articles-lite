@@ -218,15 +218,6 @@ var FA_settings = {
 function FA_get_content(){
 	$options = FA_get_options();
 	
-	switch ($options['display_order']){
-		case 1:
-			$order = 'ASC';
-		break;
-		
-		case 2:
-			$order = 'DESC';
-		break;		
-	}
 	$args = array();
 	$args['numberposts'] = $options['num_articles'];
 	$args['order'] = 'DESC';
@@ -260,8 +251,17 @@ function FA_get_content(){
 	if( $options['displayed_content'] == 1 ){
 		$postslist = get_posts($args);
 	}else{
+		$args['sort_order'] = $options['display_order'] == 4 ? 'RAND()' : 'DESC';
+		if( $options['display_order'] == 3 ){
+			$args['sort_column'] = 'comment_count DESC, post_date';
+		}else if( $options['display_order'] == 4 ){
+			$args['sort_column'] = '';
+		}else{
+			$args['sort_column'] = $args['orderby'];	
+		}		
 		$postslist = get_pages($args);
 	}	
+	
 	return $postslist;
 }
 /**
