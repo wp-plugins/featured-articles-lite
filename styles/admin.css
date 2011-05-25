@@ -1,0 +1,101 @@
+.FA-wrapper,
+.FA-wrapper form{
+	display:block;
+	position:relative;
+	clear:both;
+	margin:0px;
+	padding:0px;
+}
+.FA-wrapper form label{
+	font-size:14px;
+	color:#0066CC;
+	font-style:italic;
+	clear:both;
+	display:block;
+	margin:5px 0px 10px;
+}
+.FA-wrapper form .FA_input{
+	display:block;
+	clear:both;	
+	padding:5px;
+	background:#FAFAFA;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+}
+.FA-wrapper form .FA_inline{
+	display:inline;
+	position:static;
+	clear:none;
+	background:none;
+}
+.FA-wrapper form .note{
+	color:#999999;
+	font-size:11px;
+	font-style:italic;
+}
+.FA-wrapper form input.FA-large{
+	width:100%;
+	margin:0px;
+}
+.FA-wrapper form input.FA-small{
+	width:45px;
+}
+
+.FA-wrapper form .FA_input label{
+	display:inline;
+	position:static;
+	clear:none;
+	font-style:normal;
+	font-size:12px;
+	padding:0px;
+	color:#000000;
+	font-weight:normal;
+	line-height:22px;
+}
+
+.FA-wrapper form .FA-pannel{
+	display:block;
+	width:28%;
+	float:left;
+	background:#FFFFFF;
+	border:1px #EEE solid;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	padding:15px;
+	margin:5px;
+}
+.FA-wrapper form .FA-pannel h2{
+	font-size:22px;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-style:italic;
+	color:#0099FF;
+	font-weight:normal;
+}
+.FA-wrapper form input.save-changes{
+	display:block;
+	position:relative;
+	clear:both;
+	font-size:18px;
+	width:180px;
+	background:#000;
+	color:#FFFFFF;
+	line-height:50px;
+	margin:10px auto;
+	cursor:pointer;
+}
+#update{
+	background:url(success.png) #FFFEEB 20px center no-repeat;
+	padding:20px 20px 20px 75px;
+	font-size:14px;
+	margin:10px 0px;
+}
+.CF_Tips{
+	width:200px;
+	padding:10px;
+	background:#333333;
+	color:#CCCCCC;
+	font-size:12px;
+	font-family:Arial, Helvetica, sans-serif;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}

@@ -1,0 +1,21 @@
+body .wpf-dev{
+	display:block;
+	position:absolute;
+	bottom:2px;
+	right:6px;
+	z-index:1000;
+	width:16px;
+	overflow:hidden;
+	
+}
+body .wpf-dev a{
+	color:#999;
+	display:block;
+	position:relative;
+	height:20px;
+	line-height:20px;
+	background:url(dev_info.png) left center no-repeat;
+	padding-left:20px;
+	font-size:11px; 
+	white-space:nowrap;
+}
