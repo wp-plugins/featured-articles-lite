@@ -119,6 +119,11 @@ function fa_lite_implement_panel(){
 }
 
 ?>
+<?php 
+if( version_compare('3.1', get_bloginfo("version"), '>') ){
+	echo '<div class="updated"><p>This plugin is compatible with Wordpress 3.1 or above. Please update your Wordpress installation.</p></div>';
+}
+?>
 <div class="wrap">
     <div id="icon-edit" class="icon32 icon32-posts-post"><br></div>
     <h2><?php if(!$slider_id):?>Add new<?php else:?>Edit<?php endif;?> Slider</h2>
