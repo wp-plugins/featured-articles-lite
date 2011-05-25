@@ -209,6 +209,9 @@ function FA_plugin_menu(){
  */
 function FA_sliders_management(){
 	global $post;
+	if( version_compare('3.1', get_bloginfo("version"), '>') ){
+		echo '<div class="updated"><p>This plugin is compatible with Wordpress 3.1 or above. Please update your Wordpress installation.</p></div>';
+	}
 	$current_page = menu_page_url('featured-articles-lite/featured_articles_lite.php', false);
 	/* perform deletes */
 	if( isset($_GET['delete']) ){		
