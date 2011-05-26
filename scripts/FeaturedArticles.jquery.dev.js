@@ -95,9 +95,10 @@
 				'position': 'absolute',
 				'top': 0,
 				'left': 0,
-				'opacity': 0
+				'opacity': 0,
+				'z-index':1
 			});
-			$(this.slides[this.currentKey]).css({'opacity':1});
+			$(this.slides[this.currentKey]).css({'opacity':1, 'z-index':100});
 		},
 		prepareNavigation: function(){
 			this.navLinks = $(this).find('.FA_navigation a');
@@ -182,21 +183,21 @@
 				
 			switch (fading) {
 				case "top":
-					$(this.slides[this.currentKey]).css({'top':0}).animate({
+					$(this.slides[this.currentKey]).css({'top':0,'z-index':1}).animate({
 						opacity: 0,
 						top: dir * o.fadeDist
 					},{queue:false, duration:o.effectDuration});
-					$(this.slides[index]).css({'top': -dir*o.fadeDist}).animate({
+					$(this.slides[index]).css({'top': -dir*o.fadeDist, 'z-index':100}).animate({
 						opacity: 1,
 						top: 0
 					},{queue:false, duration:o.effectDuration});
 					break;
 				case "left":
-					$(this.slides[this.currentKey]).css({'left':0}).animate({
+					$(this.slides[this.currentKey]).css({'left':0, 'z-index':1}).animate({
 						opacity: 0,
 						left: dir * o.fadeDist
 					},{queue:false, duration:o.effectDuration});
-					$(this.slides[index]).css(fading, -dir*o.fadeDist).animate({
+					$(this.slides[index]).css({'left':-dir*o.fadeDist, 'z-index':100}).animate({
 						opacity: 1,
 						left: 0
 					},{queue:false, duration:o.effectDuration});
