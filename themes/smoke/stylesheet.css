@@ -112,6 +112,7 @@ focus {
 	color:#FFF !important;
 	background:url(smoke.png);
 	text-decoration:none;
+	z-index:110;
 }
 .FA_overall_container_smoke .FA_next{
 	display:block;
@@ -125,6 +126,7 @@ focus {
 	color:#FFF !important;
 	background:url(smoke.png);
 	text-decoration:none;
+	z-index:110;
 }
 .FA_overall_container_smoke .FA_back:HOVER,
 .FA_overall_container_smoke .FA_next:HOVER{

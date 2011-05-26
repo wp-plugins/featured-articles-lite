@@ -161,6 +161,7 @@ focus {
 	background-image:url(left.png);
 	background-position:top center;
 	background-repeat:no-repeat;
+	z-index:110;
 }
 .FA_overall_container_dark .FA_next{
 	display:block;
@@ -172,6 +173,7 @@ focus {
 	background-image:url(right.png);
 	background-position:top center;
 	background-repeat:no-repeat;
+	z-index:110;
 }
 .FA_overall_container_dark .FA_back:HOVER,
 .FA_overall_container_dark .FA_next:HOVER{
