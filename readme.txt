@@ -55,6 +55,9 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 == Changelog ==
 
+= 2.3.1 =
+* Solved JavaScript bug that made only the first article clickable.
+
 = 2.3 =
 * Slider script developed with jQuery (this solves the conflict between different JavaScript frameworks)
 * Creation/management and placement of multiple sliders into the same page or all over your blog
