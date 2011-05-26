@@ -55,6 +55,9 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 == Changelog ==
 
+= 2.3.2 =
+* Solved z-index issue in themes causing side navigation not to be able to be clicked 
+
 = 2.3.1 =
 * Solved JavaScript bug that made only the first article clickable.
 
