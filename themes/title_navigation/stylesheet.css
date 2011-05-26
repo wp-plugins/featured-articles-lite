@@ -6,6 +6,7 @@
 	width:100%;
 	z-index:1000;
 	height:300px;
+	z-index:1;
 }	
 
 .FA_overall_container_title_nav a:focus {

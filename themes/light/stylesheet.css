@@ -4,6 +4,7 @@
 	clear:both;
 	border:1px solid #b5b5b5;
 	background:#eaeaea;
+	z-index:1;
 }	
 
 .FA_overall_container_light a:focus {

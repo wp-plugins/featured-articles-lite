@@ -4,6 +4,7 @@
 	clear:both;
 	background:#282828;
 	border:1px solid #282828;
+	z-index:1;
 }	
 
 .FA_overall_container_dark a:focus {

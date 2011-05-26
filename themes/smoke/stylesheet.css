@@ -1,9 +1,10 @@
-.FA_overall_container_smoke _smoke {
+.FA_overall_container_smoke {
 	display:block;
 	position:relative;
 	clear:both;
 	border:1px solid #b5b5b5;
 	background:#000000;
+	z-index:1;	
 }	
 
 .FA_overall_container_smoke  a:focus {
