@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/
 Description: Put a fancy JavaScript slider on any blog page, category page or home page to highlight your featured content. Compatible with Wordpress 3.1+
 Author: Constantin Boiangiu
-Version: 2.3.3
+Version: 2.3.4
 Author URI: http://www.php-help.ro
 */
 // Slider administration capability name
@@ -393,6 +393,18 @@ wp_register_widget_control(
         'description' => 'Place a slider into your widgets area'
     )
 );
+
+/**
+ * Shortcode slider display
+ */
+add_shortcode('FA_Lite', 'FA_lite_shortcode');
+function FA_lite_shortcode($atts){
+	extract(shortcode_atts(array(
+	      'id' => false
+    ), $atts));
+    FA_display_slider($id); 
+}
+
 /**
  * Hooks
  */

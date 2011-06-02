@@ -55,6 +55,9 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 == Changelog ==
 
+= 2.3.4 =
+* Created shortcode support to display sliders inside post/page content.
+
 = 2.3.3 =
 
 * Solved Allowed tags option bug that wasn't taken into account by the plugin when displaying posts in slider.
