@@ -10,8 +10,11 @@ Put featured posts or pages into a fancy JavaScript slider that can be set to di
 
 == Description ==
 
-Features
+Featured Article Lite allows easy placement into your blog pages of an animated slider displaying featured posts or pages according to your settings. Sliders displaying posts can be placed in various ways: automatically on your blog home page or category page, as a widget, using shortcodes to display the featured posts directly inside the content of any post or page or by manually placing a small PHP code into your theme files.
 
+Almost every aspect can be customized, from the way the JavaScript works (duration of animation effect, mouse wheel navigation, automatic sliding with configurable time delay and so on ) to content displayed into the slider (featured posts, ordered by date, order by number of comments, random order). Also, it comes with 4 default themes and gives the possibility to create new themes for it.  
+
+Features
 - Multiple sliders management
 - Can display as widget
 - Can display manually set featured post
