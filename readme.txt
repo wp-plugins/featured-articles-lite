@@ -55,6 +55,10 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 == Changelog ==
 
+= 2.3.3 =
+
+* Solved Allowed tags option bug that wasn't taken into account by the plugin when displaying posts in slider.
+
 = 2.3.2 =
 * Solved z-index issue in themes causing side navigation not to be able to be clicked 
 
