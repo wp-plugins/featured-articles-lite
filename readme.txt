@@ -14,15 +14,16 @@ Features
 
 - Multiple sliders management
 - Can display as widget
+- Can display manually set featured post
 - SEO friendly
 - Autoslide
-- Automatic or manual placement
+- Automatic or manual placement of featured posts
 - Set the slider to animate at any interval when your visitors come to your website.
 - Animation direction
 - Make it yours! Choose between slides coming from top or from left to mimic a vertical or horizontal slider.
-- Themes - Default themes available; easy implementation for new themes
-- Options - various options available, from thumbnail display to categories to gather articles from and JavaScript settings, all available from Wordpress admin
-- Navigation - Make a choice between forward-backwards navigation and individual navigation or use both with only 2 clicks. Also, mouse wheel navigation available.
+- Themes - 4 default themes available for your featured posts; easy implementation for new themes (a detailed guide on creating themes can be found [here](http://www.php-help.ro/how-to/featured-articles-lite-how-to-create-custom-themes/ "Featured Articles Lite – how to create custom themes"))
+- Options - various options available, from featured post thumbnail display to categories to gather articles from and JavaScript settings, all available from Wordpress admin
+- Navigation - Make a choice between forward-backwards navigation and individual navigation of your featured posts or use both with only 2 clicks. Also, mouse wheel navigation available.
 
 More information can be found on [php-help.ro](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/ "Wordpress Featured Articles plugin").
 
@@ -66,7 +67,7 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 * Solved z-index issue in themes causing side navigation not to be able to be clicked 
 
 = 2.3.1 =
-* Solved JavaScript bug that made only the first article clickable.
+* Solved JavaScript bug that made only the first post clickable.
 
 = 2.3 =
 * Slider script developed with jQuery (this solves the conflict between different JavaScript frameworks)
@@ -76,27 +77,27 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 * Slightly modified themes to make it work with multiple sliders
 
 = 2.2 =
-* User specified HTML tags allowed into slider description
-* Meta box to ease the way custom images and custom content is added to the slider
-* Possibility to display posts/pages in random order into the slider
+* User specified HTML tags allowed into featured post description displayed into the slider
+* Meta box to ease the way custom images and featured posts are inserted into the slider
+* Possibility to display posts or pages in random order into the slider
 * Featured articles slider resizable from administration area ( default values get specified into stylesheet )
 * Author link ( if you want to support the plugin ) that can be disabled from administration
 * Slider settings access is restricted to administrators only with the possibility to give access to any other group of users available in wordpress
 * Menu no longer available under Settings->Featured articles but directly in Wordpress admin sidebar ( look for FA Lite )
-* Themes modified to support featured slider resizing ( both CSS files and display files have changed a little ). If you update the plugin and you made custom themes, back-up first your themes folder.
+* Themes modified to support featured posts slider resizing ( both CSS files and display files have changed a little ). If you update the plugin and you made custom themes, back-up first your themes folder.
 * Custom post/pages images improved usage and interface
 * Easy setting for featured posts and pages to be displayed into the slider
 * Image detection improved even more. Currently there are 2 ways to set an image for a certain post: by setting the image as a custom field and second by detecting the image from post content. For images detected in post content, the plugin tries to identify the exact attachment from the database and if found, it automatically sets the image into the custom field. The only thing it needs is for the image to have the width and height attributes set in HTML.
 * New theme available (Smoke). See screenshots for details and [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/#additional-themes "WP Featured Articles plugin - theme Smoke settings") for instructions on how to set up this theme.
 
 = 2.1 =
-* Date format in article short description displays according to blog date format option setting
+* Date format in featured post short description displays according to blog date format option setting
 * Editable text for read more link
-* New option to set article title as link
+* New option to set featured post title as link
 * Image detection no more made inside theme but done by function ( less code in slider theme )
 * New option to display the slider manually by adding a function to theme files ( function is FA_display_slider - see installation for instructions ) 
 * Slider mouse wheel navigation can be enabled/disabled from wp admin
-* Links in article text allowed 
+* Links in featured posts text allowed 
 * For automatic placement, option to choose loop to display on top of 
 
 = 2.0 =
