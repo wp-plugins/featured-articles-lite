@@ -18,7 +18,7 @@ Current image is:
 <?php endif;?>
 </div>
 </div>
-<div class="misc-pub-section last">
+<div class="misc-pub-section">
 <?php wp_nonce_field('fa_article_featured', 'fa_nonce');?>
 <label>Set this post as featured for <em>Featured Articles Lite</em> sliders</label><br />
 <select name="fa_lite_featured[]" multiple="multiple" size="3" style="height:auto; width:100%;">
@@ -28,7 +28,7 @@ Current image is:
 			while ( $loop->have_posts() ) : 
 				$loop->the_post();
 	?>
-    <option value="<?php the_ID();?>"<?php if(in_array(get_the_ID(), $featured)):?> selected="selected"<?php endif;?>><?php the_title();?></option>
+    <option value="<?php the_ID();?>"<?php if(in_array(get_the_ID(), $featured)):?> selected="selected"<?php endif;?>><?php the_title();?> [<?php the_ID();?>]</option>
     <?php
 			endwhile;
 		endif;	
@@ -36,3 +36,33 @@ Current image is:
 	?>	
 </select>
 </div>
+<div class="misc-pub-section misc-pub-section_last">
+<label>Insert a slider into this post</label><br />
+<select name="fa_lite_shortcode" id="fa_lite_shortcode">
+	<option value=""><?php _e('Choose slider');?></option>
+    <?php 
+		if ( $loop->have_posts() ) : 
+			while ( $loop->have_posts() ) :
+				$loop->the_post();
+	?>
+    <option value="<?php the_ID();?>"><?php the_title();?> [<?php the_ID();?>]</option>
+    <?php
+			endwhile;
+		endif;	
+		wp_reset_query();
+	?>	
+</select>
+<input type="button" id="add_fa_slider" value="insert" class="button-primary" />
+</div>
+<script language="javascript" type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('#add_fa_slider').click(function(){
+			var v = jQuery('#fa_lite_shortcode').val();
+			if(''==v){
+				alert('Please select a slider first.');
+				return;
+			}
+			send_to_editor(' [FA_Lite id="'+v+'"] ');
+		})
+	})
+</script>
