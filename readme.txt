@@ -15,6 +15,7 @@ Featured Article Lite allows easy placement into your blog pages of an animated 
 Almost every aspect can be customized, from the way the JavaScript works (duration of animation effect, mouse wheel navigation, automatic sliding with configurable time delay and so on ) to content displayed into the slider (featured posts, ordered by date, order by number of comments, random order). Also, it comes with 4 default themes and gives the possibility to create new themes for it.  
 
 Features
+
 - Multiple sliders management
 - Can display as widget
 - Can display manually set featured post
