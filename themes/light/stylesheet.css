@@ -90,6 +90,10 @@ focus {
 	line-height:18px;
 }
 
+.FA_overall_container_light .FA_featured_articles .FA_article p a{
+	color:#000000 !important;
+}
+
 .FA_overall_container_light .FA_featured_articles .FA_article a.FA_read_more{
 	font-size:16px;
 	color:#ffffff;

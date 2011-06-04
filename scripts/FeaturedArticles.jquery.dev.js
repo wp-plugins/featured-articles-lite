@@ -48,7 +48,14 @@
 		startSlider: function(){
 			if( this.stopped ) return;
 			var o = this.settings();
-			this.interval = setInterval(this.changeSlide, o.slideDuration||3000, this);
+			var self = this;
+			if(this.interval){
+				clearInterval(this.interval);
+			}
+			var t = function(){
+				self.changeSlide(self);
+			}
+			this.interval = setInterval(t, o.slideDuration||3000);
 		},
 		
 		start: function(){			

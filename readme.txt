@@ -60,6 +60,11 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 == Changelog ==
 
+= 2.3.5 =
+* Solved IE8 bug that caused autoslide not to start (error message: Message: ‘currentKey’ is null or not an object)
+* Solved issue with autoslide that wasn't correctly reseted when navigation was clicked
+* Made links in article description have the same color as the text
+
 = 2.3.4 =
 * Created shortcode support to display sliders inside post/page content.
 

@@ -89,7 +89,9 @@ focus {
 	padding:30px 0px 30px;
 	line-height:18px;
 }
-
+.FA_overall_container_smoke .FA_featured_articles .FA_article p a{
+	color:#FFF !important;
+}
 .FA_overall_container_smoke .FA_featured_articles .FA_article a.FA_read_more{
 	font-size:11px;
 	color:#ccc;
