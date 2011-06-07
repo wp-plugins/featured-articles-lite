@@ -60,6 +60,10 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 == Changelog ==
 
+= 2.3.6 =
+* Solved shortcode bug that caused the slider not to be displayed into the exact place the shortcode was placed in post content (changes made in file: featured_articles.php)
+* Solved stylesheet issue not being loaded for developer link at the bottom of the slider (changes made in file: featured_articles.php)
+
 = 2.3.5 =
 * Solved IE8 bug that caused autoslide not to start (error message: Message: 'currentKey' is null or not an object)
 * Solved issue with autoslide that wasn't correctly reset when navigation was clicked

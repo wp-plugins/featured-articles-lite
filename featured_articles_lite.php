@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/
 Description: Put a fancy JavaScript slider on any blog page, category page or home page to highlight your featured content. Compatible with Wordpress 3.1+
 Author: Constantin Boiangiu
-Version: 2.3.5
+Version: 2.3.6
 Author URI: http://www.php-help.ro
 */
 // Slider administration capability name
@@ -88,7 +88,7 @@ function FA_style_size( $slider_id ){
  *	?>
  */
 $FA_SLIDERS_PARAMS = array();
-function FA_display_slider($slider_id){
+function FA_display_slider($slider_id, $echo = true){
 	global $FA_SLIDERS_PARAMS;
 	
 	$slider = get_post($slider_id);
@@ -114,20 +114,32 @@ function FA_display_slider($slider_id){
 	
 	$js_options = FA_slider_options($slider_id, '_fa_lite_js');	
 	$FA_SLIDERS_PARAMS['FA_slider_'.$slider_id] = FA_lite_json($js_options);
-	
+	if( !$echo ){
+		ob_start();
+	}
 	$FA_slider_id = 'FA_slider_'.$slider_id;
 	include( $theme );
-	FA_dev_by($slider_id);	
+		
+	if(!$echo){
+		$slider_content = ob_get_contents();
+		ob_end_clean();
+	}
+	
+	$fa_dev = FA_dev_by($slider_id, $echo);	
 	// give $post and $id his original value 
 	$post = $original_post;
-	$id = $original_id;		
+	$id = $original_id;
+	
+	if(!$echo){
+		return $slider_content.$fa_dev;
+	}
 }
 /**
  * Developer link at the bottom of the slider. Don't delete this, you can disable it from administration panel under Featured articles Settings->Show author link
  * I would appreciate it if you could display the link to help spreading the word about this plugin. 
  * Thank you in advance.
  */
-function FA_dev_by($slider_id){
+function FA_dev_by($slider_id, $echo  = true){
 	$options = FA_slider_options($slider_id, '_fa_lite_display');
 	if( !$options['show_author'] ) return;
 	
@@ -135,7 +147,11 @@ function FA_dev_by($slider_id){
 	$output = '<div class="wpf-dev" style="'.$size['x'].'">';
 	$output.= '<a href="http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/" title="Wordpress Featured Articles plugin" target="_blank">developed by php-help.ro</a>';
 	$output.= '</div>';
-	echo $output;
+	wp_enqueue_style('FA_dev', FA_path( 'styles/fa_dev.css' ));
+	if($echo)
+		echo $output;
+	else
+		return $output;	
 }
 
 /**
@@ -402,7 +418,7 @@ function FA_lite_shortcode($atts){
 	extract(shortcode_atts(array(
 	      'id' => false
     ), $atts));
-    FA_display_slider($id); 
+    return FA_display_slider($id, false); 
 }
 
 /**
