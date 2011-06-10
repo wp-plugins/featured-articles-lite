@@ -79,16 +79,17 @@ do_action('admin_head');
 
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function(){
-		var images = jQuery('#images .image a');
+		var images = jQuery('#images .image span');
 		images.click(function(event){
 			
 			event.preventDefault();
 			if( !confirm('Are you sure you want Featured Articles to display this thumbnail?') )
 				return;
-			
+
+			var val = jQuery(this).attr('id');			
 			var data = {
 				'post': <?php echo (int)$_GET['post'];?>,
-				'value': jQuery(this).attr('href')
+				'value': val
 			};
 		
 			// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
@@ -131,7 +132,7 @@ do_action('admin_head');
 		<div class="image">
 			<strong><?php the_title(); ?></strong>
 			<div style="width:150px; margin:0px auto 0px;">
-				<a href="<?php echo $post->ID;?>" title=""><img src="<?php echo $th[0];?>" alt="" /></a>
+				<span class="fa_thumbnail" id="<?php echo $post->ID;?>"><img src="<?php echo $th[0];?>" alt="" /></span>
 			</div>	
 		</div>
 	<?php

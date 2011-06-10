@@ -10,7 +10,7 @@
         	<div class="FA_wrap">	
 				<h2><?php if( $options['title_click'] ):?><a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php endif;?><?php the_title();?><?php if( $options['title_click'] ):?></a><?php endif;?></h2>
                 <span class="FA_date"><?php the_time(get_option('date_format')); ?></span>
-                <p><?php echo FA_truncate_text($post->post_content, $image ? $options['desc_truncate'] : $options['desc_truncate_noimg']);?></p>	
+                <p><?php echo FA_truncate_text($post->FA_post_content, $image ? $options['desc_truncate'] : $options['desc_truncate_noimg']);?></p>	
                 <a class="FA_read_more" href="<?php the_permalink();?>" title="<?php the_title();?>"><?php echo $options['read_more'];?></a>
             </div>			
 		</div>

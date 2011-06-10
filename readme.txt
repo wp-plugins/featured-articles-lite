@@ -60,6 +60,16 @@ For any clarifications, please read or leave a comment on [WP featured articles 
 
 == Changelog ==
 
+= 2.3.7 =
+* Solved bug that disabled custom image placement on post/page when Google Analyticator plugin was installed
+* Solved bug that caused automatic image detection within post content not to be performed because of plugin stripping HTML from post content. Please note that you need to do a small change if you display the slider with a custom theme made by you or others. In display.php inside your theme folder change
+
+`<?php echo FA_truncate_text($post->post_content, $image ? $options['desc_truncate'] : $options['desc_truncate_noimg']);?>` 
+
+into
+
+`<?php echo FA_truncate_text($post->FA_post_content, $image ? $options['desc_truncate'] : $options['desc_truncate_noimg']);?>`
+
 = 2.3.6 =
 * Solved shortcode bug that caused the slider not to be displayed into the exact place the shortcode was placed in post content (changes made in file: featured_articles.php)
 * Solved stylesheet issue not being loaded for developer link at the bottom of the slider (changes made in file: featured_articles.php)

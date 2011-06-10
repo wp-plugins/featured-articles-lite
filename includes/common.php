@@ -77,6 +77,7 @@ function FA_article_image ($post, $slider_id){
 		return $meta_image[0];
 	// check for images in text
 	preg_match_all("#\<img(.*)src\=(\"|\')(.*)(\"|\')(/?[^\>]+)\>#Ui", $post->post_content, $matches);
+	
 	if( !isset($matches[0][0]) ){ 
 		return false;
 	}
@@ -187,7 +188,8 @@ function FA_get_content( $slider_id ){
 	    $string = strip_shortcodes( $content );    
 	    // remove all HTML tags except links
 	    $string = strip_tags($string,$aspect_opt['allowed_tags']);
-		$postslist[$k]->post_content = $string;
+	    //store the slider stripped text into a different variable
+		$postslist[$k]->FA_post_content = $string;
 	}
 	
 	return $postslist;
