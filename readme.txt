@@ -12,16 +12,16 @@ Put featured posts or pages into a fancy JavaScript slider that can be set to di
 **FeaturedArticles for Wordpress** slideshow plugin allows you to create sliders in your blog pages directly from your already written content, be it posts or pages. With the ability to change any slider aspect by making use of slideshow themes that are delivered with the plugin, almost anything is possible. Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
 
 Slideshows can be placed by one of these ways (or all at the same time):
-- manual placement directly into your WOrdpress theme template files (requires editing the template file you want to place a slideshow in and add a small piece of code);
-- shortcode placement directly into a post or page content;
-- widget placement into any widget areas your theme has;
-- automatic placement in any page just above the page loop.
+* manual placement directly into your WOrdpress theme template files (requires editing the template file you want to place a slideshow in and add a small piece of code);
+* shortcode placement directly into a post or page content;
+* widget placement into any widget areas your theme has;
+* automatic placement in any page just above the page loop.
 
 While Lite version of FeaturedArticles provides all the neccessary tools for creating very nice slideshows, PRO version of this same plugin comes in addition with:
-- 4 more themes developed by our developers team;
-- custom writen slides that can be written using the visual editor;
-- mixing of posts, pages and custom slides into the same slideshow;
-- priority support and debugging for 3'rd party plugins and themes conflicts.
+* 4 more themes developed by our developers team;
+* custom writen slides that can be written using the visual editor;
+* mixing of posts, pages and custom slides into the same slideshow;
+* priority support and debugging for 3'rd party plugins and themes conflicts.
 
 **Important links:**
 
@@ -40,7 +40,7 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 * Change theme color palette by simply creating a new color stylesheet that can skin the theme without messing with the CSS responsible for layout;
 * Preview slideshow even before publishing it in your pages.
 * Display slideshows by widgets, shorcodes, manual code snippet or automatic display above any page loop;
-* Create new themes that can completely change the dedault animations and can add new options fields custom for it in Slider editing in Wordpress admin.
+* Create new themes that can completely change the default animations and can add new options fields custom for it in Slider editing in Wordpress admin.
 
 These are just a few of the things this plugin can do so just go on and try it for yourself.
 
@@ -50,12 +50,12 @@ What can this plugin be used for? Well, you name it and we'll find a way to make
 
 **Before updating, make sure you back-up all your custom made themes.**
 
-With version 2.4, things went a little different. We tried (you judge) to make an easier, funnier and more extendable way of creating themes for FeaturedArticles slideshows. Themes prior to this version should still work.
+With version 2.4, things went a little different. We tried (you judge) to make an easier, funnier and more extensible way of creating themes for FeaturedArticles slideshows. Themes prior to this version should still work.
 Also, starting with this version we moved the plugin to a different website called [CodeFlavors](http://www.codeflavors.com/ "CodeFlavors - devoted to Wordpress"). This will be the home of all plugins we are going to develop for Wordpress from now on.
-If you find yourself into trouble with this update, we have docs, community forums and we'll provide all the help we can offer.
+If you find yourself into trouble with this update, we have docs, community forums and we'll be happy to help you.
 
-**You'll notice something missing!***. Automatic placement is no longer displayed into slideshow settings by default. To enable it, go to Settings and check the *Enable automatic slider insertion* option.
-Why we did this? Well, starting with next version, this automatic placement will become much much better. We have some things in mind, we just need to figure out some things first and if we would have done this with this update, it would have taken too long.
+**You'll notice something missing!**. Automatic placement is no longer displayed into slideshow settings by default. To enable it, go to Settings and check the *Enable automatic slider insertion* option.
+Why we did this? Well, starting with next version (after 2.4), this automatic placement will become much, much better. We have some ideas, we just need to figure out some things first and if we would have done this with this update, it would have taken too long.
 
 Now, here are the update instructions (automatic update will also work):
 
