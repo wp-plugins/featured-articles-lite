@@ -9,7 +9,7 @@ Put featured posts or pages into a fancy JavaScript slider that can be set to di
 
 == Description ==
 
-**FeaturedArticles Wordpress** slideshow plugin allows you to create sliders in your blog pages directly from your already written content, be it posts or pages. With the ability to change any slider aspect by making use of slideshow themes that are delivered with the plugin, almost anything is possible. Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
+**FeaturedArticles for Wordpress** slideshow plugin allows you to create sliders in your blog pages directly from your already written content, be it posts or pages. With the ability to change any slider aspect by making use of slideshow themes that are delivered with the plugin, almost anything is possible. Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
 
 Slideshows can be placed by one of these ways (or all at the same time):
 - manual placement directly into your WOrdpress theme template files (requires editing the template file you want to place a slideshow in and add a small piece of code);
