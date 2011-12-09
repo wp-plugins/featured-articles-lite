@@ -103,7 +103,20 @@ function FA_remove_post_image(){
 	die('1');	
 }
 add_action('wp_ajax_FA-remove-post-thumbnail', 'FA_remove_post_image');
+/**
+ * Creates a hidden input in media gallery search and filter form to allow
+ * searches to keep the variable that forces the FA link.
+ * 
+ * @since 2.4.1
+ */
+function FA_media_forms_set_var( $links_arr ){
+	
+	if( !isset( $_GET['edit-falite'] ) ) return $links_arr;
 
+	$links_arr[] ='<input type="hidden" name="edit-falite" value="1" />';
+	return $links_arr;	
+}
+add_filter('media_upload_mime_type_links', 'FA_media_forms_set_var', 1, 10);
 
 /**
  * Returns the complete path of a given file from within the plugin
@@ -390,15 +403,37 @@ function FA_read_dir( $path, $exclude = array() ){
 	return $result;
 }
 /**
- * Returns an array of available themes.
+ * Returns an array of available themes. Also, can return themes from a different
+ * folder (if provided). This second option is used when user tries to modify
+ * default themes folder from within plugin settings in Wordpress admin
+ * 
+ * @since 2.4 - modified in 2.4.1
  */
-function FA_themes(){
-	$theme_folders = FA_read_dir(FA_dir('themes'));
+function FA_themes( $new_path = false ){
+	
+	/**
+	 * If new path is given, read it for the themes.
+	 * This is used to check if user copied themes files into new folder before trying to change themes folder path.
+	 */
+	if( $new_path ){
+		$themes_dir_full_path = WP_CONTENT_DIR.'/'.$new_path;
+		$themes_dir_full_url = WP_CONTENT_URL.'/'.$new_path;
+	}else{// let's look inside the default folder
+		$themes_dir_full_path = FA_themes_path();
+		$themes_dir_full_url = FA_themes_url();	
+	}
+	
+	$theme_folders = FA_read_dir( $themes_dir_full_path );	
+	
+	// will store all themes details
 	$themes = array();
-
 	foreach ($theme_folders as $theme){
-		$path_config = FA_dir('themes/'.$theme.'/display.php');
-        
+		
+		// theme path and URL
+		$theme_path = $themes_dir_full_path.'/'.$theme;
+		$theme_url = $themes_dir_full_url.'/'.$theme;
+		
+		// default theme information		
 		$default_headers = array(
         	'Author'		=>'',
         	'AuthorURI'		=>'', 
@@ -407,35 +442,37 @@ function FA_themes(){
         	'Image'			=>'',
         	'Message'		=>''
         );
+        // filter theme details. This way themes can add their own information.
 		$theme_details = apply_filters('fa-theme-details-'.$theme, $default_headers);
-		if( !$theme_details ){
-			$theme_details = $default_headers;
-		}else{
-			foreach ($default_headers as $header=>$content){
-				if( !array_key_exists($header, $theme_details) ){
-					$theme_details[$header] = $content;
-				}
-			}
-		}
-			
-		$themes[$theme]['theme_config'] = $theme_details;
 		
-        $preview_image = FA_dir('themes/'.$theme.'/preview.jpg');
+		// theme should have a display.php file. If it doesn't, skip it.
+		$display_file = $theme_path.'/display.php';
+		if( !is_file( $display_file ) ){
+			continue; // stop processing this theme. It doesn't have a display.php file
+		}
+		
+		// merge filtered array with defaults and put it into theme config key
+		$themes[$theme]['theme_config'] = wp_parse_args($theme_details, $default_headers);;
+		
+		// let's see if theme has preview image
+        $preview_image = $theme_path.'/preview.jpg';
         if( is_file($preview_image) ){
-        	$themes[$theme]['preview'] = FA_path('themes/'.$theme.'/preview.jpg');        	
+        	$themes[$theme]['preview'] = $theme_url.'/preview.jpg';        	
         }else{
         	$themes[$theme]['preview'] = 0;        	
         }
-        
-        $functions_file = FA_dir('themes/'.$theme.'/functions.php');
+
+        // next, check for functions file
+        $functions_file = $theme_path.'/functions.php';
         if( is_file($functions_file) ){
         	$themes[$theme]['funcs'] = $functions_file;
         }else{
         	$themes[$theme]['funcs'] = false;
         }
         
-        $colors_path = FA_dir('themes/'.$theme.'/colors/');
-	    $colors = FA_read_dir($colors_path);	
+        // last, check colors stylesheets
+        $colors_path = $theme_path.'/colors/';
+	    $colors = FA_read_dir( $colors_path );	
 	    $themes[$theme]['colors'] = $colors;        
 	}
 	
@@ -1173,4 +1210,134 @@ function FA_plugin_options(){
 	$result = array_merge($default_options, $o);
 	return $result;
 }
+
+/**
+ * Return complete path to given theme folder
+ * 
+ * @since 2.4.1
+ */
+function FA_theme_path( $theme_folder ){
+	$themes_folder = FA_themes_path();
+	return $themes_folder.'/'.$theme_folder;	
+}
+
+/**
+ * Return complete url to a given theme folder
+ * 
+ * @since 2.4.1
+ */
+function FA_theme_url( $theme_folder ){
+	$themes_url = FA_themes_url();
+	return $themes_url.'/'.$theme_folder;	
+}
+
+/**
+ * Returns or echoes the path to current FA themes folder.
+ * Path can be returned full or relative to wp content folder
+ * @param bool $full_path
+ * @param bool $echo
+ * @return path to FA themes current folder
+ * 
+ * @since 2.4.1
+ */
+
+function FA_themes_path( $full_path = true, $echo  = false ){
+	$path = FA_get_themes_folder( $full_path, false );
+	if( $echo ){
+		echo $path;
+	}else{
+		return $path;
+	}
+}
+
+/**
+ * Returns or echoes full URL to current FA themes folder
+ * @param bool $echo
+ * @return full url to themes folder
+ * 
+ * @since 2.4.1
+ */
+function FA_themes_url( $echo = false ){
+	$url = FA_get_themes_folder( true, $echo, true );
+	if( $echo ){
+		echo $url;
+	}else{
+		return $url;
+	}
+}
+
+/**
+ * FA themes folder can be changed from plugin administration. This solves the problem with the themes being deleted on plugin update.
+ * Theme folder must be located inside wp content folder, where default plugins and themes folders from Wordpress are.
+ * 
+ * Use either FA_themes_path() or FA_themes_url() to retrieve folder path information.
+ * 
+ * @param bool $full_path -  return a full path (true) or just the path from inside wp content folder(false)
+ * @param bool $echo - return the path (false) or echo it(true)
+ * @param bool $return_url - return url instead of path
+ * @return path to FA themes folder
+ * 
+ * @since 2.4.1
+ */
+function FA_get_themes_folder( $full_path = true, $echo = false, $return_url = false ){
+	// plugin option set on activation.
+	$plugin_options = get_option('fa_plugin_details', array());
+	
+	// if themes folder path is in plugin options, let's use it
+	if( array_key_exists('themes_folder', $plugin_options) ){
+		if( !$full_path ){
+			$path = $plugin_options['themes_folder'];
+		}else{
+			$path = ( $return_url ? WP_CONTENT_URL : WP_CONTENT_DIR ).'/'.$plugin_options['themes_folder'];
+		}	
+	}else{ // the default path is inside plugin folder
+		$path =  $return_url ? FA_path('themes') : FA_dir('themes');
+		if( !$full_path ){			
+			$remove = $return_url ? WP_CONTENT_URL : WP_CONTENT_DIR;			
+			$path = str_replace($remove.'/', '', $path);	
+		}			
+	}
+	
+	if( $echo ){
+		echo $path;
+	}else{	
+		return $path;
+	}	
+}
+
+/**
+ * Sets the option that stores the themes folder path. Function first checks that the folder already exists. After doing that, it 
+ * verifies that the themes are copied inside it. Only after all that is done it will actually set it.
+ * 
+ * @param string $new_rel_path - new relative path to themes folder
+ * @return bool - true on success, false on failure
+ * 
+ * @since 2.4.1
+ */
+function FA_set_themes_folder( $new_rel_path = false ){
+	
+	if( !$new_rel_path || empty($new_rel_path) )
+		return false;
+	// new path should be only folder path within Wordpress content dir so let's create the full path
+	$full_path = WP_CONTENT_DIR.'/'.$new_rel_path;
+	// if new path isn't an existing folder, bail out
+	if( !is_dir($full_path) ){
+		return false;
+	}	
+	
+	// let's read this new folder and see if themes are copied in it
+	$themes = FA_themes( $new_rel_path );
+	if( !$themes )
+		return false;
+	
+	// by now all should be OK. Let's set the new option
+	$plugin_options = get_option('fa_plugin_details', array());
+	$new_path = array(
+		'themes_folder' => $new_rel_path
+	);
+	$new_params = wp_parse_args($new_path, $plugin_options);
+	update_option('fa_plugin_details', $new_params);
+	return true;
+}
+
 ?>

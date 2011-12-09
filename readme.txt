@@ -91,6 +91,11 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 
 == Changelog ==
 
+= 2.4.1 =
+* Option to change the default slideshow themes folder from within the plugin contents to anywhere into wp_content folder. Option is available in plugin menu->Settings page.
+* Solved bug that was keeping dark color palette selected by default for all themes making Classic Light unavailable.
+* Solved bug that was removing the link that places custom featured image on posts/pages in Wordpress gallery when search of filtering was performed.
+
 = 2.4 =
 * Image attachment to slide is made using the default Wordpress Media Gallery
 * Templating functions for themes to display information in slideshows

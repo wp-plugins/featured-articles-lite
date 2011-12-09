@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.4
+Version: 2.4.1
 Author URI: http://www.codeflavors.com
 */
 
@@ -17,7 +17,7 @@ Author URI: http://www.codeflavors.com
  * Plugin administration capability, current version and Wordpress compatibility
  */
 define('FA_CAPABILITY', 'edit_FA_slider');
-define('FA_VERSION', '2.4');
+define('FA_VERSION', '2.4.1');
 define('FA_WP_COMPAT', '3.1');
 
 include_once plugin_dir_path(__FILE__).'includes/common.php';
@@ -53,51 +53,73 @@ function featured_articles_slideshow(){
 	
 	global $FA_current_loop;
 	foreach( $sliders as $slider_id ){
-		if( !array_key_exists($slider_id, $FA_current_loop) ){
+		// since we allow to display on any loop, let's keep track of them for each slideshow
+		if( !array_key_exists( $slider_id, $FA_current_loop ) ){
+			// start counting loops
 			$FA_current_loop[$slider_id] = 0;
 		}
 		
 		// set global options for the current slider
 		FA_set_slider_options( $slider_id );
-		$loop_display = FA_get_option(array('_fa_lite_display', 'loop_display'));
+		$loop_display = FA_get_option( array(
+			'_fa_lite_display', 
+			'loop_display'
+		));
 		
+		// it it's not the time to display the slideshow (loop not reached), bail out but not before counting the loop
 		if( $FA_current_loop[$slider_id] != $loop_display  ){
 			$FA_current_loop[$slider_id]+=1;
 			continue;
 		}
-		$FA_current_loop[$slider_id]+=1;
+		// increase loop count because loop setting reached current loop value
+		$FA_current_loop[$slider_id]+=1;		
+		
+		// get the theme options for this slideshow
+		$theme = FA_get_option( array( 
+			'_fa_lite_theme', 
+			'active_theme'
+		));
+		
+		// Classic now merges two themes: the old light and the old dark. Let see if that's the case and load things accordingly
+		if( 'dark' == $theme || 'light' == $theme ){
+			$theme = 'classic';
+		}
+		
+		// OK, now everything is in place. Time to set theme paths and url's
+		$theme_path = FA_theme_path( $theme );
+		$theme_url = FA_theme_url( $theme );
+		
+		// checkif display file exists. If not, bail out
+		if( !is_file( $theme_path.'/display.php' ) ){
+			continue; // and we skip this slideshow
+		}
+		
+		// @deprecated get slider size; don't use this in themes anymore, you know have the_slider_height() and the_slider_width() template functions
+		$styles = FA_style_size();
+		
+		/**
+		 * @deprecated - set the options for older, not updated themes. 
+		 * Use templating functions instead. See here: http://www.codeflavors.com/documentation/display-slider-file/ 
+		 */
+		$options = FA_get_option('_fa_lite_aspect');
+		
+		// create unique ID for the slider		
+		$FA_slider_id = 'FA_slider_'.$slider_id;
+		
+		// get the slides for this slideshow		
 		$postslist = FA_get_content($slider_id);
 		
+		// now let's mess with $post and $id
 		global $post, $id;
 		// save the original post
 		$original_post = $post;
 		// this is used for comments. The comments function uses a global $id variable to count comments. the current id is for the first item in loop
 		$original_id = $id;
-		$theme_option = FA_get_option(array( '_fa_lite_theme', 'active_theme'));
 		
-		// dark and light themes are one theme called classic. Check if theme is dark or light and set it to classic
-		if( 'dark' == $theme_option || 'light' == $theme_option ){
-			$theme_option['active_theme'] = 'classic';
-		}
+		// Include FeaturedArticles display file
+		include( $theme_path.'/display.php' );
 		
-		/* theme display */
-		$theme = 'themes/'.$theme_option.'/display.php';
-		// @deprecated get slider size
-		$styles = FA_style_size();
-		
-		if( !is_file( FA_dir($theme) ) ){
-			$theme = 'themes/classic/display.php';
-		}
-		
-		// create unique ID for the slider		
-		$FA_slider_id = 'FA_slider_'.$slider_id;
-			
-		// @deprecated - set the options for older, not updated themes
-		$options = FA_get_option('_fa_lite_aspect');
-		
-		// theme display file
-		include( $theme );
-		// give $post and $id his original value 
+		// now that we're done with $post and $id, let's restore them with the original values 
 		$post = $original_post;
 		$id = $original_id;
 	}
@@ -119,68 +141,76 @@ function featured_articles_slideshow(){
 function FA_display_slider($slider_id, $echo = true){
 	
 	$slider = get_post($slider_id);
+	// if not set, bail out
 	if(!$slider || 'fa_slider' != $slider->post_type) return;
 	
 	// set global options for the current slider
 	FA_set_slider_options( $slider_id );
 	
-	// get the posts
-	$postslist = FA_get_content($slider_id);
+	/* theme to be displayed as set in options */
+	$theme 			= FA_get_option(array( '_fa_lite_theme', 'active_theme'));
+	$theme_color 	= FA_get_option(array( '_fa_lite_theme', 'active_theme_color'));
+	
+	// selected theme path and url 
+	$theme_path = FA_theme_path( $theme );
+	$theme_url 	= FA_theme_url( $theme );
+	
+	$theme_display = $theme_path.'/display.php';
+	
+	// if theme doesn't exist, bail out
+	if( !is_file( $theme_display ) ){
+		return;
+	}
+	
+	// enqueue theme stylesheet
+	$stylesheet_handler = 'FA_Lite_'.$theme;
+	wp_enqueue_style($stylesheet_handler, $theme_url.'/stylesheet.css');
+	// let's see if colors is on
+	if( !empty( $theme_color ) ){
+		$color_style_handler = $stylesheet_handler.'-'.$theme_color;
+		$color_style_url = $theme_url.'/colors/'.$theme_color;
+		wp_enqueue_style($color_style_handler, $color_style_url, array( $stylesheet_handler ));
+	}
+	
+	// check for starter script or load the default one
+	$custom_starter = $theme_path.'/starter.js';
+	if( is_file( $custom_starter ) ){
+		wp_enqueue_script('FA_starter-'.$theme, $theme_url.'/starter.js', array('jquery'));
+	}else{
+		wp_enqueue_script('FA_general_starter', FA_path('scripts/script-loader.js'), array('jquery'));
+	}
 	
 	global $post, $id, $FA_SLIDERS_PARAMS;
 	
+	// get js options for this slider and add them to global FA_SLIDERS_PARAMS that gets printed as footer script
+	$js_options = FA_get_option('_fa_lite_js');
+	$FA_SLIDERS_PARAMS['FA_slider_'.$slider_id] = FA_lite_json($js_options);
+	
+	// get the contents of this slideshow
+	$postslist = FA_get_content($slider_id);
 	// save the original post
 	$original_post = $post;
 	// this is used for comments. The comments function uses a global $id variable to count comments. the current id is for the first item in loop
 	$original_id = $id;
 	
-	// @deprecated slider size
+	// @deprecated slider size. Don't use this anymore, there are template functions for this
 	$styles = FA_style_size();
-	/* theme display */
-	$theme_option = FA_get_option(array( '_fa_lite_theme', 'active_theme'));
-	$color_option = FA_get_option(array( '_fa_lite_theme', 'active_theme_color'));
-	
-	$theme = 'themes/'.$theme_option.'/display.php';
-	// if theme doesn't exists, go for classic dark
-	if( !is_file( FA_dir($theme) ) ){
-		$theme = 'themes/classic/display.php';
-		$theme_option = 'classic';
-		$color_option = 'dark.css';
-	}	
-	
-	wp_enqueue_style('FA_Lite_'.$theme_option, FA_path('themes/'.$theme_option.'/stylesheet.css'));
-	
-	// load the color stylesheet if any
-	if( !empty( $color_option ) ){
-		$color_path = FA_dir( 'themes/'.$theme_option.'/colors/'.$color_option );
-		if( is_file($color_path) ){
-			wp_enqueue_style(
-				'FA_Lite_'.$theme_option.'-'.$color_option, 
-				FA_path('themes/'.$theme_option.'/colors/'.$color_option)
-			);		
-		}
-	}
-	// load the js starter if any
-	$custom_starter = 'themes/'.$theme_option.'/starter.js';
-	if( is_file(FA_dir($custom_starter)) ){
-		wp_enqueue_script('FA_starter-'.$theme, FA_path($custom_starter), array('jquery'));
-	}else{
-		wp_enqueue_script('FA_general_starter', FA_path('scripts/script-loader.js'), array('jquery'));
-	}
-	
-	$js_options = FA_get_option('_fa_lite_js');
-	$FA_SLIDERS_PARAMS['FA_slider_'.$slider_id] = FA_lite_json($js_options);
-	if( !$echo ){
-		ob_start();
-	}
-	$FA_slider_id = 'FA_slider_'.$slider_id;
-	
 	// @deprecated - set the options for older, not updated themes
 	$options = FA_get_option('_fa_lite_aspect');
 	
-	include( $theme );
-		
-	if(!$echo){
+	// unique ID for this slider
+	$FA_slider_id = 'FA_slider_'.$slider_id;
+	
+	// if slideshow HTML should be returned, do it
+	if( !$echo ){
+		ob_start();
+	}
+	
+	// include the template file
+	include( $theme_display );
+
+	// get the output it it is to be returned
+	if( !$echo ){
 		$slider_content = ob_get_contents();
 		ob_end_clean();
 	}
@@ -188,9 +218,10 @@ function FA_display_slider($slider_id, $echo = true){
 	// give $post and $id his original value 
 	$post = $original_post;
 	$id = $original_id;
+	// return slideshow if asked as return value
 	if(!$echo){
 		return $slider_content;
-	}	
+	}
 }
 /**
  * Function to load stylesheets and scripts into the footer.
@@ -224,22 +255,37 @@ function FA_add_scripts(){
 	
 	$js_options = array();
 	foreach( $sliders as $slider_id ){
-		$options = FA_slider_options($slider_id, '_fa_lite_js');		
-		$js_options['FA_slider_'.$slider_id] = FA_lite_json($options);
-
+		
+		// get the selected theme option for this slideshow
 		$theme_option = FA_slider_options($slider_id, '_fa_lite_theme');
 		
-		// load the js starter if any
-		if( file_exists(FA_dir('themes/'.$theme_option['active_theme']))){
-			$custom_starter = 'themes/'.$theme_option['active_theme'].'/starter.js';
-		}else{
-			$custom_starter = 'themes/classic/starter.js';
+		// dark and light themes merged into classic. Let check if classic needs tp be loaded
+		if( 'dark' == $theme_option['active_theme'] || 'light' == $theme_option['active_theme'] ){
+			$theme_option['active_theme'] = 'classic';
 		}
 		
-		if( is_file(FA_dir($custom_starter)) ){
-			wp_enqueue_script('FA_starter-'.$theme_option['active_theme'], FA_path($custom_starter), array('jquery'));
+		// load the js starter if any
+		$theme_path = FA_theme_path( $theme_option['active_theme'] );
+		$theme_url = FA_theme_url( $theme_option['active_theme'] );
+		
+		// if for some reason theme folder doesn't exit, skip this slideshow
+		if( !is_dir( $theme_path ) ){
+			continue; // skip slider if theme folder doesn't exist in configured themes folder
+		}
+		
+		// get slideshow js options
+		$options = FA_slider_options( $slider_id, '_fa_lite_js' );
+		// add js options to slideshows options array. This will output in page.		
+		$js_options['FA_slider_'.$slider_id] = FA_lite_json($options);
+		
+		// check if theme has custom starter script
+		if( is_file( $theme_path.'/starter.js' ) ){
+			$starter_handle = 'FA_starter-'.$theme_option['active_theme'];
+			$starter_url = $theme_url.'/starter.js';
+			wp_enqueue_script( $starter_handle, $starter_url, array('FeaturedArticles-jQuery') );
 		}else{
-			wp_enqueue_script('FA_general_starter', FA_path('scripts/script-loader.js'), array('jquery'));
+			// if starter isn't preset (older theme maybe), load the default starter
+			wp_enqueue_script('FA_general_starter', FA_path('scripts/script-loader.js'), array('FeaturedArticles-jQuery'));
 		}
 	}
 	
@@ -258,27 +304,25 @@ function FA_add_styles(){
 	foreach( $sliders as $slider_id ){
 		$theme = FA_slider_options($slider_id, '_fa_lite_theme');
 		
-		$theme_path = 'themes/'.$theme['active_theme'].'/stylesheet.css';
-		$load_default = false;
-		if( !is_file( FA_dir($theme_path) ) ){
-			$theme_path = 'themes/classic/stylesheet.css';
-			$load_default = true;
-		}	
-			
-		wp_register_style('FA_style_'.$theme['active_theme'], FA_path($theme_path));
-		wp_enqueue_style('FA_style_'.$theme['active_theme']);
+		// theme path and url
+		$theme_path = FA_theme_path( $theme['active_theme'] );
+		$theme_url = FA_theme_url( $theme['active_theme'] );
 		
-		if( $load_default ){
-			$colors_path = 'themes/classic/colors/dark.css';
-			wp_enqueue_style('FA_style_classic-dark', FA_path($colors_path));
+		// if theme folder doesn't exist, skip this slider
+		if( !is_dir($theme_path) ){
 			continue;
 		}
 		
+		// enqueue main stylesheet
+		$stylesheet_handle = 'FA_style_'.$theme['active_theme'];
+		$stylesheet_url = $theme_url.'/stylesheet.css';
+		wp_enqueue_style( $stylesheet_handle, $stylesheet_url );
+		
+		// enqueue color stylesheet		
 		if( !empty( $theme['active_theme_color'] ) ){
-			$colors_path = 'themes/'.$theme['active_theme'].'/colors/'.$theme['active_theme_color'];
-			if( is_file( FA_dir($colors_path)) ){
-				wp_enqueue_style('FA_style_'.$theme['active_theme'].'-'.$theme['active_theme_color'], FA_path($colors_path));
-			}	
+			$color_style_handle = $stylesheet_handle.'-'.$theme['active_theme_color'];
+			$color_style_url = $theme_url.'/colors/'.$theme['active_theme_color'];
+			wp_enqueue_style($color_style_handle, $color_style_url);	
 		}		
 	}			
 }
@@ -607,7 +651,10 @@ function FA_lite_shortcode($atts){
 }
 
 /**
- * Activation hook to add admin capabilities 
+ * Activation hook to add admin capabilities.
+ * Also stores current plugin details like plugin version, wp version and others.
+ * These options may get used on future updates to allow backwards compatibility with
+ * previous plugin versions. 
  */
 function FA_activation(){
 	// give permission to administrator to change slider settings
@@ -617,14 +664,22 @@ function FA_activation(){
 			$wp_roles->add_cap('administrator', FA_CAPABILITY);
 		}
 	}
-	
+	// get the existing options
+	$existing_option = get_option('fa_plugin_details', array());
+	// current plugin details
 	$plugin_details = array(
 		'version'=>FA_VERSION,
 		'wp_version'=>get_bloginfo('version'),
-		'plugin_activation_date'=>date('d M Y H:i:s')
+		'plugin_activation_date'=>date('d M Y H:i:s'),
+		'themes_folder'=>'plugins/featured-articles-pro/themes' // default themes folder is inside plugin directory
 	);
-	
+	// if themes folder is already in, don't change it. It can only be changed by the user in plugin Settings page
+	if( array_key_exists('themes_folder', $existing_option) ){
+		$plugin_details['themes_folder'] = $existing_option['themes_folder'];
+	}
+	// try to create the option
 	$create = add_option('fa_plugin_details', $plugin_details, '', false);
+	// update current option if creation failed
 	if( !$create ){
 		update_option('fa_plugin_details', $plugin_details);
 	}

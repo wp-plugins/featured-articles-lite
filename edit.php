@@ -84,7 +84,19 @@ if( isset($_POST['FA-save_wpnonce']) ){
 			$theme = $_POST['active_theme'];
 			if( $key == 'thumbnail_display' && $themes[$theme]['theme_config']['Image'] == 'background' ){
 				$fields['thumbnail_display'] = true;
-			}			
+			}
+
+			/**
+			 * Themes colors. Each theme has its own select box for colors named active_theme_color_THEME_NAME
+			 */
+			if( $key == 'active_theme_color' ){
+				$current_theme_key = 'active_theme_color_'.$theme;
+				if( isset($_POST[$current_theme_key]) ){
+					$fields['active_theme_color'] = $_POST[$current_theme_key];	
+				}else{
+					$fields['active_theme_color'] = false;
+				}	
+			}
 		}
 		update_post_meta($slider_id, $meta_key, $fields);		
 	}
@@ -277,7 +289,7 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 	                                            ?>
 	                                            <div class="colors_selector" id="<?php echo $theme?>-colors" <?php echo $visibility;?>>
 	                                                <label for="<?php echo $theme?>-colors">Color scheme: </label>
-	                                                <select name="active_theme_color" id="<?php echo $theme?>-colors">
+	                                                <select name="active_theme_color_<?php echo $theme;?>" id="<?php echo $theme?>-colors">
 	                                                    <?php 
 	                                                        foreach( $params['colors'] as $color):
 	                                                            $selected = $options['_fa_lite_theme']['active_theme_color'] == $color ? ' selected="selected"' : '';
