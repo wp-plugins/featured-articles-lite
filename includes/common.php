@@ -1285,6 +1285,11 @@ function FA_get_themes_folder( $full_path = true, $echo = false, $return_url = f
 	
 	// if themes folder path is in plugin options, let's use it
 	if( array_key_exists('themes_folder', $plugin_options) ){
+		// small problem with themes folder settings being set wrong. Correct it if it's the case.
+		if( strstr($plugin_options['themes_folder'], 'featured-articles-pro') ){
+			$plugin_options['themes_folder'] = str_replace('featured-articles-pro', 'featured-articles-lite', $plugin_options['themes_folder']);
+		}
+		
 		if( !$full_path ){
 			$path = $plugin_options['themes_folder'];
 		}else{
