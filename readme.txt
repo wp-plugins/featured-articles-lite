@@ -91,6 +91,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 
 == Changelog ==
 
+= 2.4.3 =
+* Backwards compatibility for old Light and Dark themes. Current version merged these 2 themes into a single one called Classic that uses color scheme option to change between Light and Dark. If in FeaturedArticles 2.3 you were using the default Light and/or Dark themes, on update they will get deleted and no longer available. This update solves the problem by automatically assigning Light and Dark to Classic with the appropriate color scheme.
+
 = 2.4.2 =
 * Repaired dead/wrong links from Wordpress admin plugin pages.
 

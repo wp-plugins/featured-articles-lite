@@ -137,6 +137,17 @@ if( isset($_POST['FA-save_wpnonce']) ){
 	exit();	
 }
 
+/**
+ * This is for backwards compatibility.
+ * Prior to V2.4, theme Classic was actually 2 different themes: Light and Dark.
+ * If slideshow was set on either dark or lite theme, those themes should no longer exist.
+ * If user saved them, we'll use them. If not, switch to classic.
+ */
+$load_classic = FA_should_load_classic( $options['_fa_lite_theme']['active_theme'] );
+if( $load_classic ){
+	$options['_fa_lite_theme'] = $load_classic;
+}
+
 $current_theme = $options['_fa_lite_theme']['active_theme'];
 $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 ?>

@@ -479,6 +479,33 @@ function FA_themes( $new_path = false ){
 	return $themes;	
 }
 
+/**
+ * Themes backwards compatibility function. Based on theme name passed to it,
+ * if theme is old dark or old light, verifies the existance of the themes.
+ * 
+ * If dark of light is set, it will return an array with classic theme and appropriate
+ * color stylesheet for it.
+ *
+ * @param string $theme - theme name
+ * @return bool
+ * @since 2.4.2
+ */
+function FA_should_load_classic( $theme ){
+	if( 'dark' == $theme || 'light' == $theme ){
+		$check_theme_path = FA_theme_path($theme);// verifies folder existance
+		// theme dark or light doesn't exist. Switch to classic
+		if( !$check_theme_path ){
+			$result = array(
+				'active_theme' => 'classic',
+				'active_theme_color' => $theme.'.css'
+			);			
+			return $result;
+		}
+	}
+	return false;
+}
+
+
 /***********************************************************************************************
  * Slideshow theme template functions
  ***********************************************************************************************/
@@ -1211,14 +1238,28 @@ function FA_plugin_options(){
 	return $result;
 }
 
+/*********************************************************************************************************
+ * Slideshow themes path solving. Searches the current set folder to hold themes.
+ *********************************************************************************************************/
+
 /**
- * Return complete path to given theme folder
+ * Return complete path to given theme folder. Enter only the folder name.
+ * Function will check folder existance.
  * 
+ * @param string $theme_folder
+ * @return complete path to folder
  * @since 2.4.1
  */
 function FA_theme_path( $theme_folder ){
 	$themes_folder = FA_themes_path();
-	return $themes_folder.'/'.$theme_folder;	
+	$full_path = $themes_folder.'/'.$theme_folder;
+	// check folder existance
+	if( !is_dir($full_path) ){	
+		$full_path = false;
+	}else if( !is_file( $full_path.'/display.php' ) ){ // also check existance for display.php file
+		$full_path = false;
+	}
+	return $full_path;	
 }
 
 /**

@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.4.2
+Version: 2.4.3
 Author URI: http://www.codeflavors.com
 */
 
@@ -42,9 +42,7 @@ $FA_slider_options = array();
 $FA_SLIDERS_PARAMS = array();
 
 /**
- * Callback function for loop_start Wordpress hook.
- * This function displays slideshows that are automatically placed above the current page loop.
- * It checks if any slideshows are set to be displayed on the current front-end page and displays them.
+ * Displays the featured articles box on index page
  */
 function featured_articles_slideshow(){
 	
@@ -80,17 +78,23 @@ function featured_articles_slideshow(){
 			'active_theme'
 		));
 		
-		// Classic now merges two themes: the old light and the old dark. Let see if that's the case and load things accordingly
-		if( 'dark' == $theme || 'light' == $theme ){
-			$theme = 'classic';
+		/**
+		 * This is for backwards compatibility.
+		 * Prior to V2.4, theme Classic was actually 2 different themes: Light and Dark.
+		 * If slideshow was set on either dark or lite theme, those themes should no longer exist.
+		 * If user saved them, we'll use them. If not, switch to classic.
+		 */
+		$load_classic = FA_should_load_classic( $theme );
+		if( $load_classic ){
+			$theme = $load_classic['active_theme'];
 		}
 		
 		// OK, now everything is in place. Time to set theme paths and url's
-		$theme_path = FA_theme_path( $theme );
+		$theme_path = FA_theme_path( $theme ); // if folder doesn't exist, function returns false
 		$theme_url = FA_theme_url( $theme );
 		
-		// checkif display file exists. If not, bail out
-		if( !is_file( $theme_path.'/display.php' ) ){
+		// check if theme folder exists. If not, bail out
+		if( !$theme_path ){
 			continue; // and we skip this slideshow
 		}
 		
@@ -151,16 +155,28 @@ function FA_display_slider($slider_id, $echo = true){
 	$theme 			= FA_get_option(array( '_fa_lite_theme', 'active_theme'));
 	$theme_color 	= FA_get_option(array( '_fa_lite_theme', 'active_theme_color'));
 	
+	/**
+	 * This is for backwards compatibility.
+	 * Prior to V2.4, theme Classic was actually 2 different themes: Light and Dark.
+	 * If slideshow was set on either dark or lite theme, those themes should no longer exist.
+	 * If user saved them, we'll use them. If not, switch to classic.
+	 */
+	$load_classic = FA_should_load_classic( $theme );
+	if( $load_classic ){
+		$theme = $load_classic['active_theme'];
+		$theme_color = $load_classic['active_theme_color'];
+	}	
+	
 	// selected theme path and url 
 	$theme_path = FA_theme_path( $theme );
 	$theme_url 	= FA_theme_url( $theme );
-	
-	$theme_display = $theme_path.'/display.php';
-	
-	// if theme doesn't exist, bail out
-	if( !is_file( $theme_display ) ){
-		return;
+	// check if theme exists
+	if( !$theme_path ){
+		return; // bail out if not
 	}
+	
+	// display file path
+	$theme_display = $theme_path.'/display.php';
 	
 	// enqueue theme stylesheet
 	$stylesheet_handler = 'FA_Lite_'.$theme;
@@ -245,9 +261,8 @@ function FA_load_footer(){
 	wp_print_scripts();		
 }
 /**
- * Add neccessary scripts for slideshows to run. This function is used only
- * for automatically placed slideshows (the ones that display above the current page loop).
- * It's hooked to wp_print_scripts
+ * Add JavaScript for sliders set to display automatically
+ *
  */
 function FA_add_scripts(){	
 	$sliders = FA_display();	
@@ -258,18 +273,24 @@ function FA_add_scripts(){
 		
 		// get the selected theme option for this slideshow
 		$theme_option = FA_slider_options($slider_id, '_fa_lite_theme');
-		
-		// dark and light themes merged into classic. Let check if classic needs tp be loaded
-		if( 'dark' == $theme_option['active_theme'] || 'light' == $theme_option['active_theme'] ){
-			$theme_option['active_theme'] = 'classic';
+				
+		/**
+		 * This is for backwards compatibility.
+		 * Prior to V2.4, theme Classic was actually 2 different themes: Light and Dark.
+		 * If slideshow was set on either dark or lite theme, those themes should no longer exist.
+		 * If user saved them, we'll use them. If not, switch to classic.
+		 */
+		$load_classic = FA_should_load_classic( $theme_option['active_theme'] );
+		if( $load_classic ){
+			$theme_option = $load_classic;
 		}
 		
 		// load the js starter if any
 		$theme_path = FA_theme_path( $theme_option['active_theme'] );
 		$theme_url = FA_theme_url( $theme_option['active_theme'] );
 		
-		// if for some reason theme folder doesn't exit, skip this slideshow
-		if( !is_dir( $theme_path ) ){
+		// if for some reason theme doesn't exit, skip this slideshow
+		if( !$theme_path ){
 			continue; // skip slider if theme folder doesn't exist in configured themes folder
 		}
 		
@@ -293,9 +314,10 @@ function FA_add_scripts(){
 	wp_enqueue_script('FeaturedArticles-jQuery', FA_path('scripts/FeaturedArticles.jquery.js'), array('jquery', 'jquery-mousewheel'), '1.0');
 	wp_localize_script('FeaturedArticles-jQuery', 'FA_Lite_params', $js_options);	
 }
+
 /**
- * Add neccessary stylesheets for slideshows set to be displayed automatically.
- * Hooked to wp_print_styles
+ * Add stylesheets to sliders set to display automatically
+ *
  */
 function FA_add_styles(){	
 	$sliders = FA_display();	
@@ -304,13 +326,24 @@ function FA_add_styles(){
 	foreach( $sliders as $slider_id ){
 		$theme = FA_slider_options($slider_id, '_fa_lite_theme');
 		
+		/**
+		 * This is for backwards compatibility.
+		 * Prior to V2.4, theme Classic was actually 2 different themes: Light and Dark.
+		 * If slideshow was set on either dark or lite theme, those themes should no longer exist.
+		 * If user saved them, we'll use them. If not, switch to classic.
+		 */
+		$load_classic = FA_should_load_classic( $theme['active_theme'] );
+		if( $load_classic ){
+			$theme = $load_classic;
+		}
+				
 		// theme path and url
 		$theme_path = FA_theme_path( $theme['active_theme'] );
 		$theme_url = FA_theme_url( $theme['active_theme'] );
 		
 		// if theme folder doesn't exist, skip this slider
-		if( !is_dir($theme_path) ){
-			continue;
+		if( !$theme_path ){
+			continue; // bail out
 		}
 		
 		// enqueue main stylesheet
@@ -430,10 +463,22 @@ function fa_lite_save_panel(){
 	
 	$themes = FA_themes();
 	$theme_options = FA_get_option('_fa_lite_theme');
+	
+	/**
+	 * This is for backwards compatibility.
+	 * Prior to V2.4, theme Classic was actually 2 different themes: Light and Dark.
+	 * If slideshow was set on either dark or lite theme, those themes should no longer exist.
+	 * If user saved them, we'll use them. If not, switch to classic.
+	 */
+	$load_classic = FA_should_load_classic( $theme_options['active_theme'] );
+	if( $load_classic ){
+		$theme_options = $load_classic;
+	}
+	
 	$current_theme = $theme_options['active_theme'];
 	$fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 	
-	$current_page = menu_page_url('featured-articles-lite', false);
+	$current_page = menu_page_url('featured-articles-pro', false);
 	include FA_dir('displays/panel_slider_save.php');
 }
 /**
