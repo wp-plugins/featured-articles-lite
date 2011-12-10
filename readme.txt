@@ -91,6 +91,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 
 == Changelog ==
 
+= 2.4.2 =
+* Repaired dead/wrong links from Wordpress admin plugin pages.
+
 = 2.4.1 =
 * Option to change the default slideshow themes folder from within the plugin contents to anywhere into wp_content folder. Option is available in plugin menu->Settings page.
 * Solved bug that was keeping dark color palette selected by default for all themes making Classic Light unavailable.

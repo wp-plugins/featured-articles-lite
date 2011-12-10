@@ -6,7 +6,7 @@
  */
 
 /* set the current page url */
-$current_page = menu_page_url('featured-articles-pro/settings.php', false);
+$current_page = menu_page_url('featured-articles-lite/settings.php', false);
 
 
 if( isset( $_POST['fa_options'] ) && !empty($_POST['fa_options']) ){

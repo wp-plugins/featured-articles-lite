@@ -31,7 +31,7 @@
 				var lbl = $('#label_content_'+id);				
 				var type = $(this).attr('class');
 				
-				var edit_url = type == 'fa_slide' ? 'admin.php?page=featured-articles-pro-slides&id='+id+'&action=edit' : 'post.php?post='+id+'&action=edit';
+				var edit_url = 'post.php?post='+id+'&action=edit';
 				
 				var list = '<li id="'+FA_item_id_prefix+id+'" class="'+type+'">'+
 								'<a href="'+edit_url+'">'+$(lbl).html()+'</a>'+

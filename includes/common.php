@@ -1189,7 +1189,7 @@ function FA_plugin_options(){
 	);
 	$option_name = 'feat_art_options';
 	
-	if( isset( $_POST ) && !empty($_POST) ){
+	if( isset( $_POST['fa_options'] ) && !empty($_POST['fa_options']) ){
 		if( wp_verify_nonce($_POST['fa_options'],'featured-articles-set-options') ){			
 			foreach ($default_options as $option=>$value){
 				if( isset( $_POST[$option] ) ){

@@ -10,7 +10,7 @@
 		<?php if( $slider_id ): ?> 
 		<div id="minor-publishing-actions">
 			<div id="preview-action"> 
-				<a id="fa-slider-preview" target="wp-preview" href="admin.php?page=featured-articles-pro/preview.php&slider_id=<?php echo $slider_id;?>&noheader=true" class="preview button FA_dialog">Preview Slider</a>
+				<a id="fa-slider-preview" target="wp-preview" href="admin.php?page=featured-articles-lite/preview.php&slider_id=<?php echo $slider_id;?>&noheader=true" class="preview button FA_dialog">Preview Slider</a>
 			</div>
 			<div class="clear"></div>
 		</div>

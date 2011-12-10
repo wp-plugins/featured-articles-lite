@@ -17,7 +17,7 @@ Author URI: http://www.codeflavors.com
  * Plugin administration capability, current version and Wordpress compatibility
  */
 define('FA_CAPABILITY', 'edit_FA_slider');
-define('FA_VERSION', '2.4.1');
+define('FA_VERSION', '2.4.2');
 define('FA_WP_COMPAT', '3.1');
 
 include_once plugin_dir_path(__FILE__).'includes/common.php';
@@ -433,7 +433,7 @@ function fa_lite_save_panel(){
 	$current_theme = $theme_options['active_theme'];
 	$fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 	
-	$current_page = menu_page_url('featured-articles-pro', false);
+	$current_page = menu_page_url('featured-articles-lite', false);
 	include FA_dir('displays/panel_slider_save.php');
 }
 /**
@@ -671,11 +671,16 @@ function FA_activation(){
 		'version'=>FA_VERSION,
 		'wp_version'=>get_bloginfo('version'),
 		'plugin_activation_date'=>date('d M Y H:i:s'),
-		'themes_folder'=>'plugins/featured-articles-pro/themes' // default themes folder is inside plugin directory
+		'themes_folder'=>'plugins/featured-articles-lite/themes' // default themes folder is inside plugin directory
 	);
 	// if themes folder is already in, don't change it. It can only be changed by the user in plugin Settings page
 	if( array_key_exists('themes_folder', $existing_option) ){
-		$plugin_details['themes_folder'] = $existing_option['themes_folder'];
+		// to solve a previous error
+		if( strstr($existing_option['themes_folder'], 'featured-articles-pro') ){
+			$plugin_details['themes_folder'] = str_replace( 'featured-articles-pro', 'featured-articles-lite', $existing_option['themes_folder'] );	
+		}else{		
+			$plugin_details['themes_folder'] = $existing_option['themes_folder'];
+		}	
 	}
 	// try to create the option
 	$create = add_option('fa_plugin_details', $plugin_details, '', false);
