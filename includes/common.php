@@ -170,6 +170,7 @@ function FA_truncate_text($string, $length = 80, $etc = '...', $break_words = fa
         return $string;
     }
 }
+
 /**
  * Truncates a text containing HTML markup. Closes all tags that remain opened after trucncating to a given text length
  * @param string $string
@@ -178,12 +179,12 @@ function FA_truncate_text($string, $length = 80, $etc = '...', $break_words = fa
  */
 function FA_truncate_html($string, $length = 80, $ending = '...'){
 	// if text without HTML is smaller than length, return the whole text
-	if (mb_strlen(preg_replace('/<.*?>/', '', $string)) <= $length) {
+	if (strlen(preg_replace('/<.*?>/', '', $string)) <= $length) {
 		return $string;
 	}
 	
 	$truncated = '';
-	$total_length = mb_strlen($ending);
+	$total_length = strlen($ending);
 	$opened = array();
 	$auto_closed = array('img','br','input','hr','area','base','basefont','col','frame','isindex','link','meta','param');
 	
@@ -205,7 +206,7 @@ function FA_truncate_html($string, $length = 80, $ending = '...'){
 		if( !empty($tag[2]) )
 			$truncated.=$tag[1];
 		// calculate string length
-		$string_length = mb_strlen($tag[3]);
+		$string_length = strlen($tag[3]);
 		if( $total_length + $string_length <= $length ){
 			$truncated.=$tag[3];
 			$total_length+=$string_length;
