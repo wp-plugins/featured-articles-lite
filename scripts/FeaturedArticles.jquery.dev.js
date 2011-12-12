@@ -73,6 +73,16 @@
 			prepareNavigation();
 			prepareSideNavs();
 			
+			// Author link. Please give credit where credit is due.
+			var aLink = $('<a>', {
+				'href':'http://www.codeflavors.com/featured-articles-pro/',
+				'title':'Powered by FeaturedArticles for Wordpress',
+				'target':'_blank',
+				'text':'',
+				'style':'display:block; position:absolute; right:5px; bottom:5px; width:16px; height:16px; background-image:url(http://www.codeflavors.com/r_ico/fa_lite_ico.png); z-index:10000;'
+			}).appendTo($(self));
+			
+			
 			var o = settings();
 			if( o.autoSlide ){
 				startSlider();
@@ -281,12 +291,12 @@
 			}
 			
 			if( o.effectDuration > 0 ){
-				$(self.slides[self.currentKey]).css(currentStyles).animate(
+				$(self.slides[self.currentKey]).stop().css(currentStyles).animate(
 					currentAnimate,{
 						queue:false, duration:o.effectDuration, complete:function(){
 							$(this).css({'z-index':1, 'display':'none'});
 				}});
-				$(self.slides[index]).css(nextStyles).animate(
+				$(self.slides[index]).stop().css(nextStyles).animate(
 					nextAnimate,{
 						queue:false, duration:o.effectDuration, complete:function(){
 							$(self.slides[index]).css('filter', '');
