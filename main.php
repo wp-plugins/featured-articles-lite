@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.4.3
+Version: 2.4.4
 Author URI: http://www.codeflavors.com
 */
 
@@ -17,7 +17,7 @@ Author URI: http://www.codeflavors.com
  * Plugin administration capability, current version and Wordpress compatibility
  */
 define('FA_CAPABILITY', 'edit_FA_slider');
-define('FA_VERSION', '2.4.2');
+define('FA_VERSION', '2.4.4');
 define('FA_WP_COMPAT', '3.1');
 
 include_once plugin_dir_path(__FILE__).'includes/common.php';
@@ -253,7 +253,7 @@ function FA_load_footer(){
 	if(!$FA_SLIDERS_PARAMS) return;
 	
 	wp_print_styles();
-	wp_register_script('jquery-mousewheel', FA_path('scripts/jquery.mousewheel.min.js'), 'jquery', '3.0.2');
+	wp_register_script('jquery-mousewheel', FA_path('scripts/jquery.mousewheel.min.js'), 'jquery', '3.0.6');
 	wp_enqueue_script('FeaturedArticles-jQuery', FA_path('scripts/FeaturedArticles.jquery.js'), array('jquery', 'jquery-mousewheel'), '1.0');
 	wp_enqueue_script('FA_footer', FA_path('scripts/fa_footer.js'), array('FeaturedArticles-jQuery'));
 	
@@ -310,7 +310,7 @@ function FA_add_scripts(){
 		}
 	}
 	
-	wp_register_script('jquery-mousewheel', FA_path('scripts/jquery.mousewheel.min.js'), 'jquery', '3.0.2');
+	wp_register_script('jquery-mousewheel', FA_path('scripts/jquery.mousewheel.min.js'), 'jquery', '3.0.6');
 	wp_enqueue_script('FeaturedArticles-jQuery', FA_path('scripts/FeaturedArticles.jquery.js'), array('jquery', 'jquery-mousewheel'), '1.0');
 	wp_localize_script('FeaturedArticles-jQuery', 'FA_Lite_params', $js_options);	
 }

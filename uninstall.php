@@ -46,7 +46,9 @@ if( isset($o['complete_uninstall']) && $o['complete_uninstall'] == 1 ){
 	$wp_options = array(
 		'fa_lite_categories',
 		'fa_lite_pages',
-		'feat_art_options'
+		'feat_art_options',
+		'fa_lite_home',
+		'fa_plugin_details'
 	);
 	foreach ($wp_options as $option){
 		delete_option($option);

@@ -38,7 +38,10 @@ function FA_swfupload_post_param($params){
 	$params['short'] = 0;
 	return $params;
 }
+// pre Wordpress 3.3 filter
 add_filter('swfupload_post_params', 'FA_swfupload_post_param', 15, 1);
+// Wordpress 3.3 filter
+add_filter('upload_post_params', 'FA_swfupload_post_param', 15, 1);
 /**
  * Check if variables are set on link to change the Add to post button into what we need.
  * Post variable comes from SWF upload as it is set in FA_swfupload_post_param() function.
@@ -1045,7 +1048,14 @@ function FA_display(){
 			}
 		}		
 	}
-		
+
+	// check if posts exist
+	foreach( $sliders as $key=>$slider ){
+		if( !get_post( $slider ) ){
+			unset( $sliders[$key] );
+		}
+	}
+	
 	return $sliders;
 }
 
@@ -1213,7 +1223,7 @@ function FA_plugin_options(){
 	
 	$default_options = array(
 		'complete_uninstall'=>0,
-		'auto_insert'		=>0
+		'auto_insert'		=>1
 	);
 	$option_name = 'feat_art_options';
 	
