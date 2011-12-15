@@ -539,18 +539,17 @@ function do_the_fa_image($before = '', $after = '', $clickable = false) {
 	global $post;
 	
 	if( !$post || (!isset($post->FA_image) || empty($post->FA_image) ) ) return;
-	
-	$image_html = '';
+	// assume not link on image
+	$link_open = '';
+	$link_close = '';
+	// set opening and closing tags for image link
 	if( $clickable ){
-		$image_html.='<a href="'.get_permalink($post->ID).'" title="'.$post->post_title.'" target="'.$post->link_target.'">';
-	}	
-	$image_html.= '<img src="'.$post->FA_image.'" alt="" />';
-	if( $clickable ){
-		$image_html.='</a>';
+		$link_open = sprintf('<a href="%1$s" title="%2$s" target="%3$s">', get_permalink($post->ID), $post->post_title, $post->link_target);
+		$link_close = '</a>';
 	}
-	$result = $before . $image_html . $after;
-	
-	return $result;	
+	// add link to image if any
+	$image_html = sprintf('%1$s<img src="%2$s" alt="" />%3$s', $link_open, $post->FA_image, $link_close);
+	return $before . $image_html . $after;	
 }
 /**
  * Echoes the title. Shorthand for do_the_fa_title
@@ -575,19 +574,17 @@ function do_the_fa_title( $before = '', $after = '', $clickable = false ){
 	global $post;
 	
 	if( !$post ) return;
-	
-	$title_html = '';
+	// not wrapped in link
+	$link_open = '';
+	$link_close = '';
+	// wrap in link if set
 	if( $clickable ){
-		$title_html .= '<a href="'.get_permalink($post->ID).'" title="'.$post->post_title.'" target=".$post->link_target.">';
+		$link_open = sprintf('<a href="%1$s" title="%2$s" target="%3$s">', get_permalink($post->ID), $post->post_title, $post->link_target);
+		$link_close = '</a>';
 	}
-	$title_html .= get_the_title( $post->ID );
-	if( $clickable ){
-		$title_html .= '</a>';
-	}
-	
-	$result = $before.$title_html.$after;
-	
-	return $result;
+	// put it all in one var
+	$title_html = $link_open . get_the_title( $post->ID ) . $link_close;
+	return $before . $title_html . $after;
 }
 
 /**

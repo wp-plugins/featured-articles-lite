@@ -91,6 +91,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 
 == Changelog ==
 
+= 2.4.5 =
+* Solved small bug related to linked slide titles target attribute value not being between double quotes.
+
 = 2.4.4 =
 * Compatibility with jQuery 1.7 from Wordpress 3.3 for mouse wheel navigation in front-end slideshows.
 * Automatic placement enabled by default when installing/updating the plugin (previously set disabled and could be enabled from plugin Settings page).
