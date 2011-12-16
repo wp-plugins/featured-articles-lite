@@ -20,7 +20,8 @@ Slideshows can be placed by one of these ways (or all at the same time):
 
 While Lite version of FeaturedArticles provides all the neccessary tools for creating very nice slideshows, PRO version of this same plugin comes in addition with:
 
-* 4 more themes developed by our developers team;
+* 4 more themes developed by our developers team (7 in total, 3 video enabled by default in PRO version);
+* **video enabled** custom slides for **YouTube and Vimeo** that can replace the image with a video ( [See examples here](http://www.codeflavors.com/featured-articles-pro/examples/ "FeaturedArticles PRO examples") );
 * custom writen slides that can be written using the visual editor;
 * mixing of posts, pages and custom slides into the same slideshow;
 * priority support and debugging for 3'rd party plugins and themes conflicts.
