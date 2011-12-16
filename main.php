@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.4.4
+Version: 2.4.5
 Author URI: http://www.codeflavors.com
 */
 
@@ -17,7 +17,7 @@ Author URI: http://www.codeflavors.com
  * Plugin administration capability, current version and Wordpress compatibility
  */
 define('FA_CAPABILITY', 'edit_FA_slider');
-define('FA_VERSION', '2.4.4');
+define('FA_VERSION', '2.4.5');
 define('FA_WP_COMPAT', '3.1');
 
 include_once plugin_dir_path(__FILE__).'includes/common.php';
