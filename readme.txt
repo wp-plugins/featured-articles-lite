@@ -38,6 +38,7 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 * Add, remove, order any slideshow content made of pages or mixed content;
 * Animation control (based on individual themes);
 * Write custom slides by using the Wordpress editor (PRO);
+* Put videos in custom slides from Vimeo or YouTube to replace the image for both thumbnails and full background image(PRO);
 * Customize posts and pages displayed into slideshows by specifying a different title, content, slide background color, image and more;
 * Change themes by choosing from up to 7 currently available themes (only 3 in Lite version);
 * Change theme color palette by simply creating a new color stylesheet that can skin the theme without messing with the CSS responsible for layout;
