@@ -8,7 +8,7 @@
  */
 ?>
 <?php the_slideshow_title();?>
-<div class="FA_overall_container_classic" style="<?php the_slider_width();?>" id="<?php echo $FA_slider_id;?>">	
+<div class="FA_overall_container_classic <?php the_slider_color();?>" style="<?php the_slider_width();?>" id="<?php echo $FA_slider_id;?>">	
 	<div class="FA_featured_articles" style="<?php the_slider_height();?>">
 	<?php foreach ($postslist as $post): ?>
 		<div class="FA_article <?php the_fa_class();?>">	

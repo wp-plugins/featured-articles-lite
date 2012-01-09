@@ -713,6 +713,26 @@ function the_slider_width( $echo = true ){
 		return $size['x'];
 }
 /**
+ * Returns CSS class for slider color scheme. Useful when multiple slideshows are displayed into the same page, 
+ * having the same slideshow theme but different color schemes.
+ * 
+ * @param bool $echo - display result(true) or return it (false)
+ */
+function the_slider_color( $echo = true ){
+	$theme = FA_get_option('_fa_lite_theme');
+	$color = '';
+	
+	if( isset( $theme['active_theme_color'] ) ){
+		$color = str_replace('.css', '', $theme['active_theme_color']);
+	}
+	
+	if( $echo ){
+		echo ' '.$color;
+	}else{
+		return $color;
+	}	
+}
+/**
  * Outpus a slide CSS class specified by user in wp-admin
  */
 function the_fa_class( $echo = true ){
@@ -916,7 +936,10 @@ function FA_get_content( $slider_id ){
 		// this part is skipped if user uption for content is either custom text or excerpt and at least one is not empty
 		$content = $v->post_content;
 		// remove shortcodes from content
-	    $string = strip_shortcodes( $content );    
+		// remove shortcodes if set
+		if( $aspect_opt['strip_shortcodes'] ){
+	    	$string = strip_shortcodes( $content );
+		}	    
 	    // remove all HTML tags except links
 	    $string = strip_tags($string,$aspect_opt['allowed_tags']);
 	    //store the slider stripped text into a different variable
@@ -1085,7 +1108,7 @@ function FA_slider_options( $id = false, $meta_key = false ){
 			'title_custom'				=>false, // custom defined title usage
 			'use_excerpt'				=>false, // excerpt usage
 			'use_custom_text'			=>false, // use custom text set on posts/pages
-			'strip_shortcodes'			=>true, // remov shortcodes from post/page/custom slide content
+			'strip_shortcodes'			=>true, // remove shortcodes from post/page/custom slide content
 			'desc_truncate'				=>500, // truncate descriptions with image
 			'desc_truncate_noimg'		=>800, // truncate descriptions without image
 			'end_truncate'				=>'...', // end truncated text with this

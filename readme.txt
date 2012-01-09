@@ -93,6 +93,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 
 == Changelog ==
 
+= 2.4.6 =
+* Solves the problem of multiple slideshows displayed into the same page that have same slideshow theme but different color schemes in settings.
+
 = 2.4.5 =
 * Solved small bug related to linked slide titles target attribute value not being between double quotes.
 

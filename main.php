@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.4.5
+Version: 2.4.6
 Author URI: http://www.codeflavors.com
 */
 
@@ -384,10 +384,12 @@ function FA_plugin_menu(){
 	// styles for creating slides pages
 	add_action('admin_print_styles-featured-articles-lite/pro.php', 'FA_pro_styles');
 		
-	add_action('admin_print_styles-post.php', 'FA_post_edit_scripts');
-	add_action('admin_print_styles-post-new.php', 'FA_post_edit_scripts');	
+		
 }
 add_action('admin_menu', 'FA_plugin_menu');
+
+add_action('admin_print_styles-post.php', 'FA_post_edit_scripts');
+add_action('admin_print_styles-post-new.php', 'FA_post_edit_scripts');
 
 /**
  * Slideshows admin menu callback function. It displays all pages needed for listing/editing/creating/deleting
