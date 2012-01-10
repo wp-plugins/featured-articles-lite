@@ -932,16 +932,15 @@ function FA_get_content( $slider_id ){
 				continue;
 			}	
 		}
-				
+
 		// this part is skipped if user uption for content is either custom text or excerpt and at least one is not empty
 		$content = $v->post_content;
-		// remove shortcodes from content
 		// remove shortcodes if set
 		if( $aspect_opt['strip_shortcodes'] ){
-	    	$string = strip_shortcodes( $content );
-		}	    
-	    // remove all HTML tags except links
-	    $string = strip_tags($string,$aspect_opt['allowed_tags']);
+			$content = strip_shortcodes($content);
+		}
+		// remove all HTML tags except links
+	    $string = strip_tags($content, $aspect_opt['allowed_tags']);
 	    //store the slider stripped text into a different variable
 	    
 	    $strlen = $image ? $aspect_opt['desc_truncate'] : $aspect_opt['desc_truncate_noimg'];
