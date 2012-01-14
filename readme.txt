@@ -2,7 +2,7 @@
 Contributors: constantin.boiangiu
 Tags: slider, featured, articles, posts, pages
 Requires at least: 3.1
-Tested up to: 3.2.1
+Tested up to: 3.3.1
 Stable tag: trunk
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
