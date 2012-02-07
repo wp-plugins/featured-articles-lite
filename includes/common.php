@@ -583,7 +583,7 @@ function do_the_fa_title( $before = '', $after = '', $clickable = false ){
 		$link_close = '</a>';
 	}
 	// put it all in one var
-	$title_html = $link_open . get_the_title( $post->ID ) . $link_close;
+	$title_html = $link_open . $post->post_title . $link_close;
 	return $before . $title_html . $after;
 }
 
@@ -919,7 +919,7 @@ function FA_get_content( $slider_id ){
 		}		
 		// custom text for FA Lite
 		if( $aspect_opt['use_custom_text'] ){
-			$txt = get_post_meta($v->ID, '_fa_custom_txt', true);
+			$txt = get_post_meta($v->ID, '_fa_cust_txt', true);
 			if( $txt && !empty($txt) ){
 				$postslist[$k]->FA_post_content = $txt;
 				continue;
