@@ -1070,6 +1070,12 @@ function FA_display(){
 
 	// check if posts exist
 	foreach( $sliders as $key=>$slider ){
+		// first check if id exists
+		if( !is_numeric($slider) ){
+			unset( $sliders[$key] );
+			continue;
+		}
+		// second check if post exists
 		if( !get_post( $slider ) ){
 			unset( $sliders[$key] );
 		}
