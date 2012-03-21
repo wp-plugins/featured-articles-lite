@@ -23,7 +23,10 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 * 4 more themes developed by our developers team (7 in total, 3 video enabled by default in PRO version);
 * **video enabled** custom slides for **YouTube and Vimeo** that can replace the image with a video ( [See examples here](http://www.codeflavors.com/featured-articles-pro/examples/ "FeaturedArticles PRO examples") );
 * custom writen slides that can be written using the visual editor;
-* mixing of posts, pages and custom slides into the same slideshow;
+* slideshows can display custom post types if your WordPress blog has them;
+* for posts and custom post types, selection of posts by taxonomies;
+* mixing of posts, custom posts, pages and custom slides into the same slideshow;
+* visual color scheme editor that allows you to blend-in slideshows into your overall blog design without having to write a single line of CSS;
 * priority support and debugging for 3'rd party plugins and themes conflicts.
 
 **Important links:**
@@ -42,6 +45,7 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 * Customize posts and pages displayed into slideshows by specifying a different title, content, slide background color, image and more;
 * Change themes by choosing from up to 7 currently available themes (only 3 in Lite version);
 * Change theme color palette by simply creating a new color stylesheet that can skin the theme without messing with the CSS responsible for layout;
+* Create color palette stylesheets using a visual editor;
 * Preview slideshow even before publishing it in your pages.
 * Display slideshows by widgets, shorcodes, manual code snippet or automatic display above any page loop;
 * Create new themes that can completely change the default animations and can add new options fields custom for it in Slider editing in Wordpress admin.
@@ -92,6 +96,10 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 8. Theme Strips (PRO)
 
 == Changelog ==
+
+= 2.4.8 =
+* Compatibility with WPtouch plugin by verifying if WPtouch Restricted Mode option is on and preventing any slideshows from displaying. A new option under Settings can also prevent any slideshows from displaying in WPtouch mobile themes but if Restricted Mode is on, even if allowed from Featured Articles Lite, no slideshows will display.
+* Compatibility with qTranslate plugin. No action needed to enable it.
 
 = 2.4.7 =
 * Solves problem of post/page text and title not being replaced by custom ones specified in post/page editing.

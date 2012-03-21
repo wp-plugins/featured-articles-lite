@@ -18,7 +18,7 @@ function attachment_fields($form_fields, $post) {
 	}	
 	
 	$ajax_nonce = wp_create_nonce( "fa_cust_image" );
-	$form_fields['buttons'] = array( 'tr' => "\t\t<tr class='submit'><td></td><td class='savesend'><a href=\"#\" id=\"fa-custom-img-".$post->ID."\" onclick='FA_SetAsCustom(\"".$post->ID."\", \"$ajax_nonce\");return false;'>Set as FA Lite featured image</a></td></tr>\n" );
+	$form_fields['buttons'] = array( 'tr' => "\t\t<tr class='submit'><td></td><td class='savesend'><a href=\"#\" id=\"fa-custom-img-".$post->ID."\" onclick='FA_SetAsCustom(\"".$post->ID."\", \"$ajax_nonce\");return false;'>".__('Set as FA Lite featured image', 'falite')."</a></td></tr>\n" );
 	
     return $form_fields;
 }
@@ -583,7 +583,8 @@ function do_the_fa_title( $before = '', $after = '', $clickable = false ){
 		$link_close = '</a>';
 	}
 	// put it all in one var
-	$title_html = $link_open . $post->post_title . $link_close;
+	// run filters on title to enable plugins like qTranslate to return the correct title
+	$title_html = $link_open . apply_filters('the_title', $post->post_title) . $link_close;
 	return $before . $title_html . $after;
 }
 
@@ -1048,6 +1049,10 @@ function FA_delete_sliders( $item ){
 function FA_display(){
 	$sliders = array();
 	
+	if( !fa_load_in_mobile() ){
+		return $sliders;
+	}
+	
 	if( is_home() ){
 		$option = get_option('fa_lite_home', false);
 		if( $option )
@@ -1248,7 +1253,8 @@ function FA_plugin_options(){
 	
 	$default_options = array(
 		'complete_uninstall'=>0,
-		'auto_insert'		=>1
+		'auto_insert'		=>1,
+		'load_in_wptouch'	=>0
 	);
 	$option_name = 'feat_art_options';
 	
@@ -1422,4 +1428,56 @@ function FA_set_themes_folder( $new_rel_path = false ){
 	return true;
 }
 
+/**
+ * ==============================================================================
+ * Compatibility functions
+ * ==============================================================================
+ */
+
+/**
+ * Verify if wptouch plugin function for mobile detection is on
+ * @return bool
+ */
+function fa_is_wptouch_mobile(){
+	
+	$is_mobile = false;
+	if( function_exists('bnc_wptouch_is_mobile') ){
+		$is_mobile = bnc_wptouch_is_mobile();
+	}
+	return $is_mobile;
+}
+
+/**
+ * Check if wptouch is set on exclusive. This means that, is plugin is installed,
+ * it checks if option for not loading styles and scripts into header or footer is on.
+ * @return bool
+ */
+function fa_is_wptouch_exclusive(){
+	
+	// wptouch has an option to disable scripts and stylesheets in header/footer
+	$is_exclusive = false;
+	
+	if( function_exists('bnc_wptouch_is_exclusive') ){
+		$is_exclusive = bnc_wptouch_is_exclusive();
+	}
+	return $is_exclusive;
+}
+
+/**
+ * Verifies if the plugin is allowed to display slideshows.
+ * @return bool
+ */
+function fa_load_in_mobile(){
+	// by default, slideshows will be displayed into WP 
+	$display = true;
+	// check if it's a mobile WPtouch theme
+	if( fa_is_wptouch_mobile() ){
+		// get option to display in mobile versions
+		$options = FA_plugin_options();		
+		if( !$options['load_in_wptouch'] || fa_is_wptouch_exclusive() ){
+			$display = false;
+		}
+	}	
+	return $display;
+}
 ?>

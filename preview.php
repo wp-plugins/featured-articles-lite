@@ -12,7 +12,7 @@ FA_set_slider_options($slider_id);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>FeaturedArticles - Slider preview</title>
+<title><?php _e('FeaturedArticles Lite - Slider preview', 'falite');?></title>
 <?php wp_head();?>
 </head>
 <body>

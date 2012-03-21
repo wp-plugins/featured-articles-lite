@@ -30,7 +30,7 @@ class FA_Slideshow_Widget extends WP_Widget {
 		/* Widget settings. */
 		$widget_ops = array( 
 			'classname' => 'fa_slideshow', 
-			'description' => 'Add a FeaturedArticles Slideshow widget' );
+			'description' => __('Add a FeaturedArticles Slideshow widget', 'falite') );
 
 		/* Widget control settings. */
 		$control_ops = array( 'id_base' => 'fa-slideshow-widget' );
@@ -99,13 +99,13 @@ class FA_Slideshow_Widget extends WP_Widget {
 		$loop = new WP_Query( $args );
 		?>
 		<p>
-			<label for=<?php echo $this->get_field_id('title')?>">Title</label>
+			<label for=<?php echo $this->get_field_id('title')?>"><?php _e('Title', 'falite');?></label>
 			<input type="text" class="widefat" name="<?php echo $this->get_field_name('title')?>" id="<?php $this->get_field_id('title')?>" value="<?php echo $instance['title'];?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'fa_slider_widget' ); ?>">Slideshow</label>
+			<label for="<?php echo $this->get_field_id( 'fa_slider_widget' ); ?>"><?php _e('Slideshow', 'falite');?></label>
 			<select name="<?php echo $this->get_field_name( 'fa_slider_widget' ); ?>" id="<?php echo $this->get_field_id( 'fa_slider_widget' ); ?>">
-				<option value=""><?php _e('Choose slider to display');?></option>
+				<option value=""><?php _e('Choose slider to display', 'falite');?></option>
 			    <?php 
 					if ( $loop->have_posts() ) : 
 						while ( $loop->have_posts() ) : 

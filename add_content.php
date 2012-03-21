@@ -19,14 +19,16 @@ wp_enqueue_script('FA_content_add_script', FA_path('scripts/admin_content_add_mo
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-<title><?php _e('Choose content')?></title>
+<title><?php _e('Choose content', 'falite')?></title>
 <?php
-wp_admin_css( 'css/global' );
-wp_admin_css();
-wp_admin_css( 'css/colors' );
-wp_admin_css( 'css/ie' );
+if( version_compare('3.3', get_bloginfo('version'), '>') ){
+	wp_admin_css( 'global' );
+	wp_admin_css();
+}
+wp_admin_css( 'colors' );
+wp_admin_css( 'ie' );
 if ( is_multisite() )
-	wp_admin_css( 'css/ms' );
+	wp_admin_css( 'ms' );
 ?>
 <script language="javascript" type="text/javascript">
 	var FA_parent_item = '#FA_content_2 #display_pages';
@@ -42,7 +44,7 @@ do_action('admin_head');
 <body>
 <div class="wrap">
 	<div class="icon32 icon32-posts-page" id="icon-edit"><br></div>
-    <h2>Select the content you want to display in slideshow</h2>
+    <h2><?php _e('Select the content you want to display in slideshow', 'falite');?></h2>
 	<?php 
 	/*
 	 * PAGES
@@ -54,9 +56,9 @@ do_action('admin_head');
 	// set columns to be displayed
     $columns = array(
     	'cb'        	=> '', //Render a checkbox instead of text
-    	'post_title' 	=> 'Title',
-    	'post_author'   => 'Author',
-    	'post_date'  	=> 'Date'
+    	'post_title' 	=> __('Title', 'falite'),
+    	'post_author'   => __('Author', 'falite'),
+    	'post_date'  	=> __('Date', 'falite')
     );
 	$pages_table->columns = $columns;   
    
@@ -65,7 +67,7 @@ do_action('admin_head');
 	$pages_table->prepare_items();
     $pages_table->display();
 	?>
-	<input type="button" value="Done, close window" id="close_window" />	
+	<input type="button" value="<?php _e('Done, close window', 'falite');?>" id="close_window" />	
 </div>
 </body>
 </html>

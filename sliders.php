@@ -15,10 +15,10 @@ $sliders_table = new FA_List_Table(array(
 // set columns to be displayed
 $columns = array(
 	'cb'        	=> '<input type="checkbox" />', //Render a checkbox instead of text
-   	'post_title' 	=> 'Title',
-   	'ID'			=> 'Slider ID',
-   	'post_author'   => 'Author',
-   	'post_date'  	=> 'Date'
+   	'post_title' 	=> __('Title', 'falite'),
+   	'ID'			=> __('Slider ID', 'falite'),
+   	'post_author'   => __('Author', 'falite'),
+   	'post_date'  	=> __('Date', 'falite')
 );
 $sliders_table->columns = $columns;   
 // set sortable columns
@@ -36,7 +36,7 @@ $sliders_table->prepare_items('fa_slider');
 ?>
 <div class="wrap">
 	<div class="icon32 icon32-posts-post" id="icon-edit"><br></div>
-	<h2>Featured Articles Sliders <a class="button add-new-h2" href="<?php menu_page_url('featured-articles-lite-new-slideshow');?>"><?php _e('Add New');?></a> </h2>
+	<h2>Featured Articles Sliders <a class="button add-new-h2" href="<?php menu_page_url('featured-articles-lite-new-slideshow');?>"><?php _e('Add New', 'falite');?></a> </h2>
 	<form method="post" action="<?php echo $current_page.'&noheader=true';?>">
 		<?php wp_nonce_field('featured-articles-sliders-bulk-delete', 'FA_bulk_del');?>
 		<?php $sliders_table->display();?>

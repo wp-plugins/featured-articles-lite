@@ -70,8 +70,8 @@ class FA_List_Table extends WP_List_Table {
     	
         //Build row actions
         $actions = array(
-            'edit'      => sprintf('<a href="?page=%s&id=%s&action=edit">Edit</a>',$this->edit_page,$item['ID']),
-            'delete'    => '<a href="'.$del_url.'" onclick="return confirm(\'Do you really want to delete this item?\')">Delete</a>',
+            'edit'      => sprintf('<a href="?page=%s&id=%s&action=edit">'.__('Edit', 'falite').'</a>',$this->edit_page,$item['ID']),
+            'delete'    => '<a href="'.$del_url.'" onclick="return confirm(\''.__('Do you really want to delete this item?', 'falite').'\')">'.__('Delete', 'falite').'</a>',
         );
         
         //Return the title contents
@@ -136,7 +136,7 @@ class FA_List_Table extends WP_List_Table {
     	
     	if( empty( $this->bulk_actions ) ){
     		$this->bulk_actions = $actions = array(
-	            'delete'    => 'Delete'
+	            'delete'    => __('Delete', 'falite')
 	        );
     	}    	
         return $this->bulk_actions;

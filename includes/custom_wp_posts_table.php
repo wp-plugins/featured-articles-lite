@@ -57,7 +57,7 @@ class FA_List_Posts_Table extends WP_List_Table {
      * Post title column formatting
      */
     function column_post_title($item){
-    	return sprintf('<label for="content_%1$d" id="label_content_%1$d">%2$s</label>', $item['ID'], $item['post_title']);    	
+    	return sprintf('<label for="content_%1$d" id="label_content_%1$d">%2$s</label>', $item['ID'], apply_filters('the_title', $item['post_title']));    	
     }
     
     /**

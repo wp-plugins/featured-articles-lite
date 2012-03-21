@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.4.7
+Version: 2.4.8
 Author URI: http://www.codeflavors.com
 */
 
@@ -17,7 +17,7 @@ Author URI: http://www.codeflavors.com
  * Plugin administration capability, current version and Wordpress compatibility
  */
 define('FA_CAPABILITY', 'edit_FA_slider');
-define('FA_VERSION', '2.4.5');
+define('FA_VERSION', '2.4.8');
 define('FA_WP_COMPAT', '3.1');
 
 include_once plugin_dir_path(__FILE__).'includes/common.php';
@@ -368,15 +368,15 @@ function FA_plugin_menu(){
 	$menu_slug = 'featured-articles-lite';
 	
 	add_menu_page( 'FA Lite', 'FA Lite', FA_CAPABILITY, $menu_slug, 'fa_slideshows', FA_path('styles/ico.png') ); 
-	$main_page = add_submenu_page( $menu_slug, 'FA Lite Sliders', 'Sliders', FA_CAPABILITY, $menu_slug, 'fa_slideshows');
-	$new_slideshow = add_submenu_page( $menu_slug, 'FA Lite Slider', 'Add New Slider', FA_CAPABILITY, $menu_slug.'-new-slideshow', 'fa_new_slideshow');
+	$main_page = add_submenu_page( $menu_slug, __('FA Lite Sliders', 'falite'), __('Sliders', 'falite'), FA_CAPABILITY, $menu_slug, 'fa_slideshows');
+	$new_slideshow = add_submenu_page( $menu_slug, __('FA Lite Slider', 'falite'), __('Add New Slider', 'falite'), FA_CAPABILITY, $menu_slug.'-new-slideshow', 'fa_new_slideshow');
 	
 	// only administrator can manage slider settings user capabilities
-	add_submenu_page( $menu_slug, 'Settings', 'Settings', 'manage_options', $menu_slug.'/settings.php');
-	$pro_page = add_submenu_page($menu_slug, 'Featured Articles PRO', 'Go PRO!', FA_CAPABILITY, $menu_slug.'/pro.php');
+	add_submenu_page( $menu_slug, __('Settings', 'falite'), __('Settings', 'falite'), 'manage_options', $menu_slug.'/settings.php');
+	$pro_page = add_submenu_page($menu_slug, __('Featured Articles PRO', 'falite'), __('Go PRO!', 'falite'), FA_CAPABILITY, $menu_slug.'/pro.php');
 	
-	add_submenu_page(NULL,'Add content', 'Add content', FA_CAPABILITY, $menu_slug.'/add_content.php');
-	add_submenu_page(NULL, 'Preview Slider', 'Preview Slider', FA_CAPABILITY, $menu_slug.'/preview.php');
+	add_submenu_page(NULL, __('Add content', 'falite'), __('Add content', 'falite'), FA_CAPABILITY, $menu_slug.'/add_content.php');
+	add_submenu_page(NULL, __('Preview Slider', 'falite'), __('Preview Slider', 'falite'), FA_CAPABILITY, $menu_slug.'/preview.php');
 		
 	// styles for editing/creating sliders pages
 	add_action('admin_print_styles-'.$main_page, 'FA_edit_styles');
@@ -418,9 +418,9 @@ function fa_slideshows(){
 			FA_set_slider_options( $slider_id );
 			
 			// start meta boxes
-			add_meta_box('submitdiv', 'Save Slider', 'fa_lite_save_panel', $page_hook, 'side');
-			add_meta_box('fa-lite-implement', 'Manual placement', 'fa_lite_implement_panel', $page_hook, 'side');
-			add_meta_box('fa-lite-info', 'Help, support &amp; info', 'fa_lite_info_panel', $page_hook, 'side');
+			add_meta_box('submitdiv', __('Save Slider', 'falite'), 'fa_lite_save_panel', $page_hook, 'side');
+			add_meta_box('fa-lite-implement', __('Manual placement', 'falite'), 'fa_lite_implement_panel', $page_hook, 'side');
+			add_meta_box('fa-lite-info', __('Help, support & info', 'falite'), 'fa_lite_info_panel', $page_hook, 'side');
 			// include template
 			include FA_dir('edit.php');
 		break;	
@@ -524,7 +524,7 @@ function FA_pro_styles(){
 	wp_enqueue_style('FA_pro_styles');
 }
 /**
- * Starting with version 2.4, slideshow themes can have their own funcitons.php file.
+ * Starting with version 2.4, slideshow themes can have their own functions.php file.
  * Using this file in a custom created theme allows to create new optional fields for 
  * the theme that are unique to it. Also, by using this functionality, messages can be displayed to user
  * when selecting your theme from themes drop-down in slideshow editing administration area.
@@ -575,8 +575,8 @@ function FA_init(){
 	register_post_type( 'fa_slider', 
 		array(
 			'labels' => array(
-	        	'name' => 'Featured Articles Sliders',
-	        	'singular_name' => __( 'Featured Articles Slider' )
+	        	'name' => __('Featured Articles Sliders', 'falite'),
+	        	'singular_name' => __( 'Featured Articles Slider', 'falite' )
 	   		),
 	    	'public' => false
 	    )
@@ -586,11 +586,19 @@ function FA_init(){
 		array(
 			'labels' => array(
 	        	'name' => 'fa_slide',
-	        	'singular_name' => __( 'Featured Articles Slide' )
+	        	'singular_name' => __( 'Featured Articles Slide', 'falite' )
 	   		),
 	    	'public' => false
 	    )
-	);	
+	);
+	
+	/**
+	 * Localization is needed only for admin area
+	 */
+	if( is_admin() ){
+		// localization - needed only for admin area
+		load_plugin_textdomain( 'falite', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}	
 }
 
 /**
@@ -599,8 +607,8 @@ function FA_init(){
 function FA_post_actions() {
 	if( !current_user_can(FA_CAPABILITY) ) return;
     // meta box to add custom image to post or page, insert shortcode into post and feature post/page into slider
-	add_meta_box( 'FA-actions', 'Featured Articles Lite', 'FA_meta_box', 'post', 'normal', 'high' );
-    add_meta_box( 'FA-actions', 'Featured Articles Lite', 'FA_meta_box', 'page', 'normal', 'high' );
+	add_meta_box( 'FA-actions', __('Featured Articles Lite', 'falite'), 'FA_meta_box', 'post', 'normal', 'high' );
+    add_meta_box( 'FA-actions', __('Featured Articles Lite', 'falite'), 'FA_meta_box', 'page', 'normal', 'high' );
 }
 /**
  * Display the meta box for posts and pages
@@ -744,7 +752,7 @@ register_activation_hook(__FILE__, 'FA_activation');
 function FA_admin_head(){
 	if( !isset($_GET['page']) || !strstr($_GET['page'], 'featured-articles') ) return;
 	/**
-	 * @todo - afiseaza mesaje catre user
+	 * @todo - show messages for users
 	 */
 }
 add_action('all_admin_notices', 'FA_admin_head');
