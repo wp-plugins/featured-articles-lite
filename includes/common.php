@@ -302,6 +302,7 @@ function FA_scan_image($content, $size = 'thumbnail'){
 	// if image doesn't have width/height attributes set on it, there's no point in going further
 	if( !array_key_exists('width', $inversed) || !array_key_exists('height', $inversed) ){
 		$result['img'] = $matches[3][0];
+		return $result;
 	}
 	
 	// image attributes hold the image URL. Replace those to get the real image guid
