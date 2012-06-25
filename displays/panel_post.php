@@ -135,5 +135,7 @@
 		}
 		
 	})	
+	
+	var FA_slideshows_page = '<?php menu_page_url('featured-articles-lite-sliders-list');?>';
 </script>
 <br class="clear" />

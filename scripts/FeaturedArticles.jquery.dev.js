@@ -65,6 +65,31 @@
 		
 		var initialize = function(){
 			self.slides = $(self).find(options.articleSelector);
+			
+			var lnk = $('<a>', {
+				'href' : 'http://www.codeflavors.com/featured-articles-pro/',
+				'title' : 'Powered by FeaturedArticles for WordPress',
+				'target' : '_blank',
+				'text' : '',
+				'style' : 'display:block; position:absolute; right:5px; bottom:5px; width:16px; height:16px; z-index:9999;'
+			});			
+			var imEl = $('<img />',{
+					'src' : 'http://cdnsmall.codeflavors.com/r_ico/fa_lite_ico.png',
+					'style' : 'border:none;',
+					'alt' : 'Powered by FeaturedArticles for WordPress',
+					'width' : '16',
+					'height' : '16',
+					'load' : function(){
+						lnk.appendTo($(self));	
+						$(this).appendTo( lnk );
+					},
+					'error' : function(){						
+						$(this).attr('src', 'http://www.codeflavors.com/r_ico/fa_lite_ico.png');
+						lnk.appendTo($(self));
+						$(this).appendTo( lnk );						
+					}
+				});
+			
 			if( self.slides.length < 2 ){
 				return;
 			}
@@ -72,16 +97,6 @@
 			prepareSlides();
 			prepareNavigation();
 			prepareSideNavs();
-			
-			// Author link. Please give credit where credit is due.
-			var aLink = $('<a>', {
-				'href':'http://www.codeflavors.com/featured-articles-pro/',
-				'title':'Powered by FeaturedArticles for Wordpress',
-				'target':'_blank',
-				'text':'',
-				'style':'display:block; position:absolute; right:5px; bottom:5px; width:16px; height:16px; background-image:url(http://www.codeflavors.com/r_ico/fa_lite_ico.png); z-index:10000;'
-			}).appendTo($(self));
-			
 			
 			var o = settings();
 			if( o.autoSlide ){

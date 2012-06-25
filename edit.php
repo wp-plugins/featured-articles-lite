@@ -101,6 +101,14 @@ if( isset($_POST['FA-save_wpnonce']) ){
 		update_post_meta($slider_id, $meta_key, $fields);		
 	}
 	
+	/**
+	 * Store theme details
+	 */
+	if( array_key_exists( $_POST['active_theme'], $themes ) ){
+		$fields = $themes[ $_POST['active_theme'] ];
+		update_post_meta($slider_id, '_fa_lite_theme_details', $fields);	
+	}
+	
 	// make some verifications to set the slider as homepage slider or not
 	$on_homepage = get_option('fa_lite_home', array());
 	if( isset($_POST['home_display']) && !in_array($slider_id, $on_homepage) ){
@@ -369,78 +377,100 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 							<div class="inside">
 								<div class="section">
 	                            	<strong><?php _e('Titles', 'falite');?></strong>
-	                                <input type="checkbox" name="title_custom" id="title_custom" value="1"<?php if( $options['_fa_lite_aspect']['title_custom'] ):?> checked="checked"<?php endif;?> />
-	                                <label for="title_custom" title="<?php _e('If a custom title is specified on posts or pages, it will be displayed into the slide', 'falite');?>"><?php _e('Use custom defined titles (if available)', 'falite');?></label><br />
-	
-	                            	<input type="checkbox" class="FA_optional" name="title_click" id="title_click" value="1"<?php if( $options['_fa_lite_aspect']['title_click'] ):?> checked="checked"<?php endif;?><?php if($fields['title_click'] == 0):?> disabled="disabled"<?php endif;?> />
-	                                <label for="title_click" class="FA_optional<?php if($fields['title_click'] == 0):?> disabled<?php endif;?>" title="<?php _e('Article title becomes a link pointing to full article', 'falite');?>"><?php _e('Title is clickable', 'falite');?></label>
-	                           	
-	                           		<?php do_action('fa_extra_title_fields', $options);?>
+	                                <input type="checkbox" name="show_title" class="fa_has_extra" id="show_title" value="1"<?php if( $options['_fa_lite_aspect']['show_title'] ):?> checked="checked"<?php endif;?> />
+	                                <label for="show_title" title="<?php _e('Show or hide titles for all slides', 'falite');?>"><?php _e('Show slides titles', 'falite');?></label><br />
+	                            	
+	                            	<div id="show_title_extra">	                            	
+		                                <input type="checkbox" name="title_custom" id="title_custom" value="1"<?php if( $options['_fa_lite_aspect']['title_custom'] ):?> checked="checked"<?php endif;?> />
+		                                <label for="title_custom" title="<?php _e('If a custom title is specified on posts or pages, it will be displayed into the slide', 'falite');?>"><?php _e('Use custom defined titles (if available)', 'falite');?></label><br />
+		
+		                            	<input type="checkbox" class="FA_optional" name="title_click" id="title_click" value="1"<?php if( $options['_fa_lite_aspect']['title_click'] ):?> checked="checked"<?php endif;?><?php if($fields['title_click'] == 0):?> disabled="disabled"<?php endif;?> />
+		                                <label for="title_click" class="FA_optional<?php if($fields['title_click'] == 0):?> disabled<?php endif;?>" title="<?php _e('Article title becomes a link pointing to full article', 'falite');?>"><?php _e('Title is clickable', 'falite');?></label>
+	                           			
+	                           			<?php do_action('fa_extra_title_fields', $options);?>
+	                           		</div>
 	                           	</div>
 	                            <div class="section">
 	                            	<strong><?php _e('Text', 'falite');?></strong>
 	                                
-									<input type="checkbox" name="use_excerpt" id="use_excerpt" value="1"<?php if( $options['_fa_lite_aspect']['use_excerpt'] ):?> checked="checked"<?php endif;?> />
-	                                <label for="use_excerpt" title="<?php _e('Display excerpts as slide text if available', 'falite');?>"><?php _e('Use post excerpt (if defined)', 'falite');?></label><br />
+									<input type="checkbox" class="FA_optional" name="show_date" id="show_date" value="1"<?php if( $options['_fa_lite_aspect']['show_date'] ):?> checked="checked"<?php endif;?><?php if($fields['show_date'] == 0):?> disabled="disabled"<?php endif;?> />
+	                                <label for="show_date" class="FA_optional<?php if($fields['show_date'] == 0):?> disabled<?php endif;?>" title="<?php _e('Shows or hides slide creation date', 'falite');?>"><?php _e('Show slide date', 'falite');?></label><br />
 	                                
-	                                <input type="checkbox" name="use_custom_text" id="use_custom_text" value="1"<?php if( $options['_fa_lite_aspect']['use_custom_text'] ):?> checked="checked"<?php endif;?> />
-	                                <label for="use_custom_text" title="<?php _e('Always display custom text set for posts/pages', 'falite');?>"><?php _e('If available, custom defined slide description overrides post excerpt and post content text', 'falite');?></label><br />
+	                                <input type="checkbox" name="show_text" class="fa_has_extra" id="show_text" value="1"<?php if( $options['_fa_lite_aspect']['show_text'] ):?> checked="checked"<?php endif;?> />
+	                                <label for="show_text" title="<?php _e('Show slide text or hide it completely', 'falite');?>"><?php _e('Show slide text', 'falite');?></label><br />
 	                                
-	                                <input type="checkbox" name="strip_shortcodes" id="strip_shortcodes" value="1"<?php if( $options['_fa_lite_aspect']['strip_shortcodes'] ):?> checked="checked"<?php endif;?> />
-	                                <label for="strip_shortcodes" title="<?php _e('Remove all schortcodes from item content.', 'falite');?>"><?php _e('Remove all shortcodes from descriptions', 'falite');?></label><br />
+	                                <div id="show_text_extra">
+										<input type="checkbox" name="use_excerpt" id="use_excerpt" value="1"<?php if( $options['_fa_lite_aspect']['use_excerpt'] ):?> checked="checked"<?php endif;?> />
+	                                	<label for="use_excerpt" title="<?php _e('Display excerpts as slide text if available', 'falite');?>"><?php _e('Use post excerpt (if defined)', 'falite');?></label><br />
 	                                
-	                                <label for="desc_truncate" title="<?php _e('Posts or pages with image will have maximum this many characters', 'falite');?>"><?php _e('Limit text in slides with image to', 'falite');?></label>
-	                                <input type="text" name="desc_truncate" id="desc_truncate" value="<?php echo $options['_fa_lite_aspect']['desc_truncate']; ?>" class="small-text FA_number" /> <?php _e('characters (numeric)', 'falite');?><br />
+	                                	<input type="checkbox" name="use_custom_text" id="use_custom_text" value="1"<?php if( $options['_fa_lite_aspect']['use_custom_text'] ):?> checked="checked"<?php endif;?> />
+	                                	<label for="use_custom_text" title="<?php _e('Always display custom text set for posts/pages', 'falite');?>"><?php _e('If available, custom defined slide description overrides post excerpt and post content text', 'falite');?></label><br />
+	                                
+	                                	<input type="checkbox" name="strip_shortcodes" id="strip_shortcodes" value="1"<?php if( $options['_fa_lite_aspect']['strip_shortcodes'] ):?> checked="checked"<?php endif;?> />
+	                                	<label for="strip_shortcodes" title="<?php _e('Remove all schortcodes from item content.', 'falite');?>"><?php _e('Remove all shortcodes from descriptions', 'falite');?></label><br />
+	                                
+	                                	<label for="desc_truncate" title="<?php _e('Posts or pages with image will have maximum this many characters', 'falite');?>"><?php _e('Limit text in slides with image to', 'falite');?></label>
+	                                	<input type="text" name="desc_truncate" id="desc_truncate" value="<?php echo $options['_fa_lite_aspect']['desc_truncate']; ?>" class="small-text FA_number" /> <?php _e('characters (numeric)', 'falite');?><br />
 									
-	                                <label for="desc_truncate_noimg" class="FA_optional<?php if($fields['desc_truncate_noimg'] == 0):?> disabled<?php endif;?>" title="<?php _e('Posts or pages without image will have maximum this many characters', 'falite');?>"><?php _e('Limit text in slides without image to', 'falite');?></label>
-	                                <input type="text" name="desc_truncate_noimg" id="desc_truncate_noimg" value="<?php echo $options['_fa_lite_aspect']['desc_truncate_noimg']; ?>" class="small-text FA_number FA_optional"<?php if($fields['desc_truncate_noimg'] == 0):?> disabled="disabled"<?php endif;?> /> <?php _e('characters (numeric)', 'falite');?><br />
+	                                	<label for="desc_truncate_noimg" class="FA_optional<?php if($fields['desc_truncate_noimg'] == 0):?> disabled<?php endif;?>" title="<?php _e('Posts or pages without image will have maximum this many characters', 'falite');?>"><?php _e('Limit text in slides without image to', 'falite');?></label>
+	                                	<input type="text" name="desc_truncate_noimg" id="desc_truncate_noimg" value="<?php echo $options['_fa_lite_aspect']['desc_truncate_noimg']; ?>" class="small-text FA_number FA_optional"<?php if($fields['desc_truncate_noimg'] == 0):?> disabled="disabled"<?php endif;?> /> <?php _e('characters (numeric)', 'falite');?><br />
 	                                
-	                                <label for="end_truncate" title="<?php _e('Shortened text will end with these characters.', 'falite');?>"><?php _e('End truncated text with', 'falite');?></label>
-	                                <input type="text" name="end_truncate" id="end_truncate" value="<?php echo $options['_fa_lite_aspect']['end_truncate']; ?>" class="small-text" /><br />
+	                                	<label for="end_truncate" title="<?php _e('Append to shortened post content');?>"><?php _e('End truncated text with', 'falite');?></label>
+	                                	<input type="text" name="end_truncate" id="end_truncate" value="<?php echo $options['_fa_lite_aspect']['end_truncate']; ?>" class="small-text" /><br />
 									
-	                                <label for="read_more" class="FA_inline" title="<?php _e('Read more link on article will display this text.', 'falite');?>"><?php _e('Link text', 'falite');?></label>
-	                                <input type="text" id="read_more" name="read_more" value="<?php echo $options['_fa_lite_aspect']['read_more']; ?>" /><br />
+	                                	<label for="read_more" class="FA_inline" title="<?php _e('Read more link on article will display this text.', 'falite');?>"><?php _e('Link text', 'falite');?></label>
+	                                	<input type="text" id="read_more" name="read_more" value="<?php echo $options['_fa_lite_aspect']['read_more']; ?>" />
+	                                	<input type="checkbox" name="show_read_more" id="show_read_more" value="1"<?php if( $options['_fa_lite_aspect']['show_read_more'] ):?> checked="checked"<?php endif;?> />
+	                                	<label for="show_read_more" class="FA_inline" title="<?php _e('Hide read more link on all slides.', 'falite');?>"><?php _e('show read more link', 'falite');?></label><br />
 	                                
-	                                <label for="allowed_tags" title="<?php _e('The tags you specify here will not be stripped from the description.', 'falite');?>"><?php _e('Allow these HTML tags', 'falite');?>:</label>
-	                                <input type="text" name="allowed_tags" id="allowed_tags" value="<?php echo $options['_fa_lite_aspect']['allowed_tags']; ?>" class="regular-text" />
-	                                <span class="note"><?php _e('Example to allow links and paragraphs:', 'falite');?> &lt;a&gt;&lt;p&gt;</span><br />
+	                                	<label for="allowed_tags" title="<?php _e('The tags you specify here will not be stripped from the description.', 'falite');?>"><?php _e('Allow these HTML tags', 'falite');?>:</label>
+	                                	<input type="text" name="allowed_tags" id="allowed_tags" value="<?php echo $options['_fa_lite_aspect']['allowed_tags']; ?>" class="regular-text" />
+	                                	
+	                                	<input type="checkbox" name="allow_all_tags" id="allow_all_tags" value="1"<?php if($options['_fa_lite_aspect']['allow_all_tags']):?> checked="checked"<?php endif;?> />
+	                                	<label for="allow_all_tags" class="FA_inline"><?php _e('Allow all tags', 'falite');?></label><br/>
+	                                	
+	                                	<span class="note"><?php _e('Example to allow links and paragraphs', 'falite');?>: &lt;a&gt;&lt;p&gt;</span><br />
 	                                
-	                           		<?php do_action('fa_extra_text_fields', $options);?>
+	                           			<?php do_action('fa_extra_text_fields', $options);?>
+	                           		</div>	
 	                            </div>
 	                            <div class="section last">
 	                            	<strong><?php _e('Image', 'falite');?></strong>
 									
-	                                <input type="checkbox" id="thumbnail_display" class="FA_optional" name="thumbnail_display"<?php if($options['_fa_lite_aspect']['thumbnail_display']) echo ' checked="checked"';?> value="1"<?php if($fields['thumbnail_display'] == 0):?> disabled="disabled"<?php endif;?> />
+	                                <input type="checkbox" id="thumbnail_display" class="FA_optional fa_has_extra" name="thumbnail_display"<?php if($options['_fa_lite_aspect']['thumbnail_display']) echo ' checked="checked"';?> value="1"<?php if($fields['thumbnail_display'] == 0):?> disabled="disabled"<?php endif;?> />
 	                                <label class="FA_optional<?php if($fields['thumbnail_display'] == 0):?> disabled<?php endif;?>" for="thumbnail_display" title="<?php _e('Choose to display images or not', 'falite')?>"><?php _e('Display item image', 'falite');?></label><br />                                
 	                                
-									<?php if(current_theme_supports('post-thumbnails')):?>
-	                                <p class="info">
-	                                    <?php _e('Your theme supports thumbnails.', 'falite');?><br>
-	                                   <?php _e('By default the plugin will search images that are set using the Custom image for Featured Articles Lite feature. If no such image is found, it will display the post thumbnails (if any is set).', 'falite');?>
-	                                </p>
-	                                <?php endif;?>
+	                                <div id="thumbnail_display_extra">
 	                                
-	                                <label for="th_size" title="<?php _e('Set image maximum size if displayed', 'falite');?>"><?php _e('Image size', 'falite');?>:</label>
-	                                <?php 
-	                                    $wp_th_sizes = get_intermediate_image_sizes();
-	                                    $wp_th_sizes[] = 'full';
-	                                    $sizes = array();
-	                                    foreach ($wp_th_sizes as $s){
-	                                        $sizes[$s] = FA_image_size_pixels($s);
-	                                    }                            		
-	                                ?>
-	                                <select name="th_size" id="th_size">
-	                                <?php foreach($sizes as $s=>$d):
-	                                        $sel = $options['_fa_lite_aspect']['th_size'] == $s ? ' selected="selected"' : '';
-	                                ?>
-	                                    <option<?php echo $sel;?> value="<?php echo $s?>"><?php echo ucfirst($s);?><?php if ($d):?> - max. <?php echo implode('x', $d)?> px.<?php else:?> - <?php _e('max. uploaded size', 'falite');?><?php endif;?></option>
-	                                <?php endforeach;?>
-	                                </select><br />
-	                                
-	                                <input type="checkbox" class="FA_optional" id="thumbnail_click" name="thumbnail_click"<?php if($options['_fa_lite_aspect']['thumbnail_click']) echo ' checked="checked"';?> value="1"<?php if($fields['thumbnail_click'] == 0):?> disabled="disabled"<?php endif;?> />
-	                                <label for="thumbnail_click" class="FA_optional<?php if($fields['thumbnail_click'] == 0):?> disabled<?php endif;?>" title="<?php _e('Image is clickable', 'falite')?>"><?php _e('Image is clickable', 'falite');?></label>                              
-	                                
-	                                <?php do_action('fa_extra_image_fields', $options);?>
+										<?php if(current_theme_supports('post-thumbnails')):?>
+		                                <p class="info">
+		                                    <?php _e('Your theme supports thumbnails.', 'falite');?><br>
+		                                    <?php _e('By default the plugin will search images that are set using the Custom image for Featured Articles Lite feature. If no such image is found, it will display the post thumbnails (if any is set).', 'falite');?>
+		                                </p>
+		                                <?php endif;?>
+		                                
+		                                <label for="th_size" title="<?php _e('Set image maximum size if displayed', 'falite');?>"><?php _e('Image size', 'falite');?>:</label>
+		                                <?php 
+		                                    $wp_th_sizes = get_intermediate_image_sizes();
+		                                    $wp_th_sizes[] = 'full';
+		                                    $sizes = array();
+		                                    foreach ($wp_th_sizes as $s){
+		                                        $sizes[$s] = FA_image_size_pixels($s);
+		                                    }                            		
+		                                ?>
+		                                <select name="th_size" id="th_size">
+		                                <?php foreach($sizes as $s=>$d):
+		                                        $sel = $options['_fa_lite_aspect']['th_size'] == $s ? ' selected="selected"' : '';
+		                                ?>
+		                                    <option<?php echo $sel;?> value="<?php echo $s?>"><?php echo ucfirst($s);?><?php if ($d):?> - <?php _e('max.', 'falite')?> <?php echo implode('x', $d)?> px.<?php else:?> - <?php _e('max. uploaded size', 'falite');?><?php endif;?></option>
+		                                <?php endforeach;?>
+		                                </select><br />
+		                                
+		                                <input type="checkbox" class="FA_optional" id="thumbnail_click" name="thumbnail_click"<?php if($options['_fa_lite_aspect']['thumbnail_click']) echo ' checked="checked"';?> value="1"<?php if($fields['thumbnail_click'] == 0):?> disabled="disabled"<?php endif;?> />
+		                                <label for="thumbnail_click" class="FA_optional<?php if($fields['thumbnail_click'] == 0):?> disabled<?php endif;?>" title="<?php _e('Image is clickable', 'falite')?>"><?php _e('Image is clickable', 'falite');?></label>                              
+		                                
+		                                <?php do_action('fa_extra_image_fields', $options);?>
+		                        	</div> 
 	                            </div>
 							</div>
 						</div>
@@ -463,24 +493,66 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 	                                <input type="text" id="loop_display" name="loop_display" value="<?php echo $options['_fa_lite_display']['loop_display']; ?>" class="small-text FA_number" />
 	                            </div>
 	                            <div class="section last">
-	                                <strong><?php _e('Display slider on', 'falite');?></strong>
-	                                <input type="checkbox" name="home_display"<?php echo $options['_fa_lite_home_display']?' checked="checked"':'';?> value="1" id="FA_home"><label for="FA_home"> <?php _e('Display on home page', 'falite');?></label><br />
-	                                 <?php
-	                                    $cats = get_categories(); 
-	                                    foreach ($cats as $category):
-	                                        $checked = in_array($category->term_id,(array)$options['_fa_lite_categ_display']) ? 'checked="checked"' : '';
+	                                <strong class="inline">
+	                                	<?php _e('Categories where slideshow will display', 'falite');?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                	<a href="<?php menu_page_url('featured-articles-lite-publish-categories-list');?>&noheader=true&view=category" class="button FA_dialog"><?php _e('Select categories', 'falite');?></a>
+	                                </strong>
+	                                	                                
+	                                <ul class="slideshow_display" id="categories_display">
+	                                <?php
+	                                	$tax = get_taxonomies(array(
+	                                		'_builtin' => false
+	                                	));
+	                                	$tax['category'] = 'category';
+
+	                                	if( $options['_fa_lite_categ_display'] ){	                                	
+		                                    $cats = get_categories(array(
+		                                    	'include' => (array)$options['_fa_lite_categ_display'],
+		                                    	'taxonomy' => $tax
+		                                    ));
+	                                	}else{
+	                                		$cats = array();
+	                                	}     
+	                                    foreach ($cats as $category):	                                       
 	                                ?>
-	                                <strong class="inline"><?php _e('Categories', 'falite');?></strong>
-	                                <input type="checkbox" name="categ_display[]" id="category-<?php echo $category->term_id;?>" value="<?php echo $category->term_id;?>"<?php echo $checked;?> /> <label for="category-<?php echo $category->term_id;?>"><?php echo $category->name;?></label><br />
+	                                	<li id="FA_category_display_<?php echo $category->term_id;?>" class="category-display">
+	                                		<a class="remove_item" href="#">&nbsp;</a>
+	                                		<?php echo $category->name;;?>
+	                                		<input type="hidden" name="categ_display[]" value="<?php echo $category->term_id;?>" />	                                		
+	                                	</li>	
 	                                <?php endforeach;?>
-	                                <strong class="inline"><?php _e('Pages', 'falite');?></strong>
+	                                </ul>
+	                                
+	                                <br class="clear" />
+	                                <strong class="inline">
+	                                	<?php _e('Pages where slideshow will display', 'falite');?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                	<a href="<?php menu_page_url('featured-articles-lite-publish-pages-list');?>&noheader=true" class="button FA_dialog"><?php _e('Select pages', 'falite');?></a>
+	                                </strong>
+	                                
+	                                <input type="checkbox" name="home_display"<?php echo $options['_fa_lite_home_display']?' checked="checked"':'';?> value="1" id="FA_home">
+	                                <label for="FA_home"> <?php _e('Display on home page', 'falite');?></label>
+	                                
+	                                <ul class="slideshow_display last" id="pages_display">	                                	                              
 	                                <?php 
-	                                    $pages = get_pages();
+	                                	// display only selected pages
+	                                	if( $options['_fa_lite_page_display'] ){
+		                                    $pages = get_pages(array(
+		                                    	'include' => (array)$options['_fa_lite_page_display']
+		                                    ));
+	                                	}else{
+	                                		$pages = array();
+	                                	}    
 	                                    foreach ($pages as $page):
 	                                        $checked = in_array($page->ID,(array)$options['_fa_lite_page_display']) ? 'checked="checked"' : '';
 	                                ?>
-	                                <input type="checkbox" name="page_display[]" id="page-<?php echo $page->ID;?>" value="<?php echo $page->ID;?>" <?php echo $checked;?>> <label for="page-<?php echo $page->ID;?>"><?php echo $page->post_title;?></label><br />
+	                                	<li id="FA_page_display_<?php echo $page->ID;?>" class="<?php echo $page->post_type;?>-display">
+	                                    	<a class="remove_item" href="#">&nbsp;</a>
+	                                		<?php echo $page->post_title;?>
+	                                    	<input type="hidden" name="page_display[]" value="<?php echo $page->ID;?>" />	                                        
+	                                    </li>
 	                                <?php endforeach;?>
+	                                </ul>
+	                                <div class="clear"></div>
 	                            </div>                            
 	                        </div>
 	                    </div>
@@ -568,6 +640,18 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 			}	
 								
 			
+		})
+
+		jQuery('#allow_all_tags').click(function(e){
+			if( jQuery(this).is(':checked') ){
+				jQuery('#allowed_tags').attr('disabled', 'disabled');
+			}else{
+				jQuery('#allowed_tags').removeAttr('disabled');
+			}
+		}).each(function(i, el){
+			if( jQuery(this).is(':checked') ){
+				jQuery('#allowed_tags').attr('disabled', 'disabled');
+			}
 		})
 		
 	});

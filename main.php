@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.4.8
+Version: 2.4.9
 Author URI: http://www.codeflavors.com
 */
 
@@ -17,8 +17,9 @@ Author URI: http://www.codeflavors.com
  * Plugin administration capability, current version and Wordpress compatibility
  */
 define('FA_CAPABILITY', 'edit_FA_slider');
-define('FA_VERSION', '2.4.8');
+define('FA_VERSION', '2.4.9');
 define('FA_WP_COMPAT', '3.1');
+define('FA_DEV_PREFIX', '');
 
 include_once plugin_dir_path(__FILE__).'includes/common.php';
 include_once plugin_dir_path(__FILE__).'includes/widgets.php';
@@ -254,7 +255,7 @@ function FA_load_footer(){
 	
 	wp_print_styles();
 	wp_register_script('jquery-mousewheel', FA_path('scripts/jquery.mousewheel.min.js'), 'jquery', '3.0.6');
-	wp_enqueue_script('FeaturedArticles-jQuery', FA_path('scripts/FeaturedArticles.jquery.js'), array('jquery', 'jquery-mousewheel'), '1.0');
+	wp_enqueue_script('FeaturedArticles-jQuery', FA_path('scripts/FeaturedArticles.jquery'.FA_DEV_PREFIX.'.js'), array('jquery', 'jquery-mousewheel'), '1.0');
 	wp_enqueue_script('FA_footer', FA_path('scripts/fa_footer.js'), array('FeaturedArticles-jQuery'));
 	
 	wp_localize_script('FA_footer', 'FA_Lite_footer_params', $FA_SLIDERS_PARAMS);	
@@ -311,7 +312,7 @@ function FA_add_scripts(){
 	}
 	
 	wp_register_script('jquery-mousewheel', FA_path('scripts/jquery.mousewheel.min.js'), 'jquery', '3.0.6');
-	wp_enqueue_script('FeaturedArticles-jQuery', FA_path('scripts/FeaturedArticles.jquery.js'), array('jquery', 'jquery-mousewheel'), '1.0');
+	wp_enqueue_script('FeaturedArticles-jQuery', FA_path('scripts/FeaturedArticles.jquery'.FA_DEV_PREFIX.'.js'), array('jquery', 'jquery-mousewheel'), '1.0');
 	wp_localize_script('FeaturedArticles-jQuery', 'FA_Lite_params', $js_options);	
 }
 
@@ -377,7 +378,10 @@ function FA_plugin_menu(){
 	
 	add_submenu_page(NULL, __('Add content', 'falite'), __('Add content', 'falite'), FA_CAPABILITY, $menu_slug.'/add_content.php');
 	add_submenu_page(NULL, __('Preview Slider', 'falite'), __('Preview Slider', 'falite'), FA_CAPABILITY, $menu_slug.'/preview.php');
-		
+	add_submenu_page(NULL, __('Slideshows', 'falite'), __('Slideshows', 'falite'), FA_CAPABILITY, $menu_slug.'-sliders-list', 'fa_post_sliders_list');	
+	add_submenu_page(NULL, __('Pages', 'falite'), __('Pages', 'falite'), FA_CAPABILITY, $menu_slug.'-publish-pages-list', 'fa_publish_in_pages');
+	add_submenu_page(NULL, __('Categories', 'falite'), __('Categories', 'falite'), FA_CAPABILITY, $menu_slug.'-publish-categories-list', 'fa_publish_in_categories');
+	
 	// styles for editing/creating sliders pages
 	add_action('admin_print_styles-'.$main_page, 'FA_edit_styles');
 	add_action('admin_print_styles-'.$new_slideshow, 'FA_edit_styles');
@@ -391,6 +395,20 @@ add_action('admin_menu', 'FA_plugin_menu');
 add_action('admin_print_styles-post.php', 'FA_post_edit_scripts');
 add_action('admin_print_styles-post-new.php', 'FA_post_edit_scripts');
 
+/**
+ * Slideshows list for shortcode in editor
+ */
+function fa_post_sliders_list(){
+	include_once FA_dir('displays/sliders-list.php');
+}
+
+function fa_publish_in_pages(){
+	include_once FA_dir('displays/pages-list.php');
+}
+
+function fa_publish_in_categories(){
+	include_once FA_dir('displays/categories-list.php');
+}
 /**
  * Slideshows admin menu callback function. It displays all pages needed for listing/editing/creating/deleting
  * slideshows.
@@ -704,6 +722,53 @@ function FA_lite_shortcode($atts){
     ), $atts));
     return FA_display_slider($id, false); 
 }
+
+/**
+ * ============================================================================================================
+ * TinyMCE buttons
+ * ============================================================================================================
+ */
+
+function fa_addbuttons() {
+	// Don't bother doing this stuff if the current user lacks permissions
+	if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
+		return;
+ 	
+	// Don't load unless is post editing (includes post, page and any custom posts set)
+	$screen = get_current_screen();
+	if( 'post' != $screen->base ){
+		return;
+	}  
+     
+	// Add only in Rich Editor mode
+	if ( get_user_option('rich_editing') == 'true') {
+   		
+		wp_enqueue_script(array(
+			'jquery-ui-dialog'
+		));
+			
+		wp_enqueue_style(array(
+			'wp-jquery-ui-dialog'
+		));
+   	
+	    add_filter('mce_external_plugins', 'fa_tinymce_plugin');
+	    add_filter('mce_buttons', 'register_fa_button');
+   }
+}
+ 
+function register_fa_button($buttons) {	
+	array_push($buttons, 'separator', 'fa_shortcode');
+	return $buttons;
+}
+ 
+// Load the TinyMCE plugin : editor_plugin.js (wp2.5)
+function fa_tinymce_plugin($plugin_array) {
+	$plugin_array['fa_shortcode'] = FA_path('scripts/admin/tinymce/admin_tinymce_shortcode.js');
+	return $plugin_array;
+}
+ 
+// init process for button control
+add_action('admin_head', 'fa_addbuttons');
 
 /**
  * Activation hook to add admin capabilities.

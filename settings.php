@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Featured articles PRO - Wordpress plugin
+ * @package Featured articles Lite - Wordpress plugin
  * @author CodeFlavors ( http://www.codeflavors.com )
  * @version 2.4
  */

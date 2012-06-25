@@ -96,7 +96,7 @@ class FA_Slideshow_Widget extends WP_Widget {
 	        'orderby' => 'date',
 	        'order' => 'DESC'
 	    );
-		$loop = new WP_Query( $args );
+		$slideshows = get_posts( $args );
 		?>
 		<p>
 			<label for=<?php echo $this->get_field_id('title')?>"><?php _e('Title', 'falite');?></label>
@@ -106,17 +106,9 @@ class FA_Slideshow_Widget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'fa_slider_widget' ); ?>"><?php _e('Slideshow', 'falite');?></label>
 			<select name="<?php echo $this->get_field_name( 'fa_slider_widget' ); ?>" id="<?php echo $this->get_field_id( 'fa_slider_widget' ); ?>">
 				<option value=""><?php _e('Choose slider to display', 'falite');?></option>
-			    <?php 
-					if ( $loop->have_posts() ) : 
-						while ( $loop->have_posts() ) : 
-							$loop->the_post();
-				?>
-			    <option value="<?php the_ID();?>"<?php if($active == get_the_ID()):?> selected="selected"<?php endif;?>><?php the_title();?></option>
-			    <?php
-						endwhile;
-					endif;	
-					wp_reset_query();
-				?>	
+			    <?php foreach( $slideshows as $slideshow ):?>
+			    	<option value="<?php echo $slideshow->ID;?>"<?php if($slider_id == $slideshow->ID):?> selected="selected"<?php endif;?>><?php echo $slideshow->post_title;?></option>
+			    <?php endforeach;?>
 			</select>
 		</p>
 		<?php		

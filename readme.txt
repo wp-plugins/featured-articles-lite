@@ -2,7 +2,7 @@
 Contributors: constantin.boiangiu
 Tags: slider, featured, articles, posts, pages
 Requires at least: 3.1
-Tested up to: 3.3.1
+Tested up to: 3.4
 Stable tag: trunk
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
@@ -41,11 +41,11 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 * Add, remove, order any slideshow content made of pages or mixed content;
 * Animation control (based on individual themes);
 * Write custom slides by using the Wordpress editor (PRO);
-* Put videos in custom slides from Vimeo or YouTube to replace the image for both thumbnails and full background image(PRO);
+* Put videos in custom slides from Vimeo or YouTube to replace the image for both thumbnails and full background image - compatible with both Flash players and HTML5 players from Vimeo and YouTube(PRO);
 * Customize posts and pages displayed into slideshows by specifying a different title, content, slide background color, image and more;
 * Change themes by choosing from up to 7 currently available themes (only 3 in Lite version);
 * Change theme color palette by simply creating a new color stylesheet that can skin the theme without messing with the CSS responsible for layout;
-* Create color palette stylesheets using a visual editor;
+* Create color palette stylesheets using a visual editor(PRO);
 * Preview slideshow even before publishing it in your pages.
 * Display slideshows by widgets, shorcodes, manual code snippet or automatic display above any page loop;
 * Create new themes that can completely change the default animations and can add new options fields custom for it in Slider editing in Wordpress admin.
@@ -96,6 +96,16 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 8. Theme Strips (PRO)
 
 == Changelog ==
+
+= 2.4.9 =
+* New options to hide title, text, date and read more link in slides when editing or creating a slideshow.
+* Re-designed automatic placement options in pages and categories.
+* WordPress editor button to easily place slideshow shortcode in post or page.
+* Solved bug that was displaying order of pages wrong when creating/editing a slideshow.
+* Images in slideshows now have width and height set on them for increased overall page performance.
+* New template function to display the date in slides ( the_fa_date() ).
+* New template function that will hide any wrapping element if all other elements are hidden ( title, text, date ... ).
+* New option to allow all tags in slide description.
 
 = 2.4.8 =
 * Compatibility with WPtouch plugin by verifying if WPtouch Restricted Mode option is on and preventing any slideshows from displaying. A new option under Settings can also prevent any slideshows from displaying in WPtouch mobile themes but if Restricted Mode is on, even if allowed from Featured Articles Lite, no slideshows will display.

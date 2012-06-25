@@ -142,7 +142,6 @@ focus {
 			height:17px;
 			line-height:17px;
 			font-size:0px;
-			background-image:url(images/nav.png);
 			background-position:bottom center;
 			background-repeat:no-repeat;
 			margin:0px 0px 0px 5px;
@@ -176,7 +175,6 @@ focus {
 	top:45%;
 	width:20px;
 	height:45px;
-	background-image:url(images/left.png);
 	background-position:top center;
 	background-repeat:no-repeat;
 	z-index:110;
@@ -188,7 +186,6 @@ focus {
 	top:45%;
 	width:20px;
 	height:45px;
-	background-image:url(images/right.png);
 	background-position:top center;
 	background-repeat:no-repeat;
 	z-index:110;

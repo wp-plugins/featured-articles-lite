@@ -81,16 +81,111 @@ class FA_List_Table extends WP_List_Table {
         );
     }
     
+	/**
+     * Lable title column
+     * @param array $item
+     */
+    function column_post_title_lbl($item){
+    	return sprintf('<label for="%1$s" id="%3$s">%2$s</label>',
+    		'content_'.$item['ID'],
+    		$item['post_title'],
+    		'label_content_'.$item['ID']		
+    	);    	
+    }
+    
+	/**
+     * Simplified title column for shortcodes table
+     * @param array $item
+     */
+    function column_post_title_s($item){
+    	$action_link = '<a href="#" id="fa_slideshow_'.$item['ID'].'" class="fa_shortcode_slideshow">'.$item['post_title'].'</a>';
+    	return $action_link;
+    }
+    
     /**
      * The checkbox for bulk actions column
      * @param array $item
      */
     function column_cb($item){
         return sprintf(
-            '<input type="checkbox" name="item_id[]" value="%2$s" />',
+            '<input type="checkbox" name="item_id[]" id="%3$s" value="%2$s" />',
             /*$1%s*/ $this->_args['singular'],
-            /*$2%s*/ $item['ID']
+            /*$2%s*/ $item['ID'],
+        	'content_'.$item['ID']
         );
+    }
+    
+	/**
+     * Slideshow content information column
+     * @param array $item
+	 *
+	 * @since 2.4.5
+     */
+    function column_slider_content( $item ){
+    	$options = FA_slider_options( $item['ID'], '_fa_lite_content' );
+    	
+    	$result = '';
+    	switch( $options['displayed_content'] ){
+    		case 1: // posts
+    			$order = '';
+    			switch( $options['display_order'] ){
+    				case 1: // newest
+						$order = __('Newest', 'falite');
+    				break;
+    				case 2: // comments
+    					$order = __('Most commented first', 'falite');
+    				break;
+    				case 3: //random
+						$order = __('Random selected', 'falite');
+    				break;	
+    			}
+    			
+    			$categs = count($options['display_from_category']);
+				$categories = $categs > 1 ? ($categs-1).' categories' : 'all categories';	
+    			
+    			$result .= $order.' '.$options['num_articles'].' '.__('posts from', 'falite').' '.$categories;	
+    		break;
+    		
+    		case 2: // pages
+    			if( $options['display_pages'] ){    			
+    				$items = count($options['display_pages']);    			
+    				$result = $items.' '.__('manually selected', 'falite').' '._n('page', 'pages', $items, 'falite');
+    			}else{
+    				$result = __('Manually selected pages', 'falite').' - <span style="color:red;">'.__('none selected', 'falite').'</span>';
+    			}	    			
+    		break;    		   		
+    	}
+    	return $result;
+    }
+    
+	/**
+     * Displays the name of the theme the slideshow is currently using, including color scheme
+     * @param array $item
+	 * 
+	 * @since 2.4.5
+     */
+    function column_slider_theme( $item ){
+    	$options = FA_slider_options( $item['ID'], '_fa_lite_theme' );
+    	if( !$options ){
+    		return '-';
+    	}
+    	
+    	$theme_name = false;
+    	$theme_color = false;
+    	
+    	if( array_key_exists('active_theme', $options) ){
+    		$theme_name = ucfirst( str_replace('_', ' ', $options['active_theme']) );
+    	}
+    	
+    	if( array_key_exists('active_theme_color', $options) ){
+    		$theme_color = ' - ' . ucfirst( str_replace(array('.css', '_'), array('',' '), $options['active_theme_color']));
+    	}	
+    	
+    	if( $theme_name ){
+    		return $theme_name.$theme_color;
+    	}else{
+    		return '-';
+    	}    	
     }
     
     /**
@@ -124,7 +219,7 @@ class FA_List_Table extends WP_List_Table {
     }
     
     /**
-     * Sets the bulk actions available in table
+     * Sets the buld actions available in table
      * @var array
      */        
     var $bulk_actions = array();    
@@ -134,11 +229,13 @@ class FA_List_Table extends WP_List_Table {
      */
     function get_bulk_actions() {
     	
-    	if( empty( $this->bulk_actions ) ){
+    	if( is_array($this->bulk_actions) && empty( $this->bulk_actions ) ){
     		$this->bulk_actions = $actions = array(
 	            'delete'    => __('Delete', 'falite')
 	        );
-    	}    	
+    	}else{
+    		$this->bulk_actions = array();
+    	}   	
         return $this->bulk_actions;
     }
     

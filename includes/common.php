@@ -331,32 +331,38 @@ function FA_scan_image($content, $size = 'thumbnail'){
  * Image detection inside post
  *
  * @param object $post
+ * @param int $slider_id
+ * @param string $other_size - by default, function gets the image size from slideshow options. If other size is needed, value from $other_size will overwrite slideshow option value
+ * @param bool $return_path - returns image url(true) or array(false) containing image url, width and height
+ * 
  * @return string - image path
  */
-function FA_article_image ($post, $slider_id, $other_size = false){
+function FA_article_image ($post, $slider_id, $other_size = false, $return_path = true){
 	// if thumbnails are stopped from admin, return false
-	$options = FA_slider_options($slider_id, '_fa_lite_aspect');
+	$options = FA_get_option('_fa_lite_aspect');
 	if( !$options['thumbnail_display'] ) 
 		return false;
 	
 	$image_size = $other_size ? $other_size : $options['th_size'];	
-		
+
 	// check for custom field image	
 	$meta_image = FA_get_meta_image($post->ID, '_fa_image', $image_size);
-	if( $meta_image )
-		return $meta_image[0];
+	if( $meta_image ){
+		return $return_path ? $meta_image[0] : $meta_image;
+	}	
 		
 	// check for post thumbnail
 	if( current_theme_supports('post-thumbnails') ){
 		$meta_image = FA_get_meta_image($post->ID, '_thumbnail_id', $image_size);
-		if( $meta_image )
-			return $meta_image[0];
+		if( $meta_image ){
+			return $return_path ? $meta_image[0] : $meta_image;
+		}	
 	}	
 
 	// check for auto detected images
 	$meta_image = FA_get_meta_image($post->ID, '_fa_image_autodetect', $image_size);
 	if( $meta_image ){
-		return $meta_image[0];
+		return $return_path ? $meta_image[0] : $meta_image;
 	}
 	// if none of the meta keys is set, try to auto detect image in post content		
 	$image = FA_scan_image($post->post_content, $image_size);
@@ -365,6 +371,10 @@ function FA_article_image ($post, $slider_id, $other_size = false){
 	
 	if( $image['id'] ){
 		update_post_meta($post->ID, '_fa_image_autodetect', $image['id']);
+		if( !$return_path ){
+			$meta_image = wp_get_attachment_image_src($image['id'], $image_size);
+			return $meta_image;
+		}	
 	}
 
 	return $image['img'];
@@ -545,12 +555,25 @@ function do_the_fa_image($before = '', $after = '', $clickable = false) {
 	$link_close = '';
 	// set opening and closing tags for image link
 	if( $clickable ){
-		$link_open = sprintf('<a href="%1$s" title="%2$s" target="%3$s">', get_permalink($post->ID), $post->post_title, $post->link_target);
+		$link_open = sprintf(
+			'<a href="%1$s" title="%2$s" target="%3$s">', 
+			get_permalink($post->ID), 
+			$post->post_title, 
+			$post->link_target
+		);
 		$link_close = '</a>';
 	}
+	
 	// add link to image if any
-	$image_html = sprintf('%1$s<img src="%2$s" alt="" />%3$s', $link_open, $post->FA_image, $link_close);
-	return $before . $image_html . $after;	
+	$image_html = sprintf(
+		'%1$s<img src="%2$s" width="%3$s" height="%4$s" alt="" />%5$s', 
+		$link_open, 
+		$post->FA_image[0], 
+		$post->FA_image[1], 
+		$post->FA_image[2], 
+		$link_close
+	);
+	return $before . $image_html . $after;
 }
 /**
  * Echoes the title. Shorthand for do_the_fa_title
@@ -559,6 +582,11 @@ function do_the_fa_image($before = '', $after = '', $clickable = false) {
  */
 function the_fa_title( $before = '', $after = ''){
 	global $FA_slider_options;
+	
+	if( !$FA_slider_options['_fa_lite_aspect']['show_title'] ){
+		return;
+	}
+	
 	$title = do_the_fa_title($before, $after, $FA_slider_options['_fa_lite_aspect']['title_click']);
 	if( $title )
 		echo $title;
@@ -596,6 +624,11 @@ function do_the_fa_title( $before = '', $after = '', $clickable = false ){
  */
 function the_fa_content( $before = '', $after = '' ){
 	global $FA_slider_options;
+	
+	if( !$FA_slider_options['_fa_lite_aspect']['show_text'] ){
+		return;
+	}
+	
 	$content = do_the_fa_content($before, $after, $FA_slider_options['_fa_lite_aspect']['strip_shortcodes']);
 	if( $content )
 		echo $content;
@@ -630,11 +663,16 @@ function do_the_fa_content( $before = '', $after = '', $strip_shortcodes = true 
  */
 function the_fa_read_more( $class = 'FA_read_more' ){
 	// use the global $post since it's set by our loop and the original post gets restored after slider is displayed
-	global $post;
+	global $post, $FA_slider_options;
 	
-	if( !$post ) return;
+	if( !$post || !$FA_slider_options['_fa_lite_aspect']['show_read_more'] ) return;
 	
 	$link_html = '<a class="%1$s" href="%2$s" title="%3$s" target="%4$s">%5$s</a>';
+	
+	// if no text is set for read-more link, don't display it
+	if( '' == trim($post->fa_read_more) ){
+		return;
+	}
 	
 	printf( $link_html,
 		$class, // %1$s
@@ -643,6 +681,60 @@ function the_fa_read_more( $class = 'FA_read_more' ){
 		$post->link_target, // %4$s
 		$post->fa_read_more // %5$s
 	);	
+}
+
+/**
+ * Outputs the post date
+ * 
+ * @param string $before - html to put before text
+ * @param string $after - html to put after text
+ * @param bool $echo - echo (true) or return(false) the html
+ * @return string - formatted date
+ */
+function the_fa_date( $before = '', $after = '', $echo = true ){
+	global $post, $FA_slider_options;
+	if( !$post || !$FA_slider_options['_fa_lite_aspect']['show_date'] ) return;
+	
+	$the_date = get_the_date(get_option('date_format'), $post);
+	
+	if( $echo ){
+		echo $before.$the_date.$after;
+	}else{
+		return $before.$the_date.$after;
+	}	
+}
+
+/**
+ * Displays the given HTML tag is any content ( title, text, read more or date ) is set
+ * in slideshow settings to be displayed. Used for both opening a tag and closing it.
+ * 
+ * @param string $tag - tag to be displayed if any content is set to be displayed
+ * @return void
+ */
+function fa_content_wrapper( $tag ){
+	global $FA_slider_options;
+	
+	$aspect = $FA_slider_options['_fa_lite_aspect'];	
+	
+	$theme_fields = array();
+	if( isset( $FA_slider_options['_fa_lite_theme_details']['theme_config']['Fields'] ) ){
+		$theme_fields = $FA_slider_options['_fa_lite_theme_details']['theme_config']['Fields'];
+	}
+	
+	$is_content = array(
+		'show_title',
+		'show_text',
+		'show_read_more',
+		'show_date'
+	);
+	
+	foreach ($is_content as $key){
+		$is_disabled = array_key_exists($key, $theme_fields) && $theme_fields[$key];
+		if( $aspect[$key] && !$is_disabled  ){
+			echo $tag;
+			break;
+		}
+	}
 }
 
 /**
@@ -666,13 +758,13 @@ function the_fa_background($show_image = true, $position = 'top left', $repeat =
 	}
 	
 	if( $show_image && !empty($post->FA_image) ){
-		$declarations[] = 'background-image:url('.$post->FA_image.'); background-position:'.$position.'; background-repeat:'.$repeat;
+		$declarations[] = 'background-image:url('.$post->FA_image[0].'); background-position:'.$position.'; background-repeat:'.$repeat;
 	}
 	
 	if( $echo )
 		echo implode('; ', $declarations);
 	else 
-		return implode('; ', $declarations);	
+		return implode('; ', $declarations);		
 }
 /**
  * Display the title above the slider. Tests if title should be displayed in options.
@@ -862,7 +954,7 @@ function FA_get_pages( $slider_id, $options = array() ){
 		'post_type'			=> 'page',
 		'post_status'		=>'publish',
 		'meta_key'			=>$meta_key,
-		'orderby'			=>'meta_value',
+		'orderby'			=>'meta_value_num',
 		'order'				=>'ASC',
 		'posts_per_page'	=>'-1'
 	);
@@ -887,7 +979,7 @@ function FA_get_content( $slider_id ){
 	$aspect_opt = FA_slider_options( $slider_id, '_fa_lite_aspect' );
 	foreach($postslist as $k=>$v){
 		// detect post image and save it in returned array
-		$image = FA_article_image($v, $slider_id);
+		$image = FA_article_image($v, $slider_id, false, false);
 		$postslist[$k]->FA_image = $image;
 		
 		// use custom titles if set
@@ -941,16 +1033,20 @@ function FA_get_content( $slider_id ){
 		if( $aspect_opt['strip_shortcodes'] ){
 			$content = strip_shortcodes($content);
 		}
-		// remove all HTML tags except links
-	    $string = strip_tags($content, $aspect_opt['allowed_tags']);
-	    //store the slider stripped text into a different variable
+		$content = apply_filters('the_content', $content);
+		
+		// remove all HTML tags except what's allowed
+		$allow_all_tags = $aspect_opt['allow_all_tags'];
+		if( !$allow_all_tags ){
+	    	$content = strip_tags( $content, $aspect_opt['allowed_tags'] );
+		}	
 	    
 	    $strlen = $image ? $aspect_opt['desc_truncate'] : $aspect_opt['desc_truncate_noimg'];
 	    
-	    if( !empty($aspect_opt['allowed_tags']) ){
-	    	$postslist[$k]->FA_post_content = FA_truncate_html($string, $strlen, $aspect_opt['end_truncate']);	
+	    if( $allow_all_tags || !empty($aspect_opt['allowed_tags']) ){
+	    	$postslist[$k]->FA_post_content = FA_truncate_html($content, $strlen, $aspect_opt['end_truncate']);	
 	    }else{	    
-			$postslist[$k]->FA_post_content = FA_truncate_text($string, $strlen, $aspect_opt['end_truncate']);
+			$postslist[$k]->FA_post_content = FA_truncate_text($content, $strlen, $aspect_opt['end_truncate']);
 	    }
 	}	
 	return $postslist;
@@ -1125,8 +1221,13 @@ function FA_slider_options( $id = false, $meta_key = false ){
 			'end_truncate'				=>'...', // end truncated text with this
 			'read_more'					=>'Read more', // read more link text
 			'allowed_tags'				=>'<a>',	 // allowed tags in truncated descriptions
+			'allow_all_tags'			=>false, // allow all HTML tags
 			'bottom_nav'				=>true, // display bottom navigation
-			'sideways_nav'				=>true // display sideways navigation
+			'sideways_nav'				=>true, // display sideways navigation
+			'show_title'				=>true, // show or hide titles
+			'show_text'					=>true,
+			'show_read_more'			=>true,
+			'show_date'					=>true
 		),
 		'_fa_lite_display'				=>array(
 			'loop_display'				=>0, // display on loop x - for automatically placed sliders
@@ -1145,6 +1246,7 @@ function FA_slider_options( $id = false, $meta_key = false ){
 			'active_theme'				=>'classic', // active theme
 			'active_theme_color'		=>'dark' // active theme color scheme
 		),
+		'_fa_lite_theme_details'		=>array(), // stores theme details from theme funcitons page
 		'_fa_lite_home_display'			=>false, // store option to display slider on homepage
 		'_fa_lite_categ_display'		=>array(), // store categories to display slider on
 		'_fa_lite_page_display'			=>array() // store pages to display slider on
@@ -1235,7 +1337,8 @@ function FA_fields($theme_params){
 		'sideways_nav'			=>1,
 		'effectDuration'		=>1,
 		'fadeDist'				=>1,
-		'fadePosition'			=>1
+		'fadePosition'			=>1,
+		'show_date'				=>1
 	);
 	$all_config_fields = apply_filters('fa-extend-optional-fields', $all_config_fields);
 	

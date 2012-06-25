@@ -15,7 +15,7 @@
 			<div class="FA_wrap">
 				<?php the_fa_image();?>
                 <?php the_fa_title('<h2>', '</h2>');?>
-                <span class="FA_date"><?php the_time(get_option('date_format')); ?></span>
+                <?php the_fa_date('<span class="FA_date">', '</span>');?>
                 <?php the_fa_content('<p>', '</p>');?>
                 <?php the_fa_read_more();?>
 			</div>                			

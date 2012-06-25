@@ -26,9 +26,14 @@
 					the_fa_title('<h2>', '</h2>');
 				?>
 				
-				<span class="FA_date"><?php the_time(get_option('date_format')); ?></span>
-                
-                <?php 
+				<?php 
+					/**
+					 * Template function to display the date.
+					 */
+					the_fa_date('<span class="FA_date">', '</span>');
+				?>
+				
+				<?php 
                 	/**
                 	 * Template function to display content. Has the ability to run or not shortcodes
                 	 */

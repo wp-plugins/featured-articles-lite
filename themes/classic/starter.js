@@ -35,7 +35,7 @@
 		if( !s.classic_thumb_animate ) return;
 		
 		var img = jQuery(d.nextElem).find('.image_container');
-		img.css({'margin-top':-500, 'margin-bottom':800}).animate({'margin-top':0}, {queue:false, duration:800});
+		img.css({'margin-top':-500}).animate({'margin-top':0}, {queue:false, duration:800});
 		
 		var img = jQuery(d.currentElem).find('.image_container');
 		img.animate({'margin-top':500}, {queue:false, duration:800});

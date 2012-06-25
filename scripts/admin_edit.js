@@ -28,7 +28,8 @@ var FA_opened_dialog = false;
 			$(this).children('.remove_item').css('display', 'none');
 		})
 		// remove items from list
-		$(".FA_sortable li a.remove_item").live('click', function(){
+		$("a.remove_item").live('click', function(e){
+			e.preventDefault();
 			$(this).parent().remove();	
 		})
 		// toggle between different content types
@@ -86,6 +87,22 @@ var FA_opened_dialog = false;
 		$('#thumbnail_display').click(function(e){
 			var d = $(this).is(':checked') ? '' : 'none';
 			$('div#has_thumbnail').css('display', d);
+		})
+		
+		$('.fa_has_extra[type=checkbox]').click(function(){
+			var extra = '#'+($(this).attr('id'))+'_extra';
+			if( $(this).is(':checked') ){
+				$(extra).fadeIn(200);
+			}else{
+				$(extra).fadeOut(200);
+			}			
+		}).each(function(i, e){
+			var extra = '#'+($(this).attr('id'))+'_extra';
+			if( $(this).is(':checked') ){
+				$(extra).show();
+			}else{
+				$(extra).hide();
+			}
 		})
 		
 	})

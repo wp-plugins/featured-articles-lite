@@ -1,5 +1,5 @@
 /**
- * @package Featured articles PRO - Wordpress plugin
+ * @package Featured articles Lite - Wordpress plugin
  * @author CodeFlavors ( codeflavors[at]codeflavors.com )
  * @url http://www.codeflavors.com/featured-articles-pro/
  * @version 2.4
