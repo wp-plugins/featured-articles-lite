@@ -376,8 +376,12 @@ function FA_article_image ($post, $slider_id, $other_size = false, $return_path 
 			return $meta_image;
 		}	
 	}
-
-	return $image['img'];
+	// if only path should be returned, do it
+	if( $return_path ){	
+		return $image['img'];
+	}else{ // return array. Should contain width and height of image so set them to auto
+		return array($image['img'], false, false);
+	}	
 }
 /**
  * For image autodetection, scan post text to save the image on save_post action.
@@ -564,13 +568,16 @@ function do_the_fa_image($before = '', $after = '', $clickable = false) {
 		$link_close = '</a>';
 	}
 	
+	$width = $post->FA_image[1] ? 'width="'.$post->FA_image[1].'"' : '';
+	$height = $post->FA_image[2] ? 'height="'.$post->FA_image[2].'"' : '';
+	
 	// add link to image if any
 	$image_html = sprintf(
-		'%1$s<img src="%2$s" width="%3$s" height="%4$s" alt="" />%5$s', 
+		'%1$s<img src="%2$s" %3$s %4$s alt="" />%5$s', 
 		$link_open, 
 		$post->FA_image[0], 
-		$post->FA_image[1], 
-		$post->FA_image[2], 
+		$width, 
+		$height, 
 		$link_close
 	);
 	return $before . $image_html . $after;

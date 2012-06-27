@@ -9,11 +9,11 @@ Put featured posts or pages into a fancy JavaScript slider that can be set to di
 
 == Description ==
 
-**FeaturedArticles for Wordpress** slideshow plugin allows you to create sliders in your blog pages directly from your already written content, be it posts or pages. With the ability to change any slider aspect by making use of slideshow themes that are delivered with the plugin, almost anything is possible. Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
+**FeaturedArticles for WordPress** slideshow plugin allows you to create sliders in your blog pages directly from your already written content, be it posts or pages. With the ability to change any slider aspect by making use of slideshow themes that are delivered with the plugin, almost anything is possible. Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
 
 Slideshows can be placed by one of these ways (or all at the same time):
 
-* manual placement directly into your WOrdpress theme template files (requires editing the template file you want to place a slideshow in and add a small piece of code);
+* manual placement directly into your WordPress theme template files (requires editing the template file you want to place a slideshow in and add a small piece of code);
 * shortcode placement directly into a post or page content;
 * widget placement into any widget areas your theme has;
 * automatic placement in any page just above the page loop.
@@ -31,16 +31,16 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 
 **Important links:**
 
-* [Documentation](http://www.codeflavors.com/documentation/ "FeaturedArticles for Wordpress documentation") on plugin usage and slideshow theme structure;
+* [Documentation](http://www.codeflavors.com/documentation/ "FeaturedArticles for WordPress documentation") on plugin usage and slideshow theme structure;
 * [Forums](http://www.codeflavors.com/codeflavors-forums/ "CodeFlavors Community Forums") (while we try to keep up with the forums here, please post any requests on our forums for a faster response);
-* [FeaturedArticles homepage](http://www.codeflavors.com/featured-articles-pro/ "FeaturedArticles for Wordpress")
-* [CodeFlavors News](http://www.codeflavors.com/news/ "CodeFlavors news on FeaturesArticles for Wordpress plugin") - [CodeFlavors](http://www.codeflavors.com/ "CodeFlavors - devoted to Wordpress") is our new home.
+* [FeaturedArticles homepage](http://www.codeflavors.com/featured-articles-pro/ "FeaturedArticles for WordPress")
+* [CodeFlavors News](http://www.codeflavors.com/news/ "CodeFlavors news on FeaturesArticles for WordPress plugin") - [CodeFlavors](http://www.codeflavors.com/ "CodeFlavors - devoted to WordPress") is our new home.
 
 **Features:**
 
 * Add, remove, order any slideshow content made of pages or mixed content;
 * Animation control (based on individual themes);
-* Write custom slides by using the Wordpress editor (PRO);
+* Write custom slides by using the WordPress editor (PRO);
 * Put videos in custom slides from Vimeo or YouTube to replace the image for both thumbnails and full background image - compatible with both Flash players and HTML5 players from Vimeo and YouTube(PRO);
 * Customize posts and pages displayed into slideshows by specifying a different title, content, slide background color, image and more;
 * Change themes by choosing from up to 7 currently available themes (only 3 in Lite version);
@@ -48,7 +48,7 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 * Create color palette stylesheets using a visual editor(PRO);
 * Preview slideshow even before publishing it in your pages.
 * Display slideshows by widgets, shorcodes, manual code snippet or automatic display above any page loop;
-* Create new themes that can completely change the default animations and can add new options fields custom for it in Slider editing in Wordpress admin.
+* Create new themes that can completely change the default animations and can add new options fields custom for it in Slider editing in WordPress admin.
 
 These are just a few of the things this plugin can do so just go on and try it for yourself.
 
@@ -59,7 +59,7 @@ What can this plugin be used for? Well, you name it and we'll find a way to make
 **Before updating, make sure you back-up all your custom made themes.**
 
 With version 2.4, things went a little different. We tried (you judge) to make an easier, funnier and more extensible way of creating themes for FeaturedArticles slideshows. Themes prior to this version should still work.
-Also, starting with this version we moved the plugin to a different website called [CodeFlavors](http://www.codeflavors.com/ "CodeFlavors - devoted to Wordpress"). This will be the home of all plugins we are going to develop for Wordpress from now on.
+Also, starting with this version we moved the plugin to a different website called [CodeFlavors](http://www.codeflavors.com/ "CodeFlavors - devoted to WordPress"). This will be the home of all plugins we are going to develop for WordPress from now on.
 If you find yourself into trouble with this update, we have docs, community forums and we'll be happy to help you.
 
 **You'll notice something missing!**. Automatic placement is no longer displayed into slideshow settings by default. To enable it, go to Settings and check the *Enable automatic slider insertion* option.
@@ -81,7 +81,7 @@ If you are upgrading to the current version, make sure you backup all the files 
 
 For your convenience, once you save a slider, under Manual Placement you will see the code needed to be placed into your theme files to display it.
 
-For any clarifications see the [Docs](http://www.codeflavors.com/documentation/ "FeaturedArticles for Wordpress documentation") or ask for help on our [Forums](http://www.codeflavors.com/codeflavors-forums/ "CodeFlavors Forums").
+For any clarifications see the [Docs](http://www.codeflavors.com/documentation/ "FeaturedArticles for WordPress documentation") or ask for help on our [Forums](http://www.codeflavors.com/codeflavors-forums/ "CodeFlavors Forums").
 We don't actively monitor the forum here on Wordpres.org so responses to questions posted here might take a while to get answered.
 
 == Screenshots ==
@@ -96,6 +96,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 8. Theme Strips (PRO)
 
 == Changelog ==
+
+= 2.4.9.1 =
+* Solved bug that was causing remote images not to be displayed into the slideshow.
 
 = 2.4.9 =
 * New options to hide title, text, date and read more link in slides when editing or creating a slideshow.
