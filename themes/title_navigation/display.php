@@ -11,7 +11,7 @@
 <div class="FA_overall_container_title_nav FA_slider <?php the_slider_color();?>" style="<?php the_slider_width()?>" id="<?php echo $FA_slider_id;?>">	
 	<div class="FA_featured_articles" style="<?php the_slider_height();?>">
 	<?php foreach ($postslist as $post):?>
-		<div class="FA_article  <?php the_fa_class();?>" style="<?php the_fa_background(false);?>; <?php the_slider_height();?>">	
+		<div class="FA_article  <?php the_fa_class();?>" style="<?php the_fa_background(false);?>; <?php the_slider_height();?>;">	
 			<div class="FA_wrap">
 				<?php the_fa_image();?>
                 <?php the_fa_title('<h2>', '</h2>');?>

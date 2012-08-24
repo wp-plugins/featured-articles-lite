@@ -1,8 +1,8 @@
 === Featured Articles Lite ===
 Contributors: constantin.boiangiu
-Tags: slider, featured, articles, posts, pages
+Tags: slider, slideshow, WordPress slider, media, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
 Requires at least: 3.1
-Tested up to: 3.4
+Tested up to: 3.4.1
 Stable tag: trunk
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
@@ -96,6 +96,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 8. Theme Strips (PRO)
 
 == Changelog ==
+
+= 2.4.9.2 =
+* resolved podPress related bug that was displaying raw podPress player code into slides. Instead of applying all the_content filters, it applies only the default WordPress filters (wptexturize, convert_smilies, convert_chars, wpautop, shortcode_unautop).
 
 = 2.4.9.1 =
 * Solved bug that was causing remote images not to be displayed into the slideshow.

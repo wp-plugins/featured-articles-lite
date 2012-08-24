@@ -984,6 +984,8 @@ function FA_get_content( $slider_id ){
 	}
 	
 	$aspect_opt = FA_slider_options( $slider_id, '_fa_lite_aspect' );
+	
+	// loop posts to create result	
 	foreach($postslist as $k=>$v){
 		// detect post image and save it in returned array
 		$image = FA_article_image($v, $slider_id, false, false);
@@ -1040,7 +1042,9 @@ function FA_get_content( $slider_id ){
 		if( $aspect_opt['strip_shortcodes'] ){
 			$content = strip_shortcodes($content);
 		}
-		$content = apply_filters('the_content', $content);
+		
+		// apply content filters		
+		$content = apply_filters('the_fa_content', $content);
 		
 		// remove all HTML tags except what's allowed
 		$allow_all_tags = $aspect_opt['allow_all_tags'];
@@ -1055,9 +1059,20 @@ function FA_get_content( $slider_id ){
 	    }else{	    
 			$postslist[$k]->FA_post_content = FA_truncate_text($content, $strlen, $aspect_opt['end_truncate']);
 	    }
-	}	
+	}
+	// return list of posts
 	return $postslist;
 }
+
+function fa_the_content_filters(){
+	add_filter( 'the_fa_content', 'wptexturize'        );
+	add_filter( 'the_fa_content', 'convert_smilies'    );
+	add_filter( 'the_fa_content', 'convert_chars'      );
+	add_filter( 'the_fa_content', 'wpautop'            );
+	add_filter( 'the_fa_content', 'shortcode_unautop'  );
+	//add_filter( 'the_fa_content', 'prepend_attachment' );	
+}
+add_action('init', 'fa_the_content_filters', 1);
 
 /**
  * Creates a JSON string from an array
