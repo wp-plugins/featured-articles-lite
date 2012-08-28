@@ -204,7 +204,7 @@ into
 * Custom post/pages images improved usage and interface
 * Easy setting for featured posts and pages to be displayed into the slider
 * Image detection improved even more. Currently there are 2 ways to set an image for a certain post: by setting the image as a custom field and second by detecting the image from post content. For images detected in post content, the plugin tries to identify the exact attachment from the database and if found, it automatically sets the image into the custom field. The only thing it needs is for the image to have the width and height attributes set in HTML.
-* New theme available (Smoke). See screenshots for details and [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/#additional-themes "WP Featured Articles plugin - theme Smoke settings") for instructions on how to set up this theme.
+* New theme available (Smoke).
 
 = 2.1 =
 * Date format in featured post short description displays according to blog date format option setting
@@ -228,15 +228,5 @@ Plugin is guaranteed to work on a clean Wordpress install. Since themes and othe
 3. Use the proper Wordpress version (3.1 +).
 4. See if your theme footer.php file calls wp_footer().
 
-If all options are exhausted, you can always ask for help on our forums. We'll answer whenever the time allows us to.
+If all options are exhausted, you can always ask for help on our forums at [CodeFlavors Featured Articles WP forum](http://www.codeflavors.com/codeflavors-forums/forum/featured-articles/ "Featured Articles for WordPress forum"). We'll answer whenever the time allows us to.
 
-ONLY FOR VERSIONS PRIOR TO 2.3
-
-The slider script is developed using MooTools 1.2. Since the framework isn't bundled in Wordpress (as jQuery is), the plugin adds the MooTools framework along with the other scripts it needs to run into the blog header. If other plugins running on MooTools are installed the page will issue Javascript errors. To solve this problem, in slider administration page there's an option to drop the MooTools script so that conflicts no longer occur.
-
-Another known problem is if any of the plugin installed use Prototype framework. MooTools and Prototype are conflicting and the only solution would be to remove one of the plugins (either the MooTools based or the Prototype based plugins).
-
-Usually, after you install Featured Articles Lite into your blog and you go see it in front-end and the slider doesn't work it's a clear sign that there's a framework conflict. First thing to to is to go to wp-admin and open the FA Lite settings panel. Look for option Unload MooTools framework and uncheck it. Go back to front-end and see if the slider works. If it does, this means that another plugin uses MooTools and there was a conflict because MooTools was included twice in header.
-If the slider still doesn't work, look into page source and do a search for "prototype.js". If you can see it in your page source it's time to make a decision: use FA Lite and deactivate the plugin using Prototype or drop FA Lite and continue using the other plugin.
-
-If you need help troubleshooting leave a comment on [WP featured articles Lite homepage](http://www.php-help.ro/mootools-12-javascript-examples/wordpress-featured-content-plugin/#additional-themes "WP Featured Articles plugin homepage").
