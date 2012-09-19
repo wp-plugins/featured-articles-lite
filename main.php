@@ -812,6 +812,20 @@ function FA_activation(){
 register_activation_hook(__FILE__, 'FA_activation');
 
 /**
+ * Grant admin user with full permission to plugin
+ */
+function FA_admin_permission(){
+	// give permission to administrator to change slider settings
+	if( current_user_can('manage_options') ){
+		if( !current_user_can( FA_CAPABILITY ) ){
+			global $wp_roles;
+			$wp_roles->add_cap('administrator', FA_CAPABILITY);			
+		}
+	}	
+}
+add_action('set_current_user', 'FA_admin_permission');
+
+/**
  * Admin messages
  */
 function FA_admin_head(){
