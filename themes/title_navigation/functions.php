@@ -15,18 +15,18 @@
  */
 function fa_title_navigation_theme_details( $defaults ){
 	$defaults = array(
-		'Author'=>'CodeFlavors',
-		'AuthorURI'=>'http://www.codeflavors.com',
-		'Copyright'=>'author',
-		'Compatibility'=>'Featured Articles 2.4',
+		'Author'		=> 'CodeFlavors',
+		'AuthorURI'		=> 'http://www.codeflavors.com',
+		'Copyright'		=> 'author',
+		'Compatibility'	=> 'Featured Articles 2.4',
 		'Fields'=>array(
-			'bottom_nav'=>0,
-			'sideways_nav'=>0
+			'bottom_nav'		=> 0,
+			'sideways_nav'		=> 0,
+			'show_post_author'	=> 0
 		),
-		'Image'=>'image'
+		'Image' 		=> 'image'
 	);	
-	return $defaults;
-	
+	return $defaults;	
 }
 add_filter('fa-theme-details-title_navigation', 'fa_title_navigation_theme_details', 1);
 

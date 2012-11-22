@@ -362,3 +362,57 @@ function get_wp_params(){
 	wp_params = jQuery.extend(hParams, fParams);
 	return wp_params;	
 }
+
+//Image prealoders
+;(function($){
+	$(document).ready(function(){
+		
+		var params = get_wp_params(),
+			loadingImgUrl = params.loading_icon;
+		
+		$('.fa_preload_bg').each( function(i, slide){
+			var bgImage = $(slide).css('background-image').replace(/^url\(["']?/, '').replace(/["']?\)$/, ''),
+				bgPosition = $(slide).css('background-position'),
+				bgRepeat = $(slide).css('background-repeat');
+			
+			$(slide).css({
+				'background-image' : 'url('+loadingImgUrl+')',
+				'background-position' : 'center center',
+				'background-repeat' : 'no-repeat'
+			})
+			
+			var img = $('<img />',{
+					'src':bgImage,
+					'alt':''
+				});
+			
+			$(img).load(function(){
+				$(slide).css({
+					'background-image':'url('+bgImage+')',
+					'background-position' : bgPosition,
+					'background-repeat' : bgRepeat
+				});	
+			})			
+		})
+		
+		var image_preloaders = $('div.fa_preloader');		
+		$.each(image_preloaders, function(i, el){
+			var child = $(this).children(),
+				parent = child.length == 0 ? $(this) : $(child),
+				img_raw = parent.html(),
+				img = img_raw.replace(/<!--|-->/g, '');;
+			
+			parent.empty();	
+				
+			var img_html = $('<img />',{
+				'src':img,
+				'alt':''
+			});
+			
+			$(img_html).load(function(){				
+				$(el).css({'width':'auto', 'height':'auto', 'background':'none'});
+				$(this).appendTo( parent );
+			})
+		})	
+	})
+})(jQuery);

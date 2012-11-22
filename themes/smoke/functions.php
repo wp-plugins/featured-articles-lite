@@ -15,19 +15,20 @@
  */
 function fa_smoke_theme_details( $defaults ){
 	$defaults = array(
-		'Author'=>'CodeFlavors',
-		'AuthorURI'=>'http://www.codeflavors.com',
-		'Copyright'=>'author',
-		'Compatibility'=>'Featured Articles 2.4',
-		'Fields'=>array(
-			'bottom_nav'=>0,
-			'sideways_nav'=>0,
-			'desc_truncate_noimg'=>0,
-			'thumbnail_display'=>0,
-			'thumbnail_click'=>0
+		'Author'		=> 'CodeFlavors',
+		'AuthorURI'		=> 'http://www.codeflavors.com',
+		'Copyright'		=> 'author',
+		'Compatibility'	=> 'Featured Articles 2.4',
+		'Fields' 		=> array(
+			'bottom_nav'			=> 0,
+			'sideways_nav'			=> 0,
+			'desc_truncate_noimg'	=> 0,
+			'thumbnail_display'		=> 0,
+			'thumbnail_click'		=> 0,
+			'show_post_author'		=> 0
 		),
-		'Image'=>'background',
-		'Message'=>'This theme has full image background. Check your image size to be same or close to slider size under Slide Content Options -> Image'
+		'Image' 		=> 'background',
+		'Message'		=> 'This theme has full image background. Check your image size to be same or close to slider size under Slide Content Options -> Image'
 	);	
 	return $defaults;
 	

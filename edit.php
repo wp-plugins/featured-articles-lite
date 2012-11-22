@@ -418,21 +418,31 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 	                                	<label for="end_truncate" title="<?php _e('Append to shortened post content');?>"><?php _e('End truncated text with', 'falite');?></label>
 	                                	<input type="text" name="end_truncate" id="end_truncate" value="<?php echo $options['_fa_lite_aspect']['end_truncate']; ?>" class="small-text" /><br />
 									
-	                                	<label for="read_more" class="FA_inline" title="<?php _e('Read more link on article will display this text.', 'falite');?>"><?php _e('Link text', 'falite');?></label>
-	                                	<input type="text" id="read_more" name="read_more" value="<?php echo $options['_fa_lite_aspect']['read_more']; ?>" />
-	                                	<input type="checkbox" name="show_read_more" id="show_read_more" value="1"<?php if( $options['_fa_lite_aspect']['show_read_more'] ):?> checked="checked"<?php endif;?> />
-	                                	<label for="show_read_more" class="FA_inline" title="<?php _e('Hide read more link on all slides.', 'falite');?>"><?php _e('show read more link', 'falite');?></label><br />
-	                                
 	                                	<label for="allowed_tags" title="<?php _e('The tags you specify here will not be stripped from the description.', 'falite');?>"><?php _e('Allow these HTML tags', 'falite');?>:</label>
 	                                	<input type="text" name="allowed_tags" id="allowed_tags" value="<?php echo $options['_fa_lite_aspect']['allowed_tags']; ?>" class="regular-text" />
 	                                	
 	                                	<input type="checkbox" name="allow_all_tags" id="allow_all_tags" value="1"<?php if($options['_fa_lite_aspect']['allow_all_tags']):?> checked="checked"<?php endif;?> />
-	                                	<label for="allow_all_tags" class="FA_inline"><?php _e('Allow all tags', 'falite');?></label><br/>
-	                                	
-	                                	<span class="note"><?php _e('Example to allow links and paragraphs', 'falite');?>: &lt;a&gt;&lt;p&gt;</span><br />
+	                                	<label for="allow_all_tags" class="FA_inline"><?php _e('Allow all tags', 'falite');?></label><br/>	                                	
+	                                	<span class="note" id="allowed_tags_note"><?php _e('Example to allow links and paragraphs', 'falite');?>: &lt;a&gt;&lt;p&gt;</span>
 	                                
 	                           			<?php do_action('fa_extra_text_fields', $options);?>
-	                           		</div>	
+	                           		</div>
+	                           	
+	                           		
+	                           		<input type="checkbox" name="show_read_more" id="show_read_more" class="fa_has_extra FA_optional" value="1"<?php if( $options['_fa_lite_aspect']['show_read_more'] ):?> checked="checked"<?php endif;?><?php if($fields['show_read_more'] == 0):?> disabled="disabled"<?php endif;?> />
+                                	<label for="show_read_more" class="FA_inline<?php if($fields['show_read_more'] == 0):?> disabled<?php endif;?>" title="<?php _e('Hide read more link on all slides.', 'falite');?>"><?php _e('Show read more link', 'falite');?></label>
+                                	<span id="show_read_more_extra">
+                                		<label for="read_more" class="FA_inline" title="<?php _e('Read more link on article will display this text.', 'falite');?>"><?php _e('having text', 'falite');?></label>
+                                		<input type="text" id="read_more" name="read_more" value="<?php echo $options['_fa_lite_aspect']['read_more']; ?>" />
+                                	</span>
+                                	<br />
+                                	
+                                	<input type="checkbox" name="show_post_author" id="show_post_author" value="1" class="FA_optional"<?php if($options['_fa_lite_aspect']['show_post_author']):?> checked="checked"<?php endif;?><?php if($fields['show_post_author'] == 0):?> disabled="disabled"<?php endif;?>  />
+                                	<label for="show_post_author" class="FA_optional<?php if($fields['show_post_author'] == 0):?> disabled<?php endif;?> FA_inline"><?php _e('Show post author name', 'falite');?></label><br />
+                                	<input type="checkbox" name="link_post_author" id="link_post_author" value="1" class="FA_optional"<?php if($options['_fa_lite_aspect']['link_post_author']):?> checked="checked"<?php endif;?> />
+                                	<label for="link_post_author" class="FA_optional FA_inline"><?php _e('Link author name to its posts page', 'falite');?></label><br />	
+	                            
+	                            
 	                            </div>
 	                            <div class="section last">
 	                            	<strong><?php _e('Image', 'falite');?></strong>
@@ -441,7 +451,9 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 	                                <label class="FA_optional<?php if($fields['thumbnail_display'] == 0):?> disabled<?php endif;?>" for="thumbnail_display" title="<?php _e('Choose to display images or not', 'falite')?>"><?php _e('Display item image', 'falite');?></label><br />                                
 	                                
 	                                <div id="thumbnail_display_extra">
-	                                
+	                                	<input type="checkbox" id="thumbnail_preloader" class="" name="thumbnail_preloader"<?php if($options['_fa_lite_aspect']['thumbnail_preloader']):?> checked="checked"<?php endif;?> value="1" />
+	                                	<label class="" for="thumbnail_preloader" title="<?php _e('Images will be preloaded for better page loading time on heavy image slideshows.', 'falite');?>"><?php _e('Preload images', 'falite');?></label><br />
+											                                	
 										<?php if(current_theme_supports('post-thumbnails')):?>
 		                                <p class="info">
 		                                    <?php _e('Your theme supports thumbnails.', 'falite');?><br>
@@ -449,22 +461,32 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 		                                </p>
 		                                <?php endif;?>
 		                                
-		                                <label for="th_size" title="<?php _e('Set image maximum size if displayed', 'falite');?>"><?php _e('Image size', 'falite');?>:</label>
-		                                <?php 
-		                                    $wp_th_sizes = get_intermediate_image_sizes();
-		                                    $wp_th_sizes[] = 'full';
-		                                    $sizes = array();
-		                                    foreach ($wp_th_sizes as $s){
-		                                        $sizes[$s] = FA_image_size_pixels($s);
-		                                    }                            		
-		                                ?>
-		                                <select name="th_size" id="th_size">
-		                                <?php foreach($sizes as $s=>$d):
-		                                        $sel = $options['_fa_lite_aspect']['th_size'] == $s ? ' selected="selected"' : '';
-		                                ?>
-		                                    <option<?php echo $sel;?> value="<?php echo $s?>"><?php echo ucfirst($s);?><?php if ($d):?> - <?php _e('max.', 'falite')?> <?php echo implode('x', $d)?> px.<?php else:?> - <?php _e('max. uploaded size', 'falite');?><?php endif;?></option>
-		                                <?php endforeach;?>
-		                                </select><br />
+		                                <input type="radio" name="fa_image_source" id="fa_image_source_wp" value="wp"<?php if( 'wp' == $options['_fa_lite_aspect']['fa_image_source'] ):?> checked="checked"<?php endif;?> /> <label for="fa_image_source_wp"><?php _e('Use WordPress registered image sizes', 'falite');?></label>
+		                                <input type="radio" name="fa_image_source" id="fa_image_source_custom" value="custom"<?php if( 'custom' == $options['_fa_lite_aspect']['fa_image_source'] ):?> checked="checked"<?php endif;?> /> <label for="fa_image_source_custom"><?php _e('Use custom image size', 'falite')?></label><br />
+		                                
+			                            <div id="fa_image_source_wp_options"<?php if( 'custom' == $options['_fa_lite_aspect']['fa_image_source'] ):?> style="display:none;"<?php endif;?>>    
+			                                <label for="th_size" title="<?php _e('Set image maximum size if displayed', 'falite');?>"><?php _e('Image size', 'falite');?>:</label>
+			                                <?php 
+			                                    $wp_th_sizes = get_intermediate_image_sizes();
+			                                    $wp_th_sizes[] = 'full';
+			                                    $sizes = array();
+			                                    foreach ($wp_th_sizes as $s){
+			                                        $sizes[$s] = FA_image_size_pixels($s);
+			                                    }                            		
+			                                ?>
+			                                <select name="th_size" id="th_size">
+			                                <?php foreach($sizes as $s=>$d):
+			                                        $sel = $options['_fa_lite_aspect']['th_size'] == $s ? ' selected="selected"' : '';
+			                                ?>
+			                                    <option<?php echo $sel;?> value="<?php echo $s?>"><?php echo ucfirst($s);?><?php if ($d):?> - <?php _e('max.', 'falite')?> <?php echo implode('x', $d)?> px.<?php else:?> - <?php _e('max. uploaded size', 'falite');?><?php endif;?></option>
+			                                <?php endforeach;?>
+			                                </select>
+		                                </div>
+		                                <div id="fa_image_source_custom_options"<?php if( 'wp' == $options['_fa_lite_aspect']['fa_image_source'] ):?> style="display:none;"<?php endif;?>>
+			                                <label for="custom_image_width"><?php _e('Custom image size', 'falite');?>: </label>
+			                                <label for="custom_image_width"><?php _e('width', 'falite');?></label> <input type="text" class="small-text FA_number" name="custom_image_width" id="custom_image_width" value="<?php echo $options['_fa_lite_aspect']['custom_image_width'];?>" /> px.
+			                                <label for="custom_image_height"><?php _e('height', 'falite');?></label> <input type="text" class="small-text FA_number" name="custom_image_height" id="custom_image_height" value="<?php echo $options['_fa_lite_aspect']['custom_image_height'];?>" /> px.<br />
+		                                </div>
 		                                
 		                                <input type="checkbox" class="FA_optional" id="thumbnail_click" name="thumbnail_click"<?php if($options['_fa_lite_aspect']['thumbnail_click']) echo ' checked="checked"';?> value="1"<?php if($fields['thumbnail_click'] == 0):?> disabled="disabled"<?php endif;?> />
 		                                <label for="thumbnail_click" class="FA_optional<?php if($fields['thumbnail_click'] == 0):?> disabled<?php endif;?>" title="<?php _e('Image is clickable', 'falite')?>"><?php _e('Image is clickable', 'falite');?></label>                              
@@ -566,7 +588,8 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
     </form>
 </div>
 <script language="javascript" type="text/javascript">
-	jQuery(document).ready(function(){
+;(function($){
+	$(document).ready(function(){
 		var cond = {};
 		var messages = {};
 		var previews = {};
@@ -591,68 +614,80 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 
 		// enable all enabled fields on page load
 		// this is needed because theme fields are created disabled by default
-		var theme = jQuery('#FA_active_theme').val(),
+		var theme = $('#FA_active_theme').val(),
 			conditions = cond[theme];
-		jQuery.each(conditions, function(field_id, enabled){
+		$.each(conditions, function(field_id, enabled){
 			if( enabled ){
-				jQuery('#FeaturedArticles_settings .FA_optional[name='+field_id+']').removeAttr('disabled');
-				jQuery('#FeaturedArticles_settings label[for='+field_id+']').removeClass('disabled');
+				$('#FeaturedArticles_settings .FA_optional[name='+field_id+']').removeAttr('disabled');
+				$('#FeaturedArticles_settings label[for='+field_id+']').removeClass('disabled');
 			}
 		})
 		
 		// manage the themes drop-down change event
-		jQuery('#FA_active_theme').change(function(){
-			var v = jQuery(this).val();
-			var fields = jQuery('#FeaturedArticles_settings .FA_optional');
+		$('#FA_active_theme').change(function(){
+			var v = $(this).val();
+			var fields = $('#FeaturedArticles_settings .FA_optional');
 
 			fields.removeAttr('disabled');
-			jQuery.each(fields, function(){
-				var id = jQuery(this).attr('id');
-				jQuery('#FeaturedArticles_settings label').removeClass('disabled');
+			$.each(fields, function(){
+				var id = $(this).attr('id');
+				$('#FeaturedArticles_settings label').removeClass('disabled');
 			})
 			
-			jQuery.each( cond[v], function(i,e){				
+			$.each( cond[v], function(i,e){				
 				if( e!==0 ){
+					if( $('#'+i).hasClass('fa_has_extra') && $('#'+i).is(':checked')  ){
+						$('#'+i+'_extra').show();
+					}					
 					return;
 				}	
 				
-				var fields = jQuery('#FeaturedArticles_settings .FA_optional[name='+i+']');
+				var fields = $('#FeaturedArticles_settings .FA_optional[name='+i+']');
 				fields.attr({'disabled': 'disabled'});
 				
 				if( fields.length == 1 ){			
-					jQuery('#FeaturedArticles_settings label[for='+i+']').addClass('disabled');
+					$('#FeaturedArticles_settings label[for='+i+']').addClass('disabled');
+					if( $('#'+i).hasClass('fa_has_extra') ){
+						if( 'thumbnail_display' == i && e==0 ){
+							$('#'+i).attr('checked', 'checked');
+							$('#'+i+'_extra').show();
+						}else{						
+							$('#'+i+'_extra').hide();
+						}	
+					}
 				}else{
-					jQuery.each( fields, function(){
-						var id = jQuery(this).attr('id');
-						jQuery('#FeaturedArticles_settings label[for='+id+']').addClass('disabled');
+					$.each( fields, function(){
+						var id = $(this).attr('id');
+						$('#FeaturedArticles_settings label[for='+id+']').addClass('disabled');
 					})
 				}	
 				
 			});
 
-			jQuery('#FA_theme_messages').html( messages[v] );
+			$('#FA_theme_messages').html( messages[v] );
 			
 			var preview = previews[v];
 			if( preview == '0' ){
-				jQuery('#preview-holder').html('<span><?php _e('Preview image not available', 'falite');?></span>');
+				$('#preview-holder').html('<span><?php _e('Preview image not available', 'falite');?></span>');
 			}else{
-				jQuery('#preview-holder').html('<img src="'+preview+'" alt="" />');
+				$('#preview-holder').html('<img src="'+preview+'" alt="" />');
 			}	
 								
 			
 		})
 
-		jQuery('#allow_all_tags').click(function(e){
-			if( jQuery(this).is(':checked') ){
-				jQuery('#allowed_tags').attr('disabled', 'disabled');
+		$('#allow_all_tags').click(function(e){
+			if( $(this).is(':checked') ){
+				$('#allowed_tags').attr('disabled', 'disabled');
 			}else{
-				jQuery('#allowed_tags').removeAttr('disabled');
+				$('#allowed_tags').removeAttr('disabled');
 			}
 		}).each(function(i, el){
-			if( jQuery(this).is(':checked') ){
-				jQuery('#allowed_tags').attr('disabled', 'disabled');
+			if( $(this).is(':checked') ){
+				$('#allowed_tags').attr('disabled', 'disabled');
 			}
 		})
 		
 	});
+})(jQuery);	
 </script>

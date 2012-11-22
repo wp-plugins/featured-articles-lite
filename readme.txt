@@ -20,7 +20,7 @@ Slideshows can be placed by one of these ways (or all at the same time):
 
 While Lite version of FeaturedArticles provides all the neccessary tools for creating very nice slideshows, PRO version of this same plugin comes in addition with:
 
-* 4 more themes developed by our developers team (7 in total, 3 video enabled by default in PRO version);
+* 6 more themes (2 of them responsive) developed by our developers team (9 in total, 5 video enabled by default in PRO version);
 * **video enabled** custom slides for **YouTube and Vimeo** that can replace the image with a video ( [See examples here](http://www.codeflavors.com/featured-articles-pro/examples/ "FeaturedArticles PRO examples") );
 * custom writen slides that can be written using the visual editor;
 * slideshows can display custom post types if your WordPress blog has them;
@@ -96,6 +96,16 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 8. Theme Strips (PRO)
 
 == Changelog ==
+
+= 2.5 =
+* Multibyte string support.
+* Image preloaders for featured images in slides.
+* Function to retrieve slideshow settings ( FA_get_option() ) can now take arrays as well as string as argument.
+* WP Touch PRO compatibility.
+* Template function ( the_fa_author() ) and options to display author name in slideshows.
+* New option to link author name to author posts page.
+* Image resize in slideshows to exact dimensions entered by user (uses default WordPress functionality; images will be cropped if bigger).
+* New responsive theme ( Classic Responsive ) adapted from theme Classic.
 
 = 2.4.9.2 =
 * resolved podPress related bug that was displaying raw podPress player code into slides. Instead of applying all the_content filters, it applies only the default WordPress filters (wptexturize, convert_smilies, convert_chars, wpautop, shortcode_unautop).

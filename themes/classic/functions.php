@@ -62,15 +62,16 @@ add_action('fa_extra_animation_fields', 'fa_classic_extra_fields', 10, 1);
  */
 function fa_classic_theme_details( $defaults ){
 	$defaults = array(
-		'Author'=>'CodeFlavors',
-		'AuthorURI'=>'http://www.codeflavors.com',
-		'Copyright'=>'author',
-		'Compatibility'=>'Featured Articles 2.4',
-		'Image'=>'image',
-		'Fields'=>array(
-			'classic_thumb_animate' => 1
+		'Author'		=> 'CodeFlavors',
+		'AuthorURI'		=> 'http://www.codeflavors.com',
+		'Copyright'		=> 'author',
+		'Compatibility'	=> 'Featured Articles 2.4',
+		'Image'			=> 'image',
+		'Fields'		=> array(
+			'classic_thumb_animate' => 1,
+			'show_post_author'		=> 0
 		),
-		'Message'=>'Slide background color is disabled for this theme.'		
+		'Message'		=> 'Slide background color is disabled for this theme.'		
 	);	
 	return $defaults;
 	

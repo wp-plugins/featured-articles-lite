@@ -156,18 +156,22 @@ function FA_dir( $file ){
  * @return string
  */
 function FA_truncate_text($string, $length = 80, $etc = '...', $break_words = false, $middle = false){
-    if ($length == 0)
+	if ($length == 0)
         return '';
 	
-    if (strlen($string) > $length) {
-        $length -= strlen($etc);
+    $str_length = function_exists('mb_strlen') ? mb_strlen($string) : strlen($string);
+        
+    if ($str_length > $length) {
+        $length -= function_exists('mb_strlen') ? mb_strlen($etc) : strlen($etc);
         if (!$break_words && !$middle) {
-            $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length+1));
+        	$substr_length = function_exists('mb_substr') ? mb_substr($string, 0, $length+1) : substr($string, 0, $length+1);
         }
         if(!$middle) {
-            return substr($string, 0, $length).$etc;
+           	return function_exists('mb_substr') ? mb_substr($string, 0, $length).$etc : substr($string, 0, $length).$etc;
         } else {
-            return substr($string, 0, $length/2) . $etc . substr($string, -$length/2);
+            return function_exists('mb_substr') ? 
+            	mb_substr($string, 0, $length/2) . $etc . mb_substr($string, -$length/2) : 
+            	substr($string, 0, $length/2) . $etc . substr($string, -$length/2);
         }
     } else {
         return $string;
@@ -181,13 +185,18 @@ function FA_truncate_text($string, $length = 80, $etc = '...', $break_words = fa
  * @param string $ending
  */
 function FA_truncate_html($string, $length = 80, $ending = '...'){
+	if( $length == 0 ){
+		return '';
+	}
+	
+	$str_length = function_exists('mb_strlen') ? mb_strlen(preg_replace('/<.*?>/', '', $string)) : strlen(preg_replace('/<.*?>/', '', $string));	
 	// if text without HTML is smaller than length, return the whole text
-	if (strlen(preg_replace('/<.*?>/', '', $string)) <= $length) {
+	if ( $str_length <= $length) {
 		return $string;
 	}
 	
 	$truncated = '';
-	$total_length = strlen($ending);
+	$total_length = 0;
 	$opened = array();
 	$auto_closed = array('img','br','input','hr','area','base','basefont','col','frame','isindex','link','meta','param');
 	
@@ -209,17 +218,17 @@ function FA_truncate_html($string, $length = 80, $ending = '...'){
 		if( !empty($tag[2]) )
 			$truncated.=$tag[1];
 		// calculate string length
-		$string_length = strlen($tag[3]);
+		$string_length = function_exists('mb_strlen') ? mb_strlen($tag[3]) : strlen($tag[3]);
 		if( $total_length + $string_length <= $length ){
 			$truncated.=$tag[3];
 			$total_length+=$string_length;
 		}else{
 			if( $total_length == 0 ){
-				$truncated.= substr($tag[3], 0, $length).$ending;
+				$truncated.= function_exists('mb_substr') ? mb_substr($tag[3], 0, $length).$ending : substr($tag[3], 0, $length).$ending;
 				break;	
 			}
 			$diff = $length - $total_length;
-			$truncated.= substr($tag[3], 0, $diff).$ending;
+			$truncated.= function_exists('mb_substr') ? mb_substr($tag[3], 0, $diff).$ending : substr($tag[3], 0, $diff).$ending;
 			break;
 		}		
 	}
@@ -274,7 +283,65 @@ function FA_image_size_pixels($size){
  */
 function FA_get_meta_image($post_id, $meta_field, $size){
 	$meta_image_id = get_post_meta($post_id, $meta_field, true);
-	$meta_image = wp_get_attachment_image_src( $meta_image_id, $size );
+	$meta_image = false;
+	// if size is string, look into registered WP sizes
+	if( is_string($size) ){
+		$meta_image = wp_get_attachment_image_src( $meta_image_id, $size );
+	}elseif (is_array( $size )){
+		// if size is array, try to determine if size already exists
+		$attachment_meta = get_post_meta($meta_image_id, '_wp_attachment_metadata', true);
+		if( $attachment_meta ){
+			if( isset( $attachment_meta['sizes'] ) ){
+				// if size is bigger than full image, return full image
+				if( $size['height'] > $attachment_meta['height'] || $size['width'] > $attachment_meta['width'] ){
+					return wp_get_attachment_image_src( $meta_image_id, 'full' );
+				}
+				// check if any of the registered sizes match the size we're looking for
+				foreach( $attachment_meta['sizes'] as $size_name => $size_details ){
+					// size matched, return it
+					if( $size['width'] == $size_details['width'] && $size['height'] == $size_details['height'] ){
+						$meta_image = wp_get_attachment_image_src( $meta_image_id, $size_name );
+						return $meta_image;
+					}
+				}
+			}
+			// an extra meta field on image to store fa image sizes of resized images
+			$extra_attachment_meta = get_post_meta( $meta_image_id, '_fa_attachment_metadata', true );	
+			// check sizes stored by FA
+			if( $extra_attachment_meta ){
+				foreach( $extra_attachment_meta as $details ){
+					if( $size['width'] == $details['width'] && $size['height'] == $details['height'] ){
+						$upload_dir = wp_upload_dir();
+						return array(
+							$upload_dir['baseurl'].'/'.$details['rel_path'],
+							$details['width'],
+							$details['height']
+						);
+					}
+				}
+			}
+			
+			// resize image if none of the above apply			
+			$upload_dir = wp_upload_dir();
+			$file_path = $upload_dir['basedir'].'/'.$attachment_meta['file'];
+			$new_file = image_resize( $file_path, $size['width'], $size['height'], $crop = true);
+			$new_file_relative_path = str_replace($upload_dir['basedir'], '', $new_file);
+			
+			$new_file_url = $upload_dir['baseurl'].'/'.$new_file_relative_path;
+			$meta_image = array( $new_file_url, $size['width'], $size['height'] );
+
+			$extra_attachment_meta = is_array($extra_attachment_meta) ? $extra_attachment_meta : array();
+			$file_details = array(
+				'basename' => wp_basename($new_file),
+				'rel_path' => $new_file_relative_path,
+				'width' => $size['width'],
+				'height' => $size['height']
+			);
+			$extra_attachment_meta[] = $file_details;
+			update_post_meta($meta_image_id, '_fa_attachment_metadata', $extra_attachment_meta);					
+		}
+	}
+			
 	return $meta_image;
 }
 
@@ -315,6 +382,9 @@ function FA_scan_image($content, $size = 'thumbnail'){
 	if( !$the_image ){
 		$result['img'] = $matches[3][0];
 	}else{
+		if( is_array($size) ){
+			$size = array($size['width'], $size['height']);
+		}		
 		$meta_image = wp_get_attachment_image_src( $the_image->ID, $size );
 		if( $meta_image ){
 			// if meta image was found, set the id as custom field for the post so that all the query work won't be needed again
@@ -340,11 +410,23 @@ function FA_scan_image($content, $size = 'thumbnail'){
 function FA_article_image ($post, $slider_id, $other_size = false, $return_path = true){
 	// if thumbnails are stopped from admin, return false
 	$options = FA_get_option('_fa_lite_aspect');
+	
 	if( !$options['thumbnail_display'] ) 
 		return false;
 	
 	$image_size = $other_size ? $other_size : $options['th_size'];	
-
+	
+	if( !$other_size && 'custom' == $options['fa_image_source'] ){
+		if( isset( $options['custom_image_width'] ) && isset($options['custom_image_height']) ){
+			if( $options['custom_image_width'] && $options['custom_image_height'] ){
+				$image_size = array(
+					'width' => absint($options['custom_image_width']),
+					'height' => absint($options['custom_image_height'])
+				);
+			}
+		}
+	}
+	
 	// check for custom field image	
 	$meta_image = FA_get_meta_image($post->ID, '_fa_image', $image_size);
 	if( $meta_image ){
@@ -372,16 +454,17 @@ function FA_article_image ($post, $slider_id, $other_size = false, $return_path 
 	if( $image['id'] ){
 		update_post_meta($post->ID, '_fa_image_autodetect', $image['id']);
 		if( !$return_path ){
-			$meta_image = wp_get_attachment_image_src($image['id'], $image_size);
+			$meta_image = FA_get_meta_image($post->ID, '_fa_image_autodetect', $image_size);
 			return $meta_image;
 		}	
 	}
+
 	// if only path should be returned, do it
 	if( $return_path ){	
 		return $image['img'];
-	}else{ // return array. Should contain width and height of image so set them to auto
+	}else{ // return array. Should contain width and height of image so set them to empty
 		return array($image['img'], false, false);
-	}	
+	}
 }
 /**
  * For image autodetection, scan post text to save the image on save_post action.
@@ -571,16 +654,41 @@ function do_the_fa_image($before = '', $after = '', $clickable = false) {
 	$width = $post->FA_image[1] ? 'width="'.$post->FA_image[1].'"' : '';
 	$height = $post->FA_image[2] ? 'height="'.$post->FA_image[2].'"' : '';
 	
-	// add link to image if any
-	$image_html = sprintf(
-		'%1$s<img src="%2$s" %3$s %4$s alt="" />%5$s', 
-		$link_open, 
-		$post->FA_image[0], 
-		$width, 
-		$height, 
-		$link_close
-	);
-	return $before . $image_html . $after;
+	// check for prealoder
+	$options = FA_get_option('_fa_lite_aspect');
+	if( isset($options['thumbnail_preloader']) && $options['thumbnail_preloader'] ){
+		// get preloader image url
+		$preloader_image = FA_path('styles/loading.gif');
+		// set width and height according to image size
+		$w = $post->FA_image[1] ? $post->FA_image[1].'px' : '50px';
+		$h = $post->FA_image[2] ? $post->FA_image[2].'px' : '50px';
+		// preloder output
+		$image_html = sprintf(
+			'<div class="fa_preloader" style="width:%1$s; height:%2$s; background: url(%3$s) center center no-repeat;">%4$s<!--%5$s-->%6$s</div>',
+			$w,
+			$h,
+			$preloader_image,
+			$link_open,
+			$post->FA_image[0],
+			$link_close
+		);		
+	}else{
+		// check if width or height should be skipped because set in slideshow options
+		$width = $options['thumbnail_width'] ? $width : '';
+		$height = $options['thumbnail_height'] ? $height : '';
+		
+		// add link to image if any
+		$image_html = sprintf(
+			'%1$s<img src="%2$s" %3$s %4$s alt="" class="fa-image" />%5$s', 
+			$link_open, 
+			$post->FA_image[0], 
+			$width, 
+			$height,
+			$link_close
+		);
+	}	
+	
+	return $before . $image_html . $after;	
 }
 /**
  * Echoes the title. Shorthand for do_the_fa_title
@@ -688,6 +796,40 @@ function the_fa_read_more( $class = 'FA_read_more' ){
 		$post->link_target, // %4$s
 		$post->fa_read_more // %5$s
 	);	
+}
+
+/**
+ * Template function to display the author name in slideshows. 
+ * Can put link on author name based on user option from slideshow settings.
+ * 
+ * @param string $before - opening HTML tag to put before the author name
+ * @param string $after - closing HTML tag to put after the author name
+ * @param bool $echo - echo or return the output
+ */
+function the_fa_author( $before = '', $after = '', $echo = true ){
+	global $post;
+	$option = FA_get_option( array( '_fa_lite_aspect', 'show_post_author' ));
+	if( !$post || !$option ){
+		return;
+	}
+	// get author data
+	$author_id = $post->post_author;
+	$user_data = get_userdata($author_id);
+	if(!$user_data){
+		return;
+	}
+	// store author name in variable
+	$author_name = $user_data->display_name;	
+	if( FA_get_option( array('_fa_lite_aspect', 'link_post_author') ) ){
+		$url = get_author_posts_url($author_id);
+		$author_name = sprintf('<a href="%1$s" title="%2$s">%2$s</a>', $url, $author_name);
+	}	
+	// result
+	if( $echo ){
+		echo $before.$author_name.$after;
+	}else{
+		return $before.$author_name.$after;
+	}
 }
 
 /**
@@ -839,6 +981,17 @@ function the_slider_color( $echo = true ){
 function the_fa_class( $echo = true ){
 	global $post;
 	
+	$options = FA_get_option('_fa_lite_aspect');
+	$theme_image = FA_get_option(array('_fa_lite_theme_details', 'theme_config', 'Image'));
+	
+	if( isset($options['thumbnail_preloader']) && $options['thumbnail_preloader'] && 'background' == trim($theme_image) ){
+		if( isset($post->css_class) ){
+			$post->css_class.= empty($post->css_class) ? 'fa_preload_bg' : ' fa_preload_bg';
+		}else{
+			$post->css_class = 'fa_preload_bg';
+		}			
+	}
+	
 	if( !isset( $post->css_class ) || empty( $post->css_class ) )
 		return;
 	
@@ -935,8 +1088,18 @@ function FA_get_posts($slider_id, $options = array()){
 			$args['orderby'] = 'rand';
 		break;
 	}
-
-	return get_posts($args);
+	
+	// Remove WP Touch PRO filter that removes categories from filter
+	if( function_exists('classic_exclude_categories') ){
+		remove_filter( 'pre_get_posts', 'classic_exclude_categories' );
+	}		
+	$posts = get_posts($args);
+	// Put back WP Touch PRO filter that removes categories from filter
+	if( function_exists('classic_exclude_categories') ){
+		add_filter( 'pre_get_posts', 'classic_exclude_categories' );
+	}
+		
+	return $posts;
 }
 
 /**
@@ -1230,7 +1393,11 @@ function FA_slider_options( $id = false, $meta_key = false ){
 			'section_title'				=>'Featured articles', // default slider title
 			'slider_width'				=>'100%', // slider width
 			'slider_height'				=>300, // slider height
+			'fa_image_source'			=>'wp', // what source to use for images: WP sizes or custom image size
 			'thumbnail_display'			=>true, // display article image
+			'thumbnail_preloader'		=>false, // preload images
+			'custom_image_width'		=>0, // resize images to a custom width - images will be cropped
+			'custom_image_height'		=>0, // resize images to a custom height - images will be cropped
 			'th_size'					=>'thumbnail', // article image size
 			'thumbnail_click'			=>false, // article image is clickable
 			'title_click'				=>false, // title is clickable
@@ -1249,7 +1416,9 @@ function FA_slider_options( $id = false, $meta_key = false ){
 			'show_title'				=>true, // show or hide titles
 			'show_text'					=>true,
 			'show_read_more'			=>true,
-			'show_date'					=>true
+			'show_date'					=>true,
+			'show_post_author'			=>false,
+			'link_post_author'			=>false
 		),
 		'_fa_lite_display'				=>array(
 			'loop_display'				=>0, // display on loop x - for automatically placed sliders
@@ -1334,13 +1503,20 @@ function FA_set_slider_options( $slider_id ){
 function FA_get_option( $key ){
 	global $FA_slider_options;
 	
-	// to return a single value, pass an array make of main key and subset key
+	// to return a single value, pass an array made of main key and subset key
 	if( is_array($key) ){
-		$set = $FA_slider_options[$key[0]];
-		return $set[$key[1]];
+		$set = $FA_slider_options;
+		foreach( $key as $k ){
+			if( array_key_exists($k, $set) ){
+				$set = $set[$k];
+			}else{
+				return false;
+			}
+		}		
+		return $set;
 	}else{
 		return $FA_slider_options[$key];	
-	}	
+	}
 }
 
 /**
@@ -1360,7 +1536,8 @@ function FA_fields($theme_params){
 		'effectDuration'		=>1,
 		'fadeDist'				=>1,
 		'fadePosition'			=>1,
-		'show_date'				=>1
+		'show_date'				=>1,
+		'show_post_author'		=>1
 	);
 	$all_config_fields = apply_filters('fa-extend-optional-fields', $all_config_fields);
 	

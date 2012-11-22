@@ -105,5 +105,49 @@ var FA_opened_dialog = false;
 			}
 		})
 		
+		// switch image sizes based on source: WordPress sizes or custom image size entered by user
+		$('input[name=fa_image_source]').click(function(){
+			var elemId = $(this).attr('id');
+			switch( elemId ){
+				case 'fa_image_source_wp':
+					$('#fa_image_source_wp_options').show();
+					$('#fa_image_source_custom_options').hide();
+				break;
+				case 'fa_image_source_custom':
+					$('#fa_image_source_wp_options').hide();
+					$('#fa_image_source_custom_options').show();
+				break;		 
+			} 
+		})
+		
+		addCheckboxActions('show_post_author', ['link_post_author']);
+		addCheckboxActions('allow_all_tags', ['allowed_tags', 'allowed_tags_note'], true);
 	})
+	
+	// Helper functions
+	/** 
+	 * Hide various elements based on whether a checkbox is checked or not
+	 * @param string checkboxId - is of checkbox to check
+	 * @param array elems - array of element ids to hide/show
+	 */
+	var addCheckboxActions = function( checkboxId, elems, inverse ){
+		var d1 = inverse ? 'none' : 'inline',
+			d2 = inverse ? 'inline' : 'none';
+		var isChecked = $('#'+checkboxId).click(function(){
+			var display = $(this).is(':checked') ? d1 : d2;
+			$.each(elems, function(i, el){
+				$('#'+el).css({'display' : display});
+				$('label[for='+el+']').css({'display' : display});
+			})
+			
+		}).is(':checked');
+		
+		if( !isChecked ){
+			$.each(elems, function(i, el){
+				$('#'+el).css({'display' : d2});
+				$('label[for='+el+']').css({'display' : d2});
+			})
+		}
+	}
+	
 })(jQuery)
