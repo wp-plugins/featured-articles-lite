@@ -377,7 +377,7 @@ function FA_scan_image($content, $size = 'thumbnail'){
 	$real_image_guid = str_replace( $img_size_url, '', $matches[3][0] );
 	
 	global $wpdb;
-	$the_image = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE guid = '%d' AND post_type='attachment'", $real_image_guid) );
+	$the_image = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE guid = '%s' AND post_type='attachment'", $real_image_guid) );
 	// if unsuccessful, return the image url from content
 	if( !$the_image ){
 		$result['img'] = $matches[3][0];
