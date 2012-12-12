@@ -11,6 +11,10 @@ Put featured posts or pages into a fancy JavaScript slider that can be set to di
 
 **FeaturedArticles for WordPress** slideshow plugin allows you to create sliders in your blog pages directly from your already written content, be it posts or pages. With the ability to change any slider aspect by making use of slideshow themes that are delivered with the plugin, almost anything is possible. Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
 
+**Only during the month of December 2012**
+
+Get promotional discounts of $20 up to $50 by using coupon code **DEC2012** when purchasing any of the available packages of Featured Articles PRO.
+
 Slideshows can be placed by one of these ways (or all at the same time):
 
 * manual placement directly into your WordPress theme template files (requires editing the template file you want to place a slideshow in and add a small piece of code);
@@ -96,6 +100,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 8. Theme Strips (PRO)
 
 == Changelog ==
+
+= 2.5.1 =
+* Solved WordPress 3.5 error fatal error related to $wpdb->prepare()
 
 = 2.5 =
 * Multibyte string support.

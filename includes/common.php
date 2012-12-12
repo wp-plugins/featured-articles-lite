@@ -377,7 +377,7 @@ function FA_scan_image($content, $size = 'thumbnail'){
 	$real_image_guid = str_replace( $img_size_url, '', $matches[3][0] );
 	
 	global $wpdb;
-	$the_image = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE guid = '$real_image_guid' AND post_type='attachment'" ) );
+	$the_image = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE guid = '%d' AND post_type='attachment'", $real_image_guid) );
 	// if unsuccessful, return the image url from content
 	if( !$the_image ){
 		$result['img'] = $matches[3][0];
@@ -656,6 +656,7 @@ function do_the_fa_image($before = '', $after = '', $clickable = false) {
 	
 	// check for prealoder
 	$options = FA_get_option('_fa_lite_aspect');
+	
 	if( isset($options['thumbnail_preloader']) && $options['thumbnail_preloader'] ){
 		// get preloader image url
 		$preloader_image = FA_path('styles/loading.gif');
@@ -1396,6 +1397,8 @@ function FA_slider_options( $id = false, $meta_key = false ){
 			'fa_image_source'			=>'wp', // what source to use for images: WP sizes or custom image size
 			'thumbnail_display'			=>true, // display article image
 			'thumbnail_preloader'		=>false, // preload images
+			'thumbnail_width'			=>true, // put width attribute on images
+			'thumbnail_height'			=>true, // put height attribute on images
 			'custom_image_width'		=>0, // resize images to a custom width - images will be cropped
 			'custom_image_height'		=>0, // resize images to a custom height - images will be cropped
 			'th_size'					=>'thumbnail', // article image size
@@ -1537,7 +1540,8 @@ function FA_fields($theme_params){
 		'fadeDist'				=>1,
 		'fadePosition'			=>1,
 		'show_date'				=>1,
-		'show_post_author'		=>1
+		'show_post_author'		=>1,
+		'show_read_more'		=>1
 	);
 	$all_config_fields = apply_filters('fa-extend-optional-fields', $all_config_fields);
 	

@@ -7,6 +7,7 @@
 
 // get the options
 $options = FA_slider_options( $slider_id );
+
 // get the themes
 $themes = FA_themes();
 
@@ -453,6 +454,12 @@ $fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 	                                <div id="thumbnail_display_extra">
 	                                	<input type="checkbox" id="thumbnail_preloader" class="" name="thumbnail_preloader"<?php if($options['_fa_lite_aspect']['thumbnail_preloader']):?> checked="checked"<?php endif;?> value="1" />
 	                                	<label class="" for="thumbnail_preloader" title="<?php _e('Images will be preloaded for better page loading time on heavy image slideshows.', 'falite');?>"><?php _e('Preload images', 'falite');?></label><br />
+										
+										<input type="checkbox" id="thumbnail_width" class="" name="thumbnail_width"<?php if($options['_fa_lite_aspect']['thumbnail_width']):?> checked="checked"<?php endif;?> value="1" />
+										<label class="" for="thumbnail_width" title="<?php _e('For better page performance, we suggest to use width attribute on images.', 'fapro');?>"><?php _e('Put width attribute on images', 'fapro');?></label><br />
+										
+										<input type="checkbox" id="thumbnail_height" class="" name="thumbnail_height"<?php if($options['_fa_lite_aspect']['thumbnail_height']):?> checked="checked"<?php endif;?> value="1" />
+										<label class="" for="thumbnail_height" title="<?php _e('For better page performance, we suggest to use height attribute on images.', 'fapro');?>"><?php _e('Put height attribute on images', 'fapro');?></label>
 											                                	
 										<?php if(current_theme_supports('post-thumbnails')):?>
 		                                <p class="info">
