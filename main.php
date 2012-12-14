@@ -501,7 +501,7 @@ function fa_lite_save_panel(){
 	$current_theme = $theme_options['active_theme'];
 	$fields = FA_fields( (array)$themes[$current_theme]['theme_config']['Fields'] );
 	
-	$current_page = menu_page_url('featured-articles-pro', false);
+	$current_page = menu_page_url('featured-articles-lite', false);
 	include FA_dir('displays/panel_slider_save.php');
 }
 /**
