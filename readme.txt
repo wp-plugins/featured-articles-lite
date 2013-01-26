@@ -2,7 +2,7 @@
 Contributors: constantin.boiangiu
 Tags: slider, slideshow, WordPress slider, media, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
 Requires at least: 3.1
-Tested up to: 3.4.1
+Tested up to: 3.5
 Stable tag: trunk
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
