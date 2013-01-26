@@ -22,7 +22,7 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 
 * 6 more themes (2 of them responsive) developed by our developers team (9 in total, 5 video enabled by default in PRO version);
 * **video enabled** custom slides for **YouTube and Vimeo** that can replace the image with a video ( [See examples here](http://www.codeflavors.com/featured-articles-pro/examples/ "FeaturedArticles PRO examples") );
-* custom writen slides that can be written using the visual editor;
+* custom written slides that can be created using the visual editor;
 * slideshows can display custom post types if your WordPress blog has them;
 * for posts and custom post types, selection of posts by taxonomies;
 * mixing of posts, custom posts, pages and custom slides into the same slideshow;
