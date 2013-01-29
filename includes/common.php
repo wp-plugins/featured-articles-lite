@@ -38,9 +38,9 @@ function FA_swfupload_post_param($params){
 	$params['short'] = 0;
 	return $params;
 }
-// pre Wordpress 3.3 filter
+// pre WordPress 3.3 filter
 add_filter('swfupload_post_params', 'FA_swfupload_post_param', 15, 1);
-// Wordpress 3.3 filter
+// post WordPress 3.3 filter
 add_filter('upload_post_params', 'FA_swfupload_post_param', 15, 1);
 /**
  * Check if variables are set on link to change the Add to post button into what we need.
@@ -852,6 +852,27 @@ function the_fa_date( $before = '', $after = '', $echo = true ){
 	}else{
 		return $before.$the_date.$after;
 	}	
+}
+
+/**
+ * Outputs the post time
+ * 
+ * @param string $before - html to put before text
+ * @param string $after - html to put after text
+ * @param bool $echo - echo (true) or return(false) the html
+ * @return string - formatted time
+ */
+function the_fa_time( $before = '', $after = '', $echo = true ){
+	global $post, $FA_slider_options;
+	if( !$post || !$FA_slider_options['_fa_lite_aspect']['show_date'] ) return;
+	
+	$the_time = get_the_time(get_option('time_format'), $post);
+	
+	if( $echo ){
+		echo $before.$the_time.$after;
+	}else{
+		return $before.$the_time.$after;
+	}
 }
 
 /**
