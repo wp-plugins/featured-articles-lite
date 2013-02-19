@@ -1531,7 +1531,7 @@ function FA_get_option( $key ){
 	if( is_array($key) ){
 		$set = $FA_slider_options;
 		foreach( $key as $k ){
-			if( array_key_exists($k, $set) ){
+			if( is_array($set) &&  array_key_exists($k, $set) ){
 				$set = $set[$k];
 			}else{
 				return false;
