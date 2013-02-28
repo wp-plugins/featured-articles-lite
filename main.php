@@ -9,7 +9,7 @@ Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.5.1
+Version: 2.5.2
 Author URI: http://www.codeflavors.com
 */
 
@@ -17,7 +17,7 @@ Author URI: http://www.codeflavors.com
  * Plugin administration capability, current version and Wordpress compatibility
  */
 define('FA_CAPABILITY', 'edit_FA_slider');
-define('FA_VERSION', '2.5.1');
+define('FA_VERSION', '2.5.2');
 define('FA_WP_COMPAT', '3.1');
 define('FA_DEV_PREFIX', '');
 
@@ -791,10 +791,10 @@ function FA_activation(){
 	$existing_option = get_option('fa_plugin_details', array());
 	// current plugin details
 	$plugin_details = array(
-		'version'=>FA_VERSION,
-		'wp_version'=>get_bloginfo('version'),
-		'plugin_activation_date'=>date('d M Y H:i:s'),
-		'themes_folder'=>'plugins/featured-articles-lite/themes' // default themes folder is inside plugin directory
+		'version'				 =>FA_VERSION,
+		'wp_version'			 =>get_bloginfo('version'),
+		'plugin_activation_date' =>date('d M Y H:i:s'),
+		'themes_folder'			 =>'plugins/featured-articles-lite/themes' // default themes folder is inside plugin directory
 	);
 	// if themes folder is already in, don't change it. It can only be changed by the user in plugin Settings page
 	if( array_key_exists('themes_folder', $existing_option) ){
@@ -851,7 +851,7 @@ function FA_admin_permission(){
 	if( current_user_can('manage_options') ){
 		if( !current_user_can( FA_CAPABILITY ) ){
 			global $wp_roles;
-			$wp_roles->add_cap('administrator', FA_CAPABILITY);			
+			$wp_roles->add_cap('administrator', FA_CAPABILITY);		
 		}
 	}	
 }

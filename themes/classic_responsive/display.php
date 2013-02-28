@@ -9,8 +9,8 @@
 ?>
 <div class="FA_overall_container_classic_responsive <?php the_slider_color();?>" style="<?php the_slider_width();?>" id="<?php echo $FA_slider_id;?>">	
 	<div class="FA_featured_articles" style="<?php the_slider_height();?>">
-	<?php foreach ($postslist as $post): ?>
-		<div class="FA_article <?php the_fa_class();?>">	
+	<?php foreach ($postslist as $i => $post): ?>
+		<div class="FA_article <?php the_fa_class();?>" style="<?php if($i > 0):?> display:none;<?php endif;?>">	
 			<div class="FA_wrap">
 				<?php 
 					/**

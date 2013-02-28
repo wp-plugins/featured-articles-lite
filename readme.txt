@@ -97,6 +97,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 
 == Changelog ==
 
+= 2.5.2 =
+* Solved issue in slideshow themes that was causing second slide to show for an instant when page was loading. Modified files: all display.php files in all slideshow themes.
+
 = 2.5.1 =
 * Solved WordPress 3.5 error fatal error related to $wpdb->prepare()
 
