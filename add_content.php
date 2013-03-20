@@ -69,6 +69,10 @@ do_action('admin_head');
 	?>
 	<input type="button" value="<?php _e('Done, close window', 'falite');?>" id="close_window" />	
 </div>
+<?php 
+do_action('admin_footer', '');
+do_action('admin_print_footer_scripts');
+?>
 </body>
 </html>
 <?php die();?>    
