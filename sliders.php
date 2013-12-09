@@ -29,10 +29,10 @@ $sortable_columns = array(
 );    
 // set delete and edit pages
 $sliders_table->edit_page = 'featured-articles-lite';
-    
+$sliders_table->post_type = 'fa_slider'; 
 $sliders_table->sortable_columns = $sortable_columns;
 // get the records from DB
-$sliders_table->prepare_items('fa_slider');
+$sliders_table->prepare_items();
 ?>
 <div class="wrap">
 	<div class="icon32 icon32-posts-post" id="icon-edit"><br></div>
