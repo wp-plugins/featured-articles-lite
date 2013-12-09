@@ -2,14 +2,14 @@
 /**
  * @package Featured articles Lite - Wordpress plugin
  * @author CodeFlavors ( codeflavors@codeflavors.com )
- * @version 2.4
+ * @version 2.5.3
  */
 /*
 Plugin Name: Featured articles Lite
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create fancy animated sliders into your blog pages by choosing from plenty of available options and different themes. Compatible with Wordpress 3.1+
 Author: CodeFlavors
-Version: 2.5.2
+Version: 2.5.3
 Author URI: http://www.codeflavors.com
 */
 
@@ -17,7 +17,7 @@ Author URI: http://www.codeflavors.com
  * Plugin administration capability, current version and Wordpress compatibility
  */
 define('FA_CAPABILITY', 'edit_FA_slider');
-define('FA_VERSION', '2.5.2');
+define('FA_VERSION', '2.5.3');
 define('FA_WP_COMPAT', '3.1');
 define('FA_DEV_PREFIX', '');
 
@@ -201,6 +201,11 @@ function FA_display_slider($slider_id, $echo = true){
 	
 	// get js options for this slider and add them to global FA_SLIDERS_PARAMS that gets printed as footer script
 	$js_options = FA_get_option('_fa_lite_js');
+	$js_options['protocol'] =  is_ssl() ? 'https://' : 'http://';
+	$plugin_options = FA_plugin_options();
+	$js_options['no_credits'] = $plugin_options['disable_credits'];
+	$js_options['img'] = FA_path('styles/images/fa_lite_ico.png');
+	
 	$FA_SLIDERS_PARAMS['FA_slider_'.$slider_id] = FA_lite_json($js_options);
 	
 	// get the contents of this slideshow
@@ -300,6 +305,10 @@ function FA_add_scripts(){
 		
 		// get slideshow js options
 		$options = FA_slider_options( $slider_id, '_fa_lite_js' );
+		$options['protocol'] = is_ssl() ? 'https://' : 'http://';
+		$plugin_options = FA_plugin_options();
+		$options['no_credits'] = $plugin_options['disable_credits'];
+		$options['img'] = FA_path('styles/images/fa_lite_ico.png');
 		// add js options to slideshows options array. This will output in page.		
 		$js_options['FA_slider_'.$slider_id] = FA_lite_json($options);
 		
