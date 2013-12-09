@@ -128,8 +128,9 @@ add_filter('media_upload_mime_type_links', 'FA_media_forms_set_var', 1, 10);
  * @return string
  */
 function FA_path( $file ){
-	if( !defined('FA_PLUGIN_URL') ){
-		define('FA_PLUGIN_URL', WP_PLUGIN_URL.'/featured-articles-lite/');
+	if( !defined('FA_PLUGIN_URL') ){		
+		$wp_url = is_ssl() ? str_replace('http://', 'https://', WP_PLUGIN_URL) : WP_PLUGIN_URL;		
+		define('FA_PLUGIN_URL', $wp_url.'/featured-articles-lite/');
 	}
 	return FA_PLUGIN_URL.$file;	
 }
@@ -653,6 +654,10 @@ function do_the_fa_image($before = '', $after = '', $clickable = false) {
 	
 	$width = $post->FA_image[1] ? 'width="'.$post->FA_image[1].'"' : '';
 	$height = $post->FA_image[2] ? 'height="'.$post->FA_image[2].'"' : '';
+	// if https, change image url to https
+	if( is_ssl() ){
+		$post->FA_image[0] = str_replace( 'http://', 'https://', $post->FA_image[0] );
+	}
 	
 	// check for prealoder
 	$options = FA_get_option('_fa_lite_aspect');
@@ -665,7 +670,7 @@ function do_the_fa_image($before = '', $after = '', $clickable = false) {
 		$h = $post->FA_image[2] ? $post->FA_image[2].'px' : '50px';
 		// preloder output
 		$image_html = sprintf(
-			'<div class="fa_preloader" style="width:%1$s; height:%2$s; background: url(%3$s) center center no-repeat;">%4$s<!--%5$s-->%6$s</div>',
+			'<div class="fa_preloader" style="width:%1$s; height:%2$s; background: url(%3$s) center center no-repeat;" data-image="%5$s">%4$s<!--image-->%6$s</div>',
 			$w,
 			$h,
 			$preloader_image,
@@ -929,6 +934,11 @@ function the_fa_background($show_image = true, $position = 'top left', $repeat =
 	}
 	
 	if( $show_image && !empty($post->FA_image) ){
+		if( is_ssl() ){
+			$post->FA_image[0] = str_replace( 'http://', 'https://', $post->FA_image[0] );
+		}
+		
+		
 		$declarations[] = 'background-image:url('.$post->FA_image[0].'); background-position:'.$position.'; background-repeat:'.$repeat;
 	}
 	
@@ -1582,7 +1592,8 @@ function FA_plugin_options(){
 	$default_options = array(
 		'complete_uninstall'=>0,
 		'auto_insert'		=>1,
-		'load_in_wptouch'	=>0
+		'load_in_wptouch'	=>0,
+		'disable_credits'	=>0
 	);
 	$option_name = 'feat_art_options';
 	
@@ -1713,6 +1724,11 @@ function FA_get_themes_folder( $full_path = true, $echo = false, $return_url = f
 			$path = str_replace($remove.'/', '', $path);	
 		}			
 	}
+	
+	// modify path for HTTPS access
+	if( $return_url && is_ssl() ){
+		$path = str_replace('http://', 'https://', $path);
+	}	
 	
 	if( $echo ){
 		echo $path;
