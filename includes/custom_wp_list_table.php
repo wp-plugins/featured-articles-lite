@@ -239,16 +239,18 @@ class FA_List_Table extends WP_List_Table {
         return $this->bulk_actions;
     }
     
+    var $post_type = false;
+    
     /**
      * (non-PHPdoc)
      * @see WP_List_Table::prepare_items()
      */    
-    function prepare_items($post_type) {
+    function prepare_items() {
         
     	$columns = $this->get_columns();
         $hidden = array();
         $sortable = $this->get_sortable_columns();
-        
+        $post_type = $this->post_type;
         $this->_column_headers = array($columns, $hidden, $sortable);
         
         $per_page = 20;
