@@ -53,7 +53,10 @@
 			articleSelector:'.FA_article', // articles selector. Must be descendant of container ( this )
 			individualNavSelector:'.FA_navigation a', // navigation links selector
 			backSelector:'.FA_back', // go back navigation selector
-			nextSelector:'.FA_next' // go next navigation selector
+			nextSelector:'.FA_next', // go next navigation selector
+			protocol: 'http://',
+			no_credits : false,
+			img : false
 		};		
 		var options = $.extend({}, defaultOptions, options);
 		var self = this;
@@ -66,29 +69,33 @@
 		var initialize = function(){
 			self.slides = $(self).find(options.articleSelector);
 			
-			var lnk = $('<a>', {
-				'href' : 'http://www.codeflavors.com/featured-articles-pro/',
-				'title' : 'Powered by FeaturedArticles for WordPress',
-				'target' : '_blank',
-				'text' : '',
-				'style' : 'display:block; position:absolute; right:5px; bottom:5px; width:16px; height:16px; z-index:9999;'
-			});			
-			var imEl = $('<img />',{
-					'src' : 'http://cdnsmall.codeflavors.com/r_ico/fa_lite_ico.png',
-					'style' : 'border:none;',
-					'alt' : 'Powered by FeaturedArticles for WordPress',
-					'width' : '16',
-					'height' : '16',
-					'load' : function(){
-						lnk.appendTo($(self));	
-						$(this).appendTo( lnk );
-					},
-					'error' : function(){						
-						$(this).attr('src', 'http://www.codeflavors.com/r_ico/fa_lite_ico.png');
-						lnk.appendTo($(self));
-						$(this).appendTo( lnk );						
-					}
-				});
+			if( !options.no_credits ){
+				var lnk = $('<a>', {
+					'href' : 'http://www.codeflavors.com/featured-articles-pro/',
+					'title' : 'Powered by FeaturedArticles for WordPress',
+					'target' : '_blank',
+					'html' : options.img ? '' : 'faWP',
+					'style' : 'display:block; position:absolute; right:5px; bottom:5px; width:'+ (options.img ? '16' : '20') +'px; height:16px; z-index:9999; font-size:10px; color:#FFF;'
+				});	
+				if( options.img ){
+					var imEl = $('<img />',{
+							'src' : options.img,
+							'style' : 'border:none;',
+							'alt' : 'Powered by FeaturedArticles for WordPress',
+							'width' : '16',
+							'height' : '16',
+							'load' : function(){
+								lnk.appendTo($(self));	
+								$(this).appendTo( lnk );
+							},
+							'error' : function(){						
+													
+							}
+						});
+				}else{
+					lnk.appendTo($(self));
+				}
+			}	
 			
 			if( self.slides.length < 2 ){
 				return;
@@ -399,8 +406,8 @@ function get_wp_params(){
 		$.each(image_preloaders, function(i, el){
 			var child = $(this).children(),
 				parent = child.length == 0 ? $(this) : $(child),
-				img_raw = parent.html(),
-				img = img_raw.replace(/<!--|-->/g, '');;
+				//img_raw = parent.html(),
+				img = $(this).data('image') ;// img_raw.replace(/<!--|-->/g, '');;
 			
 			parent.empty();	
 				
