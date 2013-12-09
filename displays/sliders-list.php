@@ -31,8 +31,9 @@ $sliders_table->edit_page = 'featured-articles-pro';
 
 $sliders_table->bulk_actions = false;
 $sliders_table->sortable_columns = $sortable_columns;
+$sliders_table->post_type = 'fa_slider';
 // get the records from DB
-$sliders_table->prepare_items('fa_slider');
+$sliders_table->prepare_items();
 // styling and scripts
 wp_enqueue_style('FA_add_content', FA_path('styles/add_content_modal.css'));
 wp_enqueue_script('FA_sliders_shortcode', FA_path('scripts/admin/admin_shortcode.js'), array('jquery'));
