@@ -107,6 +107,21 @@ $options = FA_plugin_options();
 				</span>
             </td>
         </tr>
+        
+        <tr valign="top">
+        	<th scope="row">
+            	<label for="disable_credits"><?php _e('Remove FA Lite icon from sliders', 'falite');?>:<br />                                
+            </th>
+            <td><input type="checkbox" name="disable_credits" id="disable_credits" value="1"<?php if($options['disable_credits']):?> checked="checked"<?php endif;?> /></td>
+            <td>
+            	<span class="description">
+					<?php _e('When checked, FA Lite icon at the bottom of sliders will not be displayed anymore.', 'falite');?>
+				</span>
+            </td>
+        </tr>
+        
+        
+        
         <?php 
         	// Display option to show slideshows in WPtouch themes only if plugin is installed.
         	if( class_exists('WPtouchPlugin') ):
