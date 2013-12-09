@@ -35,8 +35,11 @@ $pages_table->edit_page = '#';
 
 $pages_table->bulk_actions = false;
 $pages_table->sortable_columns = $sortable_columns;
+
+$pages_table->post_type = 'page';
+
 // get the records from DB
-$pages_table->prepare_items('page');
+$pages_table->prepare_items();
 // styling and scripts
 // styling and scripts
 wp_enqueue_style(
