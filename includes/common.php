@@ -1130,7 +1130,12 @@ function FA_get_posts($slider_id, $options = array()){
 	if( function_exists('classic_exclude_categories') ){
 		add_filter( 'pre_get_posts', 'classic_exclude_categories' );
 	}
-		
+
+	// qtranslate run filter function on posts content
+	if( function_exists('qtrans_postsFilter') ){
+		$posts = qtrans_postsFilter($posts);
+	}
+	
 	return $posts;
 }
 
