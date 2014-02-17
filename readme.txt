@@ -2,7 +2,7 @@
 Contributors: constantin.boiangiu
 Tags: slider, slideshow, WordPress slider, media, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
 Requires at least: 3.1
-Tested up to: 3.7.1
+Tested up to: 3.8.1
 Stable tag: trunk
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
@@ -96,6 +96,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 8. Theme Strips (PRO)
 
 == Changelog ==
+
+= 2.5.4 =
+* Solves compatibility with qTranslate plugin (slide text not being translated)
 
 = 2.5.3 =
 * New option to remove credits from sliders
