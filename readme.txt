@@ -1,8 +1,8 @@
-=== Featured Articles Lite ===
+=== WordPress slider plugin - Featured Articles Lite ===
 Contributors: constantin.boiangiu
 Tags: slider, slideshow, WordPress slider, media, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
 Requires at least: 3.1
-Tested up to: 3.8.1
+Tested up to: 3.9.1
 Stable tag: trunk
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
