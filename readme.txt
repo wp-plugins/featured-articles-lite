@@ -1,4 +1,4 @@
-=== Featured Articles Lite - WP responsive slider plugin ===
+=== FA Lite - WP responsive slider plugin ===
 Contributors: codeflavors
 Tags: slider, slideshow, WordPress slider, video, YouTube, Vimeo, responsive, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
 Requires at least: 4.0
