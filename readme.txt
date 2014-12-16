@@ -1,5 +1,5 @@
 === Featured Articles Lite - WP responsive slider plugin ===
-Contributors: constantin.boiangiu
+Contributors: codeflavors
 Tags: slider, slideshow, WordPress slider, video, YouTube, Vimeo, responsive, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
 Requires at least: 4.0
 Tested up to: 4.0.1
@@ -243,12 +243,12 @@ Initial release for the new redesigned Wordpress Featured Articles
 
 == Troubleshooting ==
 
-Plugin is guaranteed to work on a clean Wordpress install. Since themes and other plugins don't always play nice, there are a few things you could check if slideshows won't work in your pages:
+Plugin is guaranteed to work on a clean WordPress install. Since themes and other plugins don't always play nice, there are a few things you could check if slideshows won't work in your pages:
 
 1. Check that only one jquery file is loaded. Most times, a manually loaded jQuery version in theme header or by a plugin may be the cause. Look in your page source in browser and see if that's the problem.
 2. Plugins merging JavaScript and CSS files may also cause problems. In this case, it's all about god intentions with bad results.
-3. Use the proper Wordpress version (3.1 +).
+3. Use the proper Wordpress version (4 +).
 4. See if your theme footer.php file calls wp_footer().
 
-If all options are exhausted, you can always ask for help on our forums at [CodeFlavors Featured Articles WP forum](http://www.codeflavors.com/codeflavors-forums/forum/featured-articles/ "Featured Articles for WordPress forum"). We'll answer whenever the time allows us to.
+If all options are exhausted, you can always ask for help on our forums at [CodeFlavors Featured Articles WP forum](http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/ "Featured Articles 3 for WordPress forum"). We'll help you figure out things.
 
