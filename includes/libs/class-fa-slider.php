@@ -237,7 +237,7 @@ class FA_Slider{
 		if( !empty( $this->options['theme']['color'] ) ){
 			wp_enqueue_style(
 				'fa-theme-' . $theme['active'] . '-' . $theme['color'],
-				path_join( $theme['details']['url'] , 'colors/' . $theme['color'] . '.css'),
+				path_join( $theme['details']['url'] , 'colors/' . str_replace( '.min' , '', $theme['color'] ) . '.css'),
 				array( 'fa-theme-' . $theme['active'] ),
 				FA_VERSION
 			);

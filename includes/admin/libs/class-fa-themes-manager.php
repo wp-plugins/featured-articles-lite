@@ -184,7 +184,7 @@ class FA_Themes_Manager{
 		    // accept only files having extension css
 		    foreach( $colors as $ck => $color ){
 		    	$ext = strtolower( substr($color, -3, 3) );
-		    	if( 'css' != $ext ){
+		    	if( 'css' != $ext || '.min.css' == strtolower( substr( $color, -8, 8 ) ) ){
 		    		unset( $colors[ $ck ] );
 		    	}else{
 		    		$key = str_replace('.css', '', $color);		    		

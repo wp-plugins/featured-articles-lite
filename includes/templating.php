@@ -46,10 +46,17 @@ function the_slider_title( $before = '<h2 class="fa_title_section">', $after = '
 function the_slider_color( $echo = true ){
 	global $fa_slider;
 	$options = fa_get_slider_options( $fa_slider->ID, 'theme' );
+	
+	if( isset( $options['color'] ) && !empty( $options['color'] ) ){
+		$color = str_replace( '.min' , '', $options['color']);
+	}else{
+		$color = '';
+	}
+		
 	if( $echo ){
-		echo $options['color'];
+		echo $color;
 	}	
-	return $options['color'];
+	return $color;
 }
 
 /**
