@@ -94,6 +94,9 @@ https://vimeo.com/113921051
 = 3.0 =
 * Complete plugin rewrite and internal functionality
 
+Before updating, please make sure sure you have a back-up. While we don't expect anything to go wrong, it's better to be safe.
+Please note, previous slider themes from version 2.5.4 are not compatible with Featured Articles 3.0.
+
 = 2.5.4 =
 * Solves compatibility with qTranslate plugin (slide text not being translated)
 
