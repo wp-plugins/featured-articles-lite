@@ -285,6 +285,10 @@ function fa_display_slider( $slider_id, $dynamic_area = false ){
 	require_once fa_get_path('includes/libs/class-fa-slider.php');
 	$slider = new FA_Slider( $slider_id );
 	$slider->display();
+	
+	if( defined( 'FA_SCRIPT_DEBUG' ) && FA_SCRIPT_DEBUG ){
+		echo '<!-- Slider ID: ' . $slider_id . ' ; Dynamic area ID: ' . $dynamic_area . ' -->';	
+	}	
 }
 
 /**

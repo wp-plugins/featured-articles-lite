@@ -91,6 +91,10 @@ https://vimeo.com/113921051
 
 == Changelog ==
 
+= 3.0.1 =
+* Added new metabox in Slider edit page that displays the PHP code that can be used to display a slider directly into WP theme files
+* Solved a bug related to manual slider placement by using the PHP code that was generating a PHP warning
+
 = 3.0 =
 * Complete plugin rewrite and internal functionality
 

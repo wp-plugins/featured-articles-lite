@@ -676,6 +676,15 @@ class FA_Admin extends FA_Custom_Post_Type{
 			'side'
 		);
 		
+		// slider PHP code
+		add_meta_box(
+			$this->meta_box_prefix . '-slider-code', 
+			__('Slider PHP code', 'fapro'), 
+			array( $this, 'meta_box_slider_code' ),
+			null,
+			'side'
+		);	
+		
 		// add the expiration date and other to post submitbox for slider
 		add_action('post_submitbox_misc_actions', array( $this, 'slider_submitbox' ));	
 	}
@@ -711,7 +720,16 @@ class FA_Admin extends FA_Custom_Post_Type{
 		$template 	= fa_metabox_path('slider-options');
 		include_once $template;
 	}	
-		
+
+	/**
+	 * Slider code metabox callback
+	 * @param object $post - current slider post being edited
+	 */
+	public function meta_box_slider_code( $post ){
+		$template = fa_metabox_path('slider-code');
+		include_once $template;
+	}
+	
 	/**
 	 * Slider content meta box callback function.
 	 * @param object $post - current slider post being edited

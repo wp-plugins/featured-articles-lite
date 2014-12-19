@@ -4,19 +4,19 @@ Plugin Name: Featured articles Lite 3
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
 Description: Create beautiful slideshows in WordPress from any already existing posts or pages. Now at version 3.
 Author: CodeFlavors
-Version: 3.0
+Version: 3.0.1
 Author URI: http://www.codeflavors.com
 */
 
 // store plugin version
-define('FA_VERSION', '3.0');
+define('FA_VERSION', '3.0.1');
 // plugin path
 define('FA_PATH', plugin_dir_path(__FILE__));
 // plugin url
 define('FA_URL', plugin_dir_url(__FILE__));
 // will load all JS files not minified (for script debugging purposes)
 define( 'FA_SCRIPT_DEBUG', false );
-// will load admin related JS files not minified
+// will load admin related JS files not minified when true
 define( 'FA_SCRIPT_DEBUG_ADMIN', false );
 // will load minified CSS when false
 define( 'FA_CSS_DEBUG', false );
@@ -90,7 +90,7 @@ class FA_Pro extends FA_Custom_Post_Type{
 		// only registered plugin areas should be managed by this function.
 		// if any other area, allow it to display
 		$areas = fa_get_options( 'hooks' );
-		if( !array_key_exists( $dynamic_area, $areas ) ){
+		if( empty( $dynamic_area ) || !$dynamic_area || !array_key_exists( $dynamic_area, $areas ) ){
 			return $show;
 		}
 		
