@@ -2,7 +2,7 @@
 Contributors: codeflavors
 Tags: slider, slideshow, WordPress slider, video, YouTube, Vimeo, responsive, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
 Requires at least: 4.0
-Tested up to: 4.0.1
+Tested up to: 4.1
 Stable tag: trunk
 
 Featured Articles is a responsive WordPress slider plugin that can create sliders from any existing WordPress content (posts, custom posts, pages or gallery images).
