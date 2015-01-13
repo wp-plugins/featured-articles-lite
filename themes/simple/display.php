@@ -1,3 +1,7 @@
+<?php 
+	// get the options implemented by the slider theme
+	$options = get_slider_theme_options();
+?>
 <div class="<?php the_slider_class( 'fa_slider_simple' );?>" style="<?php the_slider_styles();?>" id="<?php the_slider_id();?>" <?php the_slider_data();?>>
 	<?php while( have_slides() ): ?>
 	<div class="fa_slide <?php the_fa_class();?>" style="<?php the_slide_styles();?>">
@@ -22,6 +26,11 @@
 			<a href="#" title="" class="fa-nav"></a>
 			<?php endwhile;?>		
 		</div>
-	<?php endif;?>	
-	<div class="progress-bar"><!-- slider progress bar --></div>	
+	<?php endif;?>
+	<?php 
+		// show progress bar according to user settings
+		if( isset( $options['show_timer'] ) && $options['show_timer'] ):
+	?>	
+	<div class="progress-bar"><!-- slider progress bar --></div>
+	<?php endif;// show timer?>	
 </div>

@@ -77,7 +77,9 @@
 							$(self).trigger( 'ajaxload', json.data );
 							if( $(self).data('append') ){
 								$( update_elem ).empty().append( json.data );
-								fa_edit_slides();
+								if( typeof fa_edit_slides !== 'undefined' && $.isFunction( fa_edit_slides ) ){
+									fa_edit_slides();
+								}
 							}	
 						}
 					}

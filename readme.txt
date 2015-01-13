@@ -91,6 +91,15 @@ https://vimeo.com/113921051
 
 == Changelog ==
 
+**Please note**, if you modified or created new slider themes, you should set up a slider themes folder outside the plugin folder to avoid having your modifications overwritten.
+The process of moving the slider themes folder from within the plugin folder is described here: [How to move slider themes folder](http://www.codeflavors.com/documentation/featured-articles-pro-3/moving-slider-themes-folder/ "Move Featured Articles WP slider themes outside the plugin folder").
+
+= 3.0.2 =
+* Solved a bug in slider script that was displaying only a part of the image
+* Solved a bug in admin slide edit modal screen that wasn't removing the slide image when action was initiated
+* Introduced a new option for theme Simple that controls if the bar timer should be displayed or not when autoslide is on.
+
+
 = 3.0.1 =
 * Added new metabox in Slider edit page that displays the PHP code that can be used to display a slider directly into WP theme files
 * Solved a bug related to manual slider placement by using the PHP code that was generating a PHP warning

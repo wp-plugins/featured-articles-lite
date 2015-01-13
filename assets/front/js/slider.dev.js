@@ -245,7 +245,7 @@
 			
 			if( !options.full_image ){
 				s_w = img.parents( options.image_container ).width();
-				s_h = img.parents( options.image_container ).height();
+				s_h = img.parents( options.image_container ).height();	
 				slider_prop = s_w / s_h;
 			}
 			
@@ -381,27 +381,26 @@
 			$( get_current() ).css( visible );
        		
 			/**
-			 * Load videos
+			 * Load assets
 			 */
 			$.each( slides, function( i, slide ){
 				
 				// preload images
 				var img_container = $(this).find( options.image_container );
 				if( img_container.length > 0 ){
-					var data = $(img_container).data(),
-						img = $('<img />',{
-							'src' 	: data.image,
-							'class'	: data.image_class,
-							'data-width' : data.width,
-							'data-height': data.height
-						});
-					
+					var data = $(img_container).data();						
+					var	img = $('<img />',{
+						'src' 	: data.image,
+						'class'	: data.image_class,
+						'data-width' : data.width,
+						'data-height': data.height
+					});					
 					$(img).load(function(){
 						var preloader = $(img_container).find('img');
 						$(this).insertAfter( $(preloader) );
 						$(preloader).remove();
 						center_image( $(this) );					
-					});						
+					});															
 				}
 				
 				// prepare video player
@@ -600,6 +599,12 @@
        			next_styles	= animation_styles( 'next' ),
        			current_slide 	= get_current(),
        			next_slide		= get_slide( index );
+       		
+       		// center next slide image
+       		var img = $(next_slide).find( options.image_container +' '+ options._image );
+       		if( img.length > 0 ){
+       			center_image( img );
+       		}
        		
        		// previous slide animation
        		$( current_slide ).css( curr_styles.css ).transition( 

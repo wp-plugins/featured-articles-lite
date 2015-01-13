@@ -502,8 +502,7 @@ class FA_Admin extends FA_Custom_Post_Type{
 	 */
 	private function load_slide_assets(){
 		fa_load_admin_style('slide-edit');
-		$video_handle = fa_load_script( 'video-player', array( 'jquery', 'swfobject' ) );			
-		$handle = fa_load_admin_script( 'slide-edit', array( 'jquery', $video_handle ) );
+		$handle = fa_load_admin_script( 'slide-edit', array( 'jquery' ) );
 		
 		wp_localize_script( $handle, 'faEditSlide', array(
 			'id_prefix' 	=> $this->meta_box_prefix, // meta boxes prefix

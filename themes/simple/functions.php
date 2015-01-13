@@ -1,4 +1,44 @@
-<?php 
+<?php
+/**
+ * Extend slider option with additional variables
+ */
+function theme_simple_extra_options( $option ){
+	// get this theme key
+	$key = fa_get_theme_key( __FILE__ );
+	$option[ $key ] = array(
+		'show_timer' => true
+	);
+	
+	return $option;
+}
+add_filter( 'fa_extra_slider_options', 'theme_simple_extra_options' );
+
+/**
+ * Output for the fields above
+ * @param array $options - current options set
+ */
+function simple_layout_fields_output( $post ){
+	// get the stored values of the options implemented by this theme
+	$theme_options = fa_get_theme_options( __FILE__, $post );
+	$theme_details = fa_theme_simple_details( false );
+?>
+<h2><?php printf( __('%s : theme specific settings', 'fapro'), $theme_details['name']);?></h2>
+<table class="form-table">
+	<tbody>
+		<tr>
+			<th><label for="simple_timer"><?php _e('Show timer', 'fapro');?>:</label></th>
+			<td>
+				<input id="simple_timer" type="checkbox" name="<?php fa_theme_var_name('show_timer', __FILE__);?>" value="1" <?php fa_checked( $theme_options['show_timer'] )?> />
+				<span class="description"><?php _e('When checked, will display the bar timer when slider is set to auto slide.', 'fapro');?></span>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<?php 	
+}
+add_action('fa_theme_layout_settings-' . fa_get_theme_key( __FILE__ ), 'simple_layout_fields_output', 10, 1);
+
+
 /**
  * Some details about the theme. 
  * Also notice key Fields. It stores the above field and flags it as enabled for this theme. All other themes will display this field disabled.
@@ -12,7 +52,11 @@ function fa_theme_simple_details( $defaults ){
 		'version'		=> '1.0',
 		'name'			=> 'Simple',
 		'fields'		=> array(
-			'js-effect' => false
+			'js-effect' 			=> false,
+			'content-date-show' 	=> false,
+			'content-author-show' 	=> false,
+			'content-author-link' 	=> false,
+			'layout-show-title'		=> false
 		),
 		'colors'		=> array( // tell the plugin about the default color schemes so they won't be edited in theme editor
 			'dark'
