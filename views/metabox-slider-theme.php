@@ -11,7 +11,16 @@
 	</ul>
 	
 	<!-- Themes tab -->
-	<div class="fa-themes" id="fa-registered-themes">	
+	<div class="fa-themes" id="fa-registered-themes">
+		<?php 
+			if( !fa_is_extra_dir_set() ):
+		?>
+		<div class="alert">
+			<span class="dashicons dashicons-flag"></span> 
+			<?php _e( 'Your slider themes are inside plugin folder.', 'fapro');?><br />
+			<?php printf( __( 'If you modify existing themes, create additional themes or create additional color schemes to existing themes, please make sure that you first %smove slider themes outside plugin folder%s.', 'fapro' ), '<a href="http://www.codeflavors.com/documentation/intermediate-tutorials/moving-slider-themes-folder/" target="_blank">' ,'</a>');?>		
+		</div>
+		<?php endif;?>	
 		<?php foreach( $themes as $theme => $theme_details ):?>	
 		<div class="fa-theme<?php if( $active == $theme ):?> active<?php endif;?>" id="fa-theme-<?php echo esc_attr( $theme );?>">
 			<?php 

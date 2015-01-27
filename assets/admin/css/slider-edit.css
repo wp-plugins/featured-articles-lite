@@ -66,6 +66,24 @@
     color:red;
 }
 
+.alert{
+	display:block;
+	background-color: #fcf8e3;
+    border-color: #faebcc;
+    color: #8a6d3b;
+    clear:both;
+    border-radius: 4px;
+    padding: 15px;
+    margin:0px 0px 20px;    
+}
+	.alert span.dashicons{
+		display:block;
+		float:left;
+		clear:left;
+		margin-right:25px;
+		font-size:3em;
+	}
+
 /**
  * Tabs styling
  */

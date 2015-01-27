@@ -425,6 +425,17 @@ function fa_select_extra_dir( $args = array() ){
 }
 
 /**
+ * Check if user has set the external directory for slider themes.
+ */
+function fa_is_extra_dir_set(){
+	$options = fa_get_options('settings');
+	if( isset( $options['themes_dir'] ) && !empty( $options['themes_dir'] ) ){
+		return true;
+	}
+	return false;
+}
+
+/**
  * Output a dropdown with all registered WP image sizes
  * @param array $args
  */
