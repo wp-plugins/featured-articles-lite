@@ -67,9 +67,18 @@ class FA_Admin extends FA_Custom_Post_Type{
 		// remove all metaboxes except the ones implemented by the plugin and the default allowed ones
 		add_action('screen_options_show_screen', array( $this, 'remove_meta_boxes' ));
 		
+		// add slide edit meta box on post and page editing
+		add_action( 'add_meta_boxes', array( $this, 'register_meta_boxes' ), 10, 2 );
+		
 		// tinymce
 		add_action('admin_head', array( $this, 'tinymce' ) );
 		add_filter('mce_external_languages', array( $this, 'tinymce_languages' ) );
+		
+		// for WP version prior to WP 4, use alternative for slider shortcode tinyMCE button
+		if( version_compare( get_bloginfo( 'version' ), '4', '<' ) ){
+			// register shortcode meta box if version smaller than 4
+			add_action( 'add_meta_boxes', array( $this, 'register_slider_shortcode_meta_box' ), 10, 2 );
+		}
 		
 		add_filter( 'enter_title_here', array( $this, 'post_title_label' ), 999, 2);		
 		add_filter( 'preview_post_link', array( $this, 'slider_preview_link' ), 999, 1 );
@@ -382,6 +391,29 @@ class FA_Admin extends FA_Custom_Post_Type{
 	}
 	
 	/**
+	 * Register meta boxes on post and page editing
+	 */
+	public function register_meta_boxes( $post_type, $post ){
+		if( !in_array( $post_type ,  array('post', 'page') ) || !fa_allowed_slide_edit() ){
+			return;
+		}	
+		
+		// Slide video attachment meta box
+		add_meta_box(
+			$this->meta_box_prefix . '-slide-settings', 
+			__('Featured Articles Lite - slide settings', 'fapro'), 
+			array( $this, 'meta_box_slide_settings' ));
+		
+		// Slide video attachment meta box
+		add_meta_box(
+			$this->meta_box_prefix . '-slide-video-query', 
+			__('Featured Articles Lite - video', 'fapro'), 
+			array( $this, 'meta_box_slide_video' ),
+			null,
+			'side');		
+	}
+		
+	/**
 	 * Slide modal edit load page callback
 	 */
 	public function on_slide_modal_load(){
@@ -572,6 +604,16 @@ class FA_Admin extends FA_Custom_Post_Type{
 		if( parent::get_type_slider() == $page ){
 			$this->load_slider_assets();
 			return;			
+		}
+
+		// allow slide edit scripts on all allowed post types
+		if( in_array( $page, array('post', 'page') ) ){
+			// if not allowed to edit slides and not type slide, return
+			if( !fa_allowed_slide_edit() ){
+				return;
+			}			
+			$this->load_slide_assets();
+			return;
 		}	
 	}
 	
@@ -1095,22 +1137,37 @@ class FA_Admin extends FA_Custom_Post_Type{
 			case 'auto_display':
 				$options = fa_get_slider_options( $post_id, 'display' );
 				$output = array();
-				if( $options['home'] ){
-					$output[] = __( 'Homepage', 'fapro' );
-				}
-				if( $options['posts'] ){
-					$count = 0;
-					foreach( $options['posts'] as $posts ){
-						$count += count( $posts );
+				
+				if( $options['everywhere'] ){
+					$output[] = __('Everywhere', 'fapro');
+				}else{
+					if( $options['home'] ){
+						$output[] = __( 'Homepage', 'fapro' );
+					}
+					
+					if( $options['all_pages'] ){
+						$output[] = __( 'All single post/pages', 'fapro' );
+					}else{
+						if( $options['posts'] ){
+							$count = 0;
+							foreach( $options['posts'] as $posts ){
+								$count += count( $posts );
+							}					
+							$output[] = sprintf( __( '%d posts/pages', 'fapro' ), $count );
+						}
+					}
+
+					if( $options['all_categories'] ){
+						$output[] = __( 'All archive pages', 'fapro' );
+					}else{
+						if( $options['tax'] ){
+							$count = 0;
+							foreach( $options['tax'] as $categories ){
+								$count += count( $categories );
+							}					
+							$output[] = sprintf( __( '%d category pages', 'fapro' ), $count );
+						}
 					}					
-					$output[] = sprintf( __( '%d posts/pages', 'fapro' ), $count );
-				}
-				if( $options['tax'] ){
-					$count = 0;
-					foreach( $options['tax'] as $categories ){
-						$count += count( $categories );
-					}					
-					$output[] = sprintf( __( '%d category pages', 'fapro' ), $count );
 				}
 				
 				if( $output ){
@@ -1285,7 +1342,7 @@ class FA_Admin extends FA_Custom_Post_Type{
 		}  
 
 		// Add only in Rich Editor mode
-		if ( get_user_option('rich_editing') == 'true') {
+		if ( version_compare( get_bloginfo( 'version' ) , '4', '>=' ) && get_user_option('rich_editing') == 'true') {
 	   		add_filter('mce_external_plugins', array( $this, 'tinymce_plugins' ) );
 		    add_filter('mce_buttons', array( $this, 'tinyce_buttons' ) );
 		    add_filter('mce_css', array( $this, 'tinymce_css' ) );
@@ -1322,6 +1379,56 @@ class FA_Admin extends FA_Custom_Post_Type{
 	public function tinymce_languages( $locales ){
 		$locales['fa_slider'] = fa_get_path( 'assets/admin/js/tinymce/fa_slider/langs/langs.php' );
 		return $locales;
+	}
+	
+	/**
+	 * Register alternative meta box for WP version prior to WP 4
+	 * @param string $post_type
+	 * @param object $post
+	 */
+	public function register_slider_shortcode_meta_box( $post_type, $post ){
+		if( parent::get_type_slider() == $post_type ){
+			return;
+		}
+		
+		// Slide video attachment meta box
+		add_meta_box(
+			$this->meta_box_prefix . '-slider-shortcode', 
+			__('Featured Articles Lite - slider shortcode', 'fapro'), 
+			array( $this, 'meta_box_slider_shortcode' ),
+			null,
+			'side'
+		);
+		
+		fa_load_admin_script( 'insert-shortcode' );
+	}
+	
+	/**
+	 * Meta box callback for slider shortcode
+	 * @param object $post
+	 */
+	public function meta_box_slider_shortcode( $post ){
+		// output the sliders in variable
+	    $sliders = fa_get_sliders('publish');
+	    $options = array();
+	    foreach( $sliders as $slider ){
+	    	$text = empty( $slider->post_title ) ? '(' . __('no title', 'fapro') . ')' : esc_attr( $slider->post_title );
+	    	$options[] = '<option value="' . $slider->ID . '">' . $text . ' (#' . $slider->ID . ')</option>';
+	    }
+?>
+<label for="fa-slider-shortcode"><?php _e( 'Select slider', 'fapro' );?> :
+<?php if( $options ):?>
+<select id="fa-slider-shortcode" name="fa-slider-shortcode">
+	<option value=""><?php _e( 'Select', 'fapro' );?></option>
+	<?php echo implode( "\n", $options );?>
+</select>
+</label>
+<p style="text-align:right;"><input type="button" id="fa-insert-shortcode" value="<?php _e('Insert shortcode', 'fapro');?>" class="button" /></p>
+<?php else:?>
+	<em><?php _e( 'No published sliders found', 'fapro' );?></em>
+</label>
+<?php endif;?>
+<?php		
 	}
 	
 	/**

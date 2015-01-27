@@ -94,15 +94,20 @@ https://vimeo.com/113921051
 **Please note**, if you modified or created new slider themes, you should set up a slider themes folder outside the plugin folder to avoid having your modifications overwritten.
 The process of moving the slider themes folder from within the plugin folder is described here: [How to move slider themes folder](http://www.codeflavors.com/documentation/featured-articles-pro-3/moving-slider-themes-folder/ "Move Featured Articles WP slider themes outside the plugin folder").
 
+= 3.0.3 =
+* New option under plugin Settings that allow you to display slide settings on post/page edit;
+* Solved a display bug for sliders published above the loop that wasn't displayign correctly the pages where the slider is published in sliders admin table;
+* Solved a bug in WP versions prior to 4 that was preventing the editor from working correctly.
+
 = 3.0.2 =
-* Solved a bug in slider script that was displaying only a part of the image
-* Solved a bug in admin slide edit modal screen that wasn't removing the slide image when action was initiated
+* Solved a bug in slider script that was displaying only a part of the image;
+* Solved a bug in admin slide edit modal screen that wasn't removing the slide image when action was initiated;
 * Introduced a new option for theme Simple that controls if the bar timer should be displayed or not when autoslide is on.
 
 
 = 3.0.1 =
-* Added new metabox in Slider edit page that displays the PHP code that can be used to display a slider directly into WP theme files
-* Solved a bug related to manual slider placement by using the PHP code that was generating a PHP warning
+* Added new metabox in Slider edit page that displays the PHP code that can be used to display a slider directly into WP theme files;
+* Solved a bug related to manual slider placement by using the PHP code that was generating a PHP warning.
 
 = 3.0 =
 * Complete plugin rewrite and internal functionality
@@ -111,13 +116,13 @@ Before updating, please make sure sure you have a back-up. While we don't expect
 Please note, previous slider themes from version 2.5.4 are not compatible with Featured Articles 3.0.
 
 = 2.5.4 =
-* Solves compatibility with qTranslate plugin (slide text not being translated)
+* Solves compatibility with qTranslate plugin (slide text not being translated).
 
 = 2.5.3 =
-* New option to remove credits from sliders
-* Credit image is self hosted
-* HTTPS enabled
-* Solves small bugs related to display tables in administration
+* New option to remove credits from sliders;
+* Credit image is self hosted;
+* HTTPS enabled;
+* Solves small bugs related to display tables in administration.
 
 = 2.5.2 =
 * Solved issue in slideshow themes that was causing second slide to show for an instant when page was loading. Modified files: all display.php files in all slideshow themes.

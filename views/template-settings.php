@@ -28,6 +28,16 @@
 								</p>
 							</td>
 						</tr>
+						
+						<tr valign="top">
+							<th scope="row">
+								<label for="post_slide_edit"><?php _e('Allow slide editing on post edit', 'fapro');?>:</label>
+							</th>
+							<td>
+								<input type="checkbox" name="post_slide_edit" id="post_slide_edit" value="1"<?php fa_checked( (bool) $settings['post_slide_edit'] );?> />
+								<span class="description"><?php _e('If checked will display slide edit settings on post/page edit.', 'fapro');?></span>
+							</td>
+						</tr>
 												
 						<tr valign="top">
 							<th scope="row">

@@ -506,6 +506,7 @@ class FA_Plugin_Options extends FA_Options {
 			 */
 			'settings' => array(
 				'complete_uninstall' => false, // perform a complete unistall
+				'post_slide_edit'	 => false, // load slide edit meta boxes on post/page edit screen
 				'load_in_wptouch'	 => false, // load slideshows on mobile version of wp touch
 				'themes_dir' 		 => '', // extra slideshow themes relative folder path (must be inside wp-content folder)
 				'edit_links'		 => false, // when true, it will display an edit link under the slider for logged in users that can edit

@@ -1,6 +1,31 @@
 <?php wp_nonce_field('fa-slide-options-save', 'fa-slide-settings-nonce');?>
-<table class="form_table">
+<table class="form-table">
 	<tbody>
+		<?php 
+			// on posts other than plugin custom post type, add custom title and custom text fields
+			if( !defined('FAPRO_IFRAME') ):
+		?>
+		<tr>
+			<th><label for="fa-custom-title"><?php _e('Slide title', 'fapro');?>:</label></th>
+			<td>
+				<input type="text" name="fa_slide[title]" id="fa-custom-title" value="<?php echo $options['title'];?>" style="width:80%;" />
+				<p class="description"><?php _e('custom title for slide made from this post', 'fapro');?></p>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="fa-custom-content"><?php _e('Slide content', 'fapro');?>:</label></th>
+			<td>
+				<?php 
+					wp_editor( $options['content'] , 'fa-custom-content-post', array(
+						'teeny' => true,
+						'media_buttons' => false,
+						'textarea_name' => 'fa_slide[content]',
+						'textarea_rows' => 10
+					));
+				?>
+			</td>
+		</tr>
+		<?php endif;?>	
 		<tr>
 			<th><label for="fa-link_text"><?php _e('Read', 'fapro');?>:</label></th>
 			<td>

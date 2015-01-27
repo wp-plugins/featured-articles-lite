@@ -182,6 +182,18 @@ function fa_allowed_post_types(){
 }
 
 /**
+ * Returns setting for slide edit on post edit page
+ */
+function fa_allowed_slide_edit(){
+	// get the allowed post types from plugin settings
+	$options = fa_get_options('settings');
+	if( isset( $options['post_slide_edit'] ) ){
+		return $options['post_slide_edit'];
+	}
+	return false;	
+}
+
+/**
  * Returns a list of checkboxes for a given set of options
  * @param array $attr - attributes for displaying the checkboxes
  */
