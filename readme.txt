@@ -1,8 +1,8 @@
 === FA Lite - WP responsive slider plugin ===
 Contributors: codeflavors
-Tags: slider, slideshow, WordPress slider, video, YouTube, Vimeo, responsive, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
+Tags:  javascript slider, wordpress slideshow, image slider, wordpress slider plugin, rotator, image rotator,customizable slider, wp slider, responsive slider, wordpress slider, best wordpress slider, slideshow plugin, wordpress picture slider, javascript rotator, responsive slideshow plugin, best slider wordpress, video slider, jquery slider, responsive slider plugin, picture slider, custom post types, responsive rotator, responsive image slider, responsive picture slider, responsive image slider plugin, best slider, responsive, featured articles slider, responsive slideshow, photo rotator, slideshow, photo slider, photo gallery, wordpress responsive slider, image gallery, wordpress video slider, wordpress picture gallery, wordpress gallery, template tag, best responsive slider, wordpress image slider, image slider plugin, wordpress photo gallery, best responsive wordpress slider plugin, slider plugin, jquery rotator, slider, featured articles, featured posts slider, shortcode
 Requires at least: 4.0
-Tested up to: 4.1
+Tested up to: 4.1.1
 Stable tag: trunk
 
 Featured Articles is a responsive WordPress slider plugin that can create sliders from any existing WordPress content (posts, custom posts, pages or gallery images).
