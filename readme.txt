@@ -2,25 +2,43 @@
 Contributors: codeflavors
 Tags:  javascript slider, wordpress slideshow, image slider, wordpress slider plugin, rotator, image rotator,customizable slider, wp slider, responsive slider, wordpress slider, best wordpress slider, slideshow plugin, wordpress picture slider, javascript rotator, responsive slideshow plugin, best slider wordpress, video slider, jquery slider, responsive slider plugin, picture slider, custom post types, responsive rotator, responsive image slider, responsive picture slider, responsive image slider plugin, best slider, responsive, featured articles slider, responsive slideshow, photo rotator, slideshow, photo slider, photo gallery, wordpress responsive slider, image gallery, wordpress video slider, wordpress picture gallery, wordpress gallery, template tag, best responsive slider, wordpress image slider, image slider plugin, wordpress photo gallery, best responsive wordpress slider plugin, slider plugin, jquery rotator, slider, featured articles, featured posts slider, shortcode
 Requires at least: 4.0
-Tested up to: 4.2.1
+Tested up to: 4.2.2
 Stable tag: trunk
 
-Featured Articles is a responsive WordPress slider plugin that can create sliders from any existing WordPress content (posts, custom posts, pages or gallery images).
+WordPress slider plugin for Featured Content that can create responsive, video enabled sliders from your existing WordPress content.
 
 == Description ==
 
-**Featured Articles for WordPress** slider plugin allows you to create sliders in your blog pages directly from your already written content, be it posts, custom posts, pages or WordPress Gallery images. With the ability to change any slider aspect by making use of slideshow themes that are delivered with the plugin, almost anything is possible. Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
+**Featured Articles** is a [WordPress slider plugin](http://www.codeflavors.com/featured-articles-pro/ "Best WordPress slider plugin") that allows you to create sliders in your blog pages directly from your already written content, be it posts, custom posts, pages or WordPress Gallery images. Some of its features are:
+
+* Responsive and mobile ready;
+* Sliders can be created from posts, pages, gallery images (PRO) or custom post types (PRO);
+* Navigation arrows and pagination;
+* Multiple slider themes(PRO);
+* Preloading functionality on page load;
+* Lots of actions and filters for customizing output and functionality;
+* SEO friendly;
+* Packed with layout and animation options;
+* Various slider publishing methods: shortcodes, widgets, automatic placement, PHP code that can be used in templates;
+* Slider themes visual editor (PRO);
+* Dynamic areas for fast publishing (PRO);
+* Slider caching for faster page loading (PRO);
+* ... and many more.
+
+With the ability to change any slider aspect by making use of slider themes that are delivered with the plugin, almost anything is possible. 
+
+Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
 
 https://vimeo.com/113921051
 
-Slideshows can be published in WordPress by any of these ways (or all at the same time):
+Sliders can be published in WordPress by any of these ways (or all at the same time):
 
-* manual placement directly into your WordPress theme template files (requires editing the template file you want to place a slideshow in and add a small piece of code);
+* manual placement directly into your WordPress theme template files (requires editing the template file you want to place a slider in and add a small piece of code);
 * shortcode placement directly into a post or page content;
 * widget placement into any widget areas your theme has;
 * automatic placement in any page just above the page loop.
 
-While Lite version of FeaturedArticles provides all the neccessary tools for creating very nice slideshows, PRO version of this same plugin comes in addition with:
+While Lite version of Featured Articles provides all the neccessary tools for creating very nice slideshows, PRO version of this same plugin comes in addition with:
 
 * more slider themes, all video enabled and responsive;
 * **video enabled** custom slides for **YouTube and Vimeo** that can embed videos in your WordPress sliders;
@@ -39,30 +57,10 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 
 **Important links:**
 
-* [Documentation](http://www.codeflavors.com/documents/featured-articles-pro-3/ "Featured Articles for WordPress documentation") on plugin usage and slideshow theme structure;
+* [Documentation](http://www.codeflavors.com/documents/featured-articles-pro-3/ "Featured Articles for WordPress documentation") on plugin usage and slider theme structure;
 * [Forums](http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/ "CodeFlavors Community Forums") (while we try to keep up with the forums here, please post any requests on our forums for a faster response);
-* [FeaturedArticles homepage](http://www.codeflavors.com/featured-articles-pro/ "FeaturedArticles for WordPress")
-* [CodeFlavors News](http://www.codeflavors.com/news/ "CodeFlavors news on FeaturesArticles for WordPress plugin") - [CodeFlavors](http://www.codeflavors.com/ "CodeFlavors - devoted to WordPress") is our new home.
-
-**Features:**
-
-* Add, remove, order any slideshow content made of pages or mixed content;
-* Animation control (based on individual themes);
-* Write custom slides by using the WordPress editor (PRO);
-* Put videos in posts, custom posts, pages and custom slides from Vimeo or YouTube and import video image, video title and description as slide image, title and description;
-* Customize posts and pages displayed into slideshows by specifying a different title, content, slide background color, image and more;
-* Change themes by choosing from the available slider themes;
-* Change theme color palette by simply creating a new color stylesheet that can skin the theme without messing with the CSS responsible for layout;
-* Create color palette stylesheets using a visual editor(PRO);
-* Preview slideshow directly in your website before publishing it in your pages.
-* Display slideshows by widgets, shorcodes, manual code snippet or automatic display above any page loop;
-* Create new themes that can completely change the default animations and can add new options fields custom for it in Slider editing in WordPress admin;
-* Cache sliders for faster page loading;
-* Allow different user groups access to plugin pages;
-* Create dynamic areas that allow you to publish sliders by simply drag and drop;
-* Select the areas where you want your sliders to be published;
-* Customize slides contents by using the available options;
-* and more...
+* [WordPress slider plugin homepage](http://www.codeflavors.com/featured-articles-pro/ "Best WordPress slider plugin")
+* [CodeFlavors News](http://www.codeflavors.com/news/ "CodeFlavors news on Featured Articles for WordPress plugin") - [CodeFlavors](http://www.codeflavors.com/ "CodeFlavors - devoted to WordPress") is our new home.
 
 These are just a few of the things this plugin can do so just go on and try it for yourself.
 
@@ -125,7 +123,7 @@ Please note, previous slider themes from version 2.5.4 are not compatible with F
 * Solves small bugs related to display tables in administration.
 
 = 2.5.2 =
-* Solved issue in slideshow themes that was causing second slide to show for an instant when page was loading. Modified files: all display.php files in all slideshow themes.
+* Solved issue in slider themes that was causing second slide to show for an instant when page was loading. Modified files: all display.php files in all slider themes.
 
 = 2.5.1 =
 * Solved WordPress 3.5 error fatal error related to $wpdb->prepare()
@@ -133,44 +131,44 @@ Please note, previous slider themes from version 2.5.4 are not compatible with F
 = 2.5 =
 * Multibyte string support.
 * Image preloaders for featured images in slides.
-* Function to retrieve slideshow settings ( FA_get_option() ) can now take arrays as well as string as argument.
+* Function to retrieve slider settings ( FA_get_option() ) can now take arrays as well as string as argument.
 * WP Touch PRO compatibility.
-* Template function ( the_fa_author() ) and options to display author name in slideshows.
+* Template function ( the_fa_author() ) and options to display author name in sliders.
 * New option to link author name to author posts page.
-* Image resize in slideshows to exact dimensions entered by user (uses default WordPress functionality; images will be cropped if bigger).
+* Image resize in sliders to exact dimensions entered by user (uses default WordPress functionality; images will be cropped if bigger).
 * New responsive theme ( Classic Responsive ) adapted from theme Classic.
 
 = 2.4.9.2 =
 * resolved podPress related bug that was displaying raw podPress player code into slides. Instead of applying all the_content filters, it applies only the default WordPress filters (wptexturize, convert_smilies, convert_chars, wpautop, shortcode_unautop).
 
 = 2.4.9.1 =
-* Solved bug that was causing remote images not to be displayed into the slideshow.
+* Solved bug that was causing remote images not to be displayed into the slider.
 
 = 2.4.9 =
-* New options to hide title, text, date and read more link in slides when editing or creating a slideshow.
+* New options to hide title, text, date and read more link in slides when editing or creating a slider.
 * Re-designed automatic placement options in pages and categories.
-* WordPress editor button to easily place slideshow shortcode in post or page.
-* Solved bug that was displaying order of pages wrong when creating/editing a slideshow.
-* Images in slideshows now have width and height set on them for increased overall page performance.
+* WordPress editor button to easily place slider shortcode in post or page.
+* Solved bug that was displaying order of pages wrong when creating/editing a slider.
+* Images in sliders now have width and height set on them for increased overall page performance.
 * New template function to display the date in slides ( the_fa_date() ).
 * New template function that will hide any wrapping element if all other elements are hidden ( title, text, date ... ).
 * New option to allow all tags in slide description.
 
 = 2.4.8 =
-* Compatibility with WPtouch plugin by verifying if WPtouch Restricted Mode option is on and preventing any slideshows from displaying. A new option under Settings can also prevent any slideshows from displaying in WPtouch mobile themes but if Restricted Mode is on, even if allowed from Featured Articles Lite, no slideshows will display.
+* Compatibility with WPtouch plugin by verifying if WPtouch Restricted Mode option is on and preventing any sliders from displaying. A new option under Settings can also prevent any sliders from displaying in WPtouch mobile themes but if Restricted Mode is on, even if allowed from Featured Articles Lite, no sliders will display.
 * Compatibility with qTranslate plugin. No action needed to enable it.
 
 = 2.4.7 =
 * Solves problem of post/page text and title not being replaced by custom ones specified in post/page editing.
 
 = 2.4.6 =
-* Solves the problem of multiple slideshows displayed into the same page that have same slideshow theme but different color schemes in settings.
+* Solves the problem of multiple sliders displayed into the same page that have same slider theme but different color schemes in settings.
 
 = 2.4.5 =
 * Solved small bug related to linked slide titles target attribute value not being between double quotes.
 
 = 2.4.4 =
-* Compatibility with jQuery 1.7 from Wordpress 3.3 for mouse wheel navigation in front-end slideshows.
+* Compatibility with jQuery 1.7 from Wordpress 3.3 for mouse wheel navigation in front-end sliders.
 * Automatic placement enabled by default when installing/updating the plugin (previously set disabled and could be enabled from plugin Settings page).
 * Wordpress 3.3 compatibility for gallery uploaded images with the new flash uploader.
 
@@ -181,15 +179,15 @@ Please note, previous slider themes from version 2.5.4 are not compatible with F
 * Repaired dead/wrong links from Wordpress admin plugin pages.
 
 = 2.4.1 =
-* Option to change the default slideshow themes folder from within the plugin contents to anywhere into wp_content folder. Option is available in plugin menu->Settings page.
+* Option to change the default slider themes folder from within the plugin contents to anywhere into wp_content folder. Option is available in plugin menu->Settings page.
 * Solved bug that was keeping dark color palette selected by default for all themes making Classic Light unavailable.
 * Solved bug that was removing the link that places custom featured image on posts/pages in Wordpress gallery when search of filtering was performed.
 
 = 2.4 =
 * Image attachment to slide is made using the default Wordpress Media Gallery
-* Templating functions for themes to display information in slideshows
-* Themes can extend the default slideshow script to create custom animations (requires jQuery knowledge)
-* Themes can add custom fields to slideshow editing form that are unique for them (options that apply only to a theme)
+* Templating functions for themes to display information in sliders
+* Themes can extend the default slider script to create custom animations (requires jQuery knowledge)
+* Themes can add custom fields to slider editing form that are unique for them (options that apply only to a theme)
 * Custom written slides that can be created with the default Wordpress editor (PRO)
 * Slideshows created from pages or featured content (mix of pages, posts and custom slides) have slides ordering option by drag-and-drop
 * Custom titles, text and read-more link texts individual for every post/page or custom slide
@@ -264,7 +262,7 @@ Initial release for the new redesigned Wordpress Featured Articles
 
 == Troubleshooting ==
 
-Plugin is guaranteed to work on a clean WordPress install. Since themes and other plugins don't always play nice, there are a few things you could check if slideshows won't work in your pages:
+Plugin is guaranteed to work on a clean WordPress install. Since themes and other plugins don't always play nice, there are a few things you could check if sliders won't work in your pages:
 
 1. Check that only one jquery file is loaded. Most times, a manually loaded jQuery version in theme header or by a plugin may be the cause. Look in your page source in browser and see if that's the problem.
 2. Plugins merging JavaScript and CSS files may also cause problems. In this case, it's all about god intentions with bad results.
