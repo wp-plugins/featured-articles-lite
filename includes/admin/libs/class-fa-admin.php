@@ -85,7 +85,9 @@ class FA_Admin extends FA_Custom_Post_Type{
 
 		// add a filter to detect if FA PRO is installed and remove activation link and add a message
 		add_filter('plugin_row_meta', array( $this, 'plugin_meta' ), 10, 2);
-		add_filter('plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2);		
+		add_filter('plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2);
+
+		add_filter( 'admin_footer_text', array( $this, 'admin_footer_message' ) );
 	}
 	
 	/**
@@ -1233,7 +1235,7 @@ class FA_Admin extends FA_Custom_Post_Type{
 			
 			$this->save_caps();
 			if( !$this->errors && !is_wp_error( $this->errors ) ){
-				$url = add_query_arg( array('message' => 801) , html_entity_decode( menu_page_url('fapro_settings') ) );
+				$url = add_query_arg( array('message' => 801) , html_entity_decode( menu_page_url( 'fapro_settings', false ) ) );
 				wp_redirect( $url );
 				die();				
 			}						
@@ -1502,6 +1504,22 @@ class FA_Admin extends FA_Custom_Post_Type{
 		}
 		
 		return $links;
+	}
+	
+	public function admin_footer_message( $footer_text ){
+		
+	 	global $current_screen;
+		
+	 	// Only display custom text on Easing Slider pages
+        if ( isset( $current_screen->id ) && false !== strpos( $current_screen->id, 'fa_slider' ) ) {
+            return sprintf( 
+            	__( 'Please rate <strong>Featured Articles Lite</strong> <a href="%1$s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%1$s" target="_blank">WordPress.org</a>.  Thank you from the CodeFlavors team!', 'fapro' ), 
+            	'https://wordpress.org/support/view/plugin-reviews/featured-articles-lite#postform' 
+            );
+        } else {
+            return $footer_text;
+        }
+		
 	}
 }
 

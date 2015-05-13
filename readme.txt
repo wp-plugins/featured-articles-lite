@@ -92,6 +92,10 @@ https://vimeo.com/113921051
 **Please note**, if you modified or created new slider themes, you should set up a slider themes folder outside the plugin folder to avoid having your modifications overwritten.
 The process of moving the slider themes folder from within the plugin folder is described here: [How to move slider themes folder](http://www.codeflavors.com/documentation/featured-articles-pro-3/moving-slider-themes-folder/ "Move Featured Articles WP slider themes outside the plugin folder").
 
+= 3.0.4 =
+
+* Solved a bug that was preventing a redirect when saving plugin settings on some installations.
+
 = 3.0.3 =
 * New option under plugin Settings that allow you to display slide settings on post/page edit;
 * Solved a display bug for sliders published above the loop that wasn't displayign correctly the pages where the slider is published in sliders admin table;
