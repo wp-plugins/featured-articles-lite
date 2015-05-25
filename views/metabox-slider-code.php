@@ -18,6 +18,6 @@
 </p>
 <p class="description">
 <?php _e( 'A better way of displaying sliders into specific WordPress theme files is by using Dynamic areas.', 'fapro' );?> 
-<?php printf( __( 'More details about how to use Dynamic areas can be found %shere%s.', 'fapro' ), '<a href="http://www.codeflavors.com/documentation/featured-articles-pro-3/dynamic-areas/" target="_blank">', '</a>' )?>
+<?php printf( __( 'More details about how to use Dynamic areas can be found %shere%s.', 'fapro' ), '<a href="http://www.codeflavors.com/documentation/featured-articles-pro-3/dynamic-areas/?utm_source=plugin&utm_medium=doc_link&utm_campaign=fa_lite" target="_blank">', '</a>' )?>
 </p>
 <?php endif;?>

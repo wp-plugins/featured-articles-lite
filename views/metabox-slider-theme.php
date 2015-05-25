@@ -18,7 +18,7 @@
 		<div class="alert">
 			<span class="dashicons dashicons-flag"></span> 
 			<?php _e( 'Your slider themes are inside plugin folder.', 'fapro');?><br />
-			<?php printf( __( 'If you modify existing themes, create additional themes or create additional color schemes to existing themes, please make sure that you first %smove slider themes outside plugin folder%s.', 'fapro' ), '<a href="http://www.codeflavors.com/documentation/intermediate-tutorials/moving-slider-themes-folder/" target="_blank">' ,'</a>');?>		
+			<?php printf( __( 'If you modify existing themes, create additional themes or create additional color schemes to existing themes, please make sure that you first %smove slider themes outside plugin folder%s.', 'fapro' ), '<a href="http://www.codeflavors.com/documentation/intermediate-tutorials/moving-slider-themes-folder/?utm_source=plugin&utm_medium=doc_link&utm_campaign=fa_lite" target="_blank">' ,'</a>');?>		
 		</div>
 		<?php endif;?>	
 		<?php foreach( $themes as $theme => $theme_details ):?>	

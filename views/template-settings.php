@@ -176,7 +176,7 @@
 				<p class="description">	
 					<?php _e('While you can put the themes you create into the same themes folder as the default ones are, when updating the plugin you might lose your custom themes.', 'fapro');?><br />
 					<?php _e('To avoid this, simply instruct the plugin to look for your themes into a different folder inside wp-content folder. Just select one below and put all themes you create into it.', 'fapro')?><br />
-					<?php printf( __('For more detailed instructions see the %stutorial on how to move slider themes outside plugin folder%s.', 'fapro'),'<a href="http://www.codeflavors.com/documentation/intermediate-tutorials/moving-slider-themes-folder/" target="_blank">' ,'</a>' );?>
+					<?php printf( __('For more detailed instructions see the %stutorial on how to move slider themes outside plugin folder%s.', 'fapro'),'<a href="http://www.codeflavors.com/documentation/intermediate-tutorials/moving-slider-themes-folder/?utm_source=plugin&utm_medium=doc_link&utm_campaign=fa_lite" target="_blank">' ,'</a>' );?>
 				</p>
 				<table class="form-table">
 					<tbody>
