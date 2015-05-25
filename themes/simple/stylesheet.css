@@ -51,6 +51,7 @@
 					.fa_slider_simple .fa_slide_content div.description p{
 						padding:0;
 						margin:0 0 .3em;
+						color:inherit;
 					}
 				
 				.fa_slider_simple .fa_slide_content .fa_read_more{

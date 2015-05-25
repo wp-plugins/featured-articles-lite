@@ -1,4 +1,8 @@
 <?php
+if( !class_exists( 'FA_Ajax_Actions' ) ){
+	require_once fa_get_path( 'includes/admin/libs/class-fa-ajax-actions.php' );
+}
+
 /**
  * Implements the administration functionality
  *
@@ -214,6 +218,54 @@ class FA_Admin extends FA_Custom_Post_Type{
 		// get slide object post type to retrieve labels
 		$parent_slug 	= 'edit.php?post_type=' . parent::get_type_slider();
 		
+		$this->pro_menu_pages( $parent_slug );
+		
+		// Plugin settings menu page
+		$settings = add_submenu_page(
+			$parent_slug, 
+			__('Settings', 'fapro'),
+			__('Settings', 'fapro'), 
+			'manage_options', 
+			'fapro_settings',
+			array($this, 'page_settings')
+		);
+		// load action for plugin settings page
+		add_action( 'load-' . $settings, array( $this, 'on_page_settings_load' ) );
+		
+		$tax_modal = add_submenu_page(
+			null, 
+			'', 
+			'', 
+			'edit_fa_items', 
+			'fa-tax-modal',
+			array( $this, 'modal_taxonomy' ));
+		
+		$mixed_modal = add_submenu_page(
+			null, 
+			'', 
+			'', 
+			'edit_fa_items', 
+			'fa-mixed-content-modal',
+			array( $this, 'modal_mixed_content' ));	
+		add_action('load-' . $mixed_modal, array( $this, 'on_slides_modal_load' ) );
+			
+		$mixed_slide_edit = add_submenu_page(
+			null,
+			'',
+			'',
+			'edit_fa_items',
+			'fa-post-slide-edit',
+			array( $this, 'modal_mixed_slide_edit' )
+		);	
+		add_action('load-' . $mixed_slide_edit, array( $this, 'on_slide_modal_load' ) );
+	}
+	
+	private function pro_menu_pages( $parent_slug ){
+		$options = fa_get_options( 'settings' );
+		if( $options['lite_admin_menu'] ){
+			return;
+		}
+		
 		// slides list menu page
 		$slides = add_submenu_page(
 			$parent_slug,
@@ -260,46 +312,7 @@ class FA_Admin extends FA_Custom_Post_Type{
 			'manage_options', 
 			'fapro_themes',
 			array($this, 'themes_manager')
-		);	
-		
-		// Plugin settings menu page
-		$settings = add_submenu_page(
-			$parent_slug, 
-			__('Settings', 'fapro'),
-			__('Settings', 'fapro'), 
-			'manage_options', 
-			'fapro_settings',
-			array($this, 'page_settings')
-		);
-		// load action for plugin settings page
-		add_action( 'load-' . $settings, array( $this, 'on_page_settings_load' ) );
-		
-		$tax_modal = add_submenu_page(
-			null, 
-			'', 
-			'', 
-			'edit_fa_items', 
-			'fa-tax-modal',
-			array( $this, 'modal_taxonomy' ));
-		
-		$mixed_modal = add_submenu_page(
-			null, 
-			'', 
-			'', 
-			'edit_fa_items', 
-			'fa-mixed-content-modal',
-			array( $this, 'modal_mixed_content' ));	
-		add_action('load-' . $mixed_modal, array( $this, 'on_slides_modal_load' ) );
-			
-		$mixed_slide_edit = add_submenu_page(
-			null,
-			'',
-			'',
-			'edit_fa_items',
-			'fa-post-slide-edit',
-			array( $this, 'modal_mixed_slide_edit' )
-		);	
-		add_action('load-' . $mixed_slide_edit, array( $this, 'on_slide_modal_load' ) );
+		);		
 	}
 	
 	public function custom_slides(){
@@ -719,6 +732,15 @@ class FA_Admin extends FA_Custom_Post_Type{
 			'side'
 		);
 		
+		// help links meta box
+		add_meta_box(
+			$this->meta_box_prefix . '-codeflavors-docs',
+			__('Docs & Help', 'fapro'  ),
+			array( $this, 'meta_box_docs' ),
+			null,
+			'side'
+		);
+		
 		// slider PHP code
 		add_meta_box(
 			$this->meta_box_prefix . '-slider-code', 
@@ -763,7 +785,86 @@ class FA_Admin extends FA_Custom_Post_Type{
 		$template 	= fa_metabox_path('slider-options');
 		include_once $template;
 	}	
+	
+	/**
+	 * Display a list of useful links
+	 */
+	public function meta_box_docs( $post ){
+		$links = array(
+			array(
+				'text' => __( 'How to create sliders', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/documentation/featured-articles-pro-3/creating-sliders/'
+			),
+			array(
+				'text' => __( 'Publish sliders above the page loop', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/documentation/basic-tutorials/publish-sliders-page-loop/'
+			),
+			array(
+				'text' => __( 'Use the slider shortcode', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/documentation/basic-tutorials/how-to-use-the-slider-shortcode/'
+			),
+			array(
+				'text' => __( 'How to use the slider widget', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/featured-articles-for-wp/how-to-create-a-wordpress-slider-widget-with-featured-articles/',
+			),
+			array(
+				'text' => __( 'Allow custom post types in sliders', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/featured-articles-for-wp/create-wordpress-slider-from-custom-post-type/'
+			),
+			array(
+				'text' => __( 'Allow plugin access based on user roles', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/documentation/basic-tutorials/allow-plugin-access-based-user-roles/'
+			),
+			array(
+				'text' => __( 'Store slider themes outside plugin folder', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/documentation/intermediate-tutorials/moving-slider-themes-folder/'
+			)			
+		);
+		
+		$extra = array(
+			array(
+				'text' => __( 'Plugin Homepage', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/featured-articles-pro/'
+			),
+			array(
+				'text' => __( 'Slider examples', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/featured-articles-pro/examples/'
+			),
+			array(
+				'text' => __( 'Docs page', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/documents/featured-articles-pro-3/'
+			),
+			array(
+				'text' => __( 'Plugin Forum', 'fapro' ),
+				'url' => 'http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/'
+			)
+		);
+		
+		$campaign = array(
+			'utm_source' => 'plugin',
+			'utm_medium' => 'doc_link',
+			'utm_campaign' => 'fa_lite'
+		);
+		$q = http_build_query( $campaign );
+?>
+<?php _e( 'Below is a list of useful tutorials to help you get started.', 'fapro' );?>
 
+<ul>
+<?php foreach( $links as $link ):?>
+	<li><a href="<?php  echo $link['url'] . '?' . $q;?>" target="_blank" title="<?php esc_attr( $link['text'] );?>"><?php echo $link['text'];?></a></li>
+<?php endforeach;?>
+</ul>
+
+<?php _e('Other useful links', 'fapro');?>
+
+<ul>
+<?php foreach( $extra as $link ):?>
+	<li><a href="<?php  echo $link['url'] . '?' . $q;?>" target="_blank" title="<?php esc_attr( $link['text'] );?>"><?php echo $link['text'];?></a></li>
+<?php endforeach;?>
+</ul>
+<?php	
+	}
+	
 	/**
 	 * Slider code metabox callback
 	 * @param object $post - current slider post being edited
@@ -1521,268 +1622,4 @@ class FA_Admin extends FA_Custom_Post_Type{
         }
 		
 	}
-}
-
-/**
- * Registers and manages all AJAX calls
- */
-class FA_Ajax_Actions{
-	
-	/**
-	 * Constructor. Sets all registered ajax actions.
-	 */
-	public function __construct(){
-		// get the actions
-		$actions = $this->actions();
-		// add wp actions
-		foreach( $actions as $action ){
-			add_action('wp_ajax_' . $action['action'], $action['callback']);
-		}		
-	}
-	
-	/**
-	 * Returns the output for a slide assigned to a slider
-	 */
-	public function assign_slide(){
-		$action = $this->get_action_data( 'assign_slide' );
-		check_ajax_referer( $action['nonce']['action'], $action['nonce']['name'] );
-		$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : -1;
-		
-		if( !current_user_can( 'edit_fa_items', $post_id ) ){
-			wp_die( -1 );
-		}
-		
-		$slider_id = absint( $_POST['slider_id'] );
-		
-		$post = get_post( $post_id );
-		$output = '';
-		if( $post ){
-			if( 'auto-draft' != $post->post_status ){
-				ob_start();
-				fa_slide_panel( $post_id, $slider_id );
-				$output = ob_get_clean();
-			}			
-		}		
-		
-		/**
-		 * Action on post assignment to slider. Will run every time a post is
-		 * set as a slide to a given slider.
-		 * 
-		 * @param int $post_id - ID of post being assigned to slider 
-		 */
-		do_action('fa_assign_post_to_slider', $post_id);
-		
-		wp_send_json_success( $output );
-		
-		die();
-	}
-	
-	/**
-	 * Assigns an image from the media gallery to be used as slide image
-	 */
-	public function assign_slide_image(){
-		$action = $this->get_action_data( 'assign_slide_image' );
-		check_ajax_referer( $action['nonce']['action'], $action['nonce']['name'] );
-		$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : -1;
-		
-		if( !current_user_can( 'edit_fa_items', $post_id ) ){
-			wp_die( -1 );
-		}
-		
-		$image_id = isset( $_POST['images'][0] ) ? absint( $_POST['images'][0] ) : false;
-		if( !$image_id ){
-			wp_send_json_error(__('No image selected.', 'fapro'));
-		}
-		// update the image option
-		fa_update_slide_options( $post_id , array( 'image' => $image_id ) );
-		ob_start();
-		// get the image output
-		the_fa_slide_image( $post_id );
-		// capture the output
-		$output = ob_get_clean();
-		wp_send_json_success( $output );		
-		die();
-	}
-	
-	/**
-	 * Removes a previously set slide custom image
-	 */
-	public function remove_slide_image(){
-		$action = $this->get_action_data( 'remove_slide_image' );
-		check_ajax_referer( $action['nonce']['action'], $action['nonce']['name'] );
-		$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : -1;
-		
-		if( !current_user_can( 'edit_fa_items', $post_id ) ){
-			wp_die( -1 );
-		}
-		
-		// update the image option
-		fa_update_slide_options( $post_id , array( 'image' => '' ) );
-		ob_start();
-		// get the image output
-		the_fa_slide_image( $post_id );
-		// capture the output
-		$output = ob_get_clean();
-		wp_send_json_success( $output );		
-		die();		
-	}
-	
-	/**
-	 * Assigns an image from the media gallery to be used as slide image
-	 */
-	public function assign_theme_image(){
-		$action = $this->get_action_data( 'assign_theme_image' );
-		check_ajax_referer( $action['nonce']['action'], $action['nonce']['name'] );
-		if( !current_user_can( 'edit_fa_items' ) ){
-			wp_die( -1 );
-		}
-		
-		$image_id = isset( $_POST['images'][0] ) ? absint( $_POST['images'][0] ) : false;
-		if( !$image_id ){
-			wp_send_json_error(__('No image selected.', 'fapro'));
-		}
-		
-		$image = wp_get_attachment_image_src( $image_id, 'full' );
-		if( isset( $image[0] ) ){
-			$thumb = wp_get_attachment_image_src( $image_id, 'thumbnail' );
-			$output = '<div class="fa_slide_image" data-post_id="' . $image_id . '">';
-			$output.= sprintf( '<img src="%s">', $thumb[0] );
-			$output.= '</div>';			
-			wp_send_json_success( array( 'html' => $output, 'image_url' => $image[0] ) );
-		}else{
-			wp_send_json_error(__('Image not found', 'fapro'));
-		}		
-				
-		die();
-	}
-	
-	/**
-	 * Assign sliders to dynamic areas
-	 */
-	public function slider_to_area(){
-		$action = $this->get_action_data( 'assign_to_area' );
-		check_ajax_referer( $action['nonce']['action'], $action['nonce']['name'] );
-		if( !current_user_can( 'edit_fa_items' ) ){
-			wp_die( -1 );
-		}
-		if( !isset( $_POST['areas'] ) ){
-			wp_die( -1 );
-		}
-		
-		$settings = fa_get_options('hooks');
-		foreach( $_POST['areas'] as $area => $sliders ){
-			// if area isn't found in stored areas, skip it
-			if( !array_key_exists( $area , $settings ) ){
-				continue;
-			}
-			$result = array();
-			// empty the area if nothing is set
-			if( empty( $sliders ) ){
-				$settigs[ $area ]['sliders'] = $result;
-			}
-			
-			$sliders = explode(',', $sliders);
-			foreach( $sliders as $slider ){
-				$slider_id = absint( str_replace( 'fa_slider-', '', $slider ) );
-				$result[] = $slider_id;
-			}
-			$settings[ $area ]['sliders'] = $result;			
-		}
-		
-		fa_update_options( 'hooks' , $settings );
-		die();
-	}
-	
-	/**
-	 * Stores all ajax actions references.
-	 * This is where all ajax actions are added.
-	 */	
-	private function actions(){
-		$actions = array(
-			/**
-			 * Adds a new slide to slider.
-			 */
-			'assign_slide' => array(
-				'action' 	=> 'fa-add-slide',
-				'callback' 	=> array( $this, 'assign_slide' ),
-				'nonce' 	=> array(
-					'name'		=> 'fa_ajax_nonce',
-					'action'	=> 'fa-assign-slide'
-				) 
-			),
-						
-			'assign_slide_image' => array(
-				'action' 	=> 'fa-assign-slide-image',
-				'callback' 	=> array( $this, 'assign_slide_image' ),
-				'nonce' 	=> array(
-					'name' 		=> 'fa_ajax_nonce',
-					'action' 	=> 'fa_assign_slide_image' 
-				)
-			),
-			'remove_slide_image' => array(
-				'action' 	=> 'fa-remove-slide-image',
-				'callback' 	=> array( $this, 'remove_slide_image' ),
-				'nonce' 	=> array(
-					'name' 		=> 'fa_ajax_nonce',
-					'action' 	=> 'fa_remove_slide_image' 
-				)
-			),
-			'assign_theme_image' => array(
-				'action' 	=> 'fa-assign-theme-image',
-				'callback' 	=> array( $this, 'assign_theme_image' ),
-				'nonce' 	=> array(
-					'name' 		=> 'fa_ajax_nonce',
-					'action' 	=> 'fa_assign_theme_image' 
-				)
-			),
-			// assign sliders to dynamic areas
-			'assign_to_area' => array(
-				'action' 	=> 'fa-assign-to-area',
-				'callback' 	=> array( $this, 'slider_to_area' ),
-				'nonce' 	=> array(
-					'name' 		=> 'fa_ajax_nonce',
-					'action' 	=> 'fa_assign_slider_to_area'
-				)
-			)
-		);
-		
-		return $actions;
-	}
-	
-	/**
-	 * Get the wp action name for a given action
-	 * @param string $key
-	 */
-	public function get_action( $key ){
-		$action = $this->get_action_data( $key );
-		return $action['action'];
-	}
-	
-	/**
-	 * Get the wp action nonce for a given action
-	 * @param string $key
-	 */
-	public function get_nonce( $key ){
-		$action = $this->get_action_data( $key );
-		
-		$nonce = wp_create_nonce( $action['nonce']['action'] );
-		$result = array(
-			'name' => $action['nonce']['name'],
-			'nonce' => $nonce
-		);		
-		return $result;
-	}
-	
-	/**
-	 * Gets all details of a given action from registered actions
-	 * @param string $key
-	 */
-	private function get_action_data( $key ){
-		$actions = $this->actions();
-		if( array_key_exists( $key, $actions ) ){
-			return $actions[ $key ];
-		}else{
-			trigger_error( sprintf( __( 'Action %s not found.'), $key ), E_USER_WARNING);
-		}
-	}	
 }

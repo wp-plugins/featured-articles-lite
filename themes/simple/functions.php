@@ -6,7 +6,8 @@ function theme_simple_extra_options( $option ){
 	// get this theme key
 	$key = fa_get_theme_key( __FILE__ );
 	$option[ $key ] = array(
-		'show_timer' => true
+		'show_timer' => true,
+		'auto_resize' 	=> false
 	);
 	
 	return $option;
@@ -30,6 +31,13 @@ function simple_layout_fields_output( $post ){
 			<td>
 				<input id="simple_timer" type="checkbox" name="<?php fa_theme_var_name('show_timer', __FILE__);?>" value="1" <?php fa_checked( $theme_options['show_timer'] )?> />
 				<span class="description"><?php _e('When checked, will display the bar timer when slider is set to auto slide.', 'fapro');?></span>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="auto_resize"><?php _e('Enable slider auto resize', 'fapro');?>:</label></th>
+			<td>
+				<input id="auto_resize" type="checkbox" name="<?php fa_theme_var_name('auto_resize', __FILE__);?>" value="1" <?php fa_checked( $theme_options['auto_resize'] )?> />
+				<span class="description"><?php _e('When checked the slider will resize its height automatically to fit the current slide.', 'fapro');?></span>
 			</td>
 		</tr>
 	</tbody>

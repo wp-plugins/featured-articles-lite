@@ -247,17 +247,62 @@ class FA_Slider{
 		 * Theme starter dependencies
 		 */
 		$dependencies = array( 'jquery' );
-				
+		$theme_scripts = isset( $theme['details']['theme_config']['scripts'] ) ? (array) $theme['details']['theme_config']['scripts'] : array();
+		
+		// extra theme handles implemented by the theme
+		$extra_handles = isset( $theme['details']['theme_config']['extra_scripts']['handles'] ) ? (array)$theme['details']['theme_config']['extra_scripts']['handles'] : array();
+		if( $extra_handles ){
+			foreach( $extra_handles as $handle ){
+				$dependencies[] = $handle;
+			}
+		}
+		
+		// theme scripts that should be enqueued
+		$enqueue_scripts = isset( $theme['details']['theme_config']['extra_scripts']['enqueue'] ) ? (array)$theme['details']['theme_config']['extra_scripts']['enqueue'] : array();
+		if( $enqueue_scripts ){
+			foreach( $enqueue_scripts as $handle => $rel_path ){
+				wp_register_script(
+					$handle,
+					$theme['details']['url'] .'/'. ltrim( $rel_path, '/\\' )
+				);
+				$dependencies[] = $handle;
+			}
+		}
+		
+		$script_handles = array('slider', 'jquery-mobile', 'jquery-transit' );
+		
 		// when debug is on, load each individual .dev file
 		if( defined('FA_SCRIPT_DEBUG') && FA_SCRIPT_DEBUG ){
-			$dependencies[]	= fa_load_script( 'slider' );
-			$dependencies[] = fa_load_script( 'jquery-mobile' );
-			$dependencies[] = fa_load_script( 'jquery-transit' );
+			/**
+			 * Following handles are enqueued by themes that use regular slider script.
+			 * These script can be skipped by themes by specifying in theme functions.php
+			 * file inside function that passes the details not to embed them.
+			 * Dissalowing embed for certain themes can be done with an array like
+			 * 'scripts' => array( 'slider' => false )
+			 */
+			foreach ( $script_handles as $handle ){
+				if( !isset( $theme_scripts[ $handle ] ) || $theme_scripts[ $handle ] ){
+					$dependencies[] = fa_load_script( $handle );
+				}
+			}	
 		}else{
-			// load only the minified file containing all scripts
-			$dependencies[] = fa_load_script( '_scripts.min' );
-		}		
-
+			/**
+			 * Iterate all handles and if one isn't set or is set true, load minimized
+			 * scripts file.
+			 */
+			$load_scripts = false;
+			foreach ( $script_handles as $handle ){
+				if( !isset( $theme_scripts[ $handle ] ) || $theme_scripts[ $handle ] ){
+					$load_scripts = true;
+					break;
+				}
+			}
+			if( $load_scripts ){
+				// load only the minified file containing all scripts
+				$dependencies[] = fa_load_script( '_scripts.min' );
+			}
+		}	
+		
 		// load theme starter
 		$suffix = defined('FA_SCRIPT_DEBUG') && FA_SCRIPT_DEBUG ? '.dev' : '.min';
 		wp_enqueue_script(

@@ -1,15 +1,15 @@
 <?php 
 /*
-Plugin Name: Featured articles Lite 3
+Plugin Name: Featured Articles Lite 3
 Plugin URI: http://www.codeflavors.com/featured-articles-pro/
-Description: Create beautiful slideshows in WordPress from any already existing posts or pages. Now at version 3.
+Description: Create beautiful sliders in WordPress from any already existing posts or pages. Now at version 3.
 Author: CodeFlavors
-Version: 3.0.4
+Version: 3.1
 Author URI: http://www.codeflavors.com
 */
 
 // store plugin version
-define('FA_VERSION', '3.0.4');
+define('FA_VERSION', '3.1');
 // plugin path
 define('FA_PATH', plugin_dir_path(__FILE__));
 // plugin url

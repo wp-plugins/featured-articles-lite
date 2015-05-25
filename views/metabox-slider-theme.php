@@ -144,28 +144,43 @@
 					</td>
 				</tr>
 				<!-- Slider height -->
-				<tr>
+				<tr class="optional layout-slider-height"<?php fa_optional_field_data( 'layout-slider-height' );?>>
 					<th><label for="slider_height"><?php _e('Slider height', 'fapro');?>:</label></th>
 					<td>
-						<input type="text" name="layout[height]" id="slider_height" value="<?php echo esc_attr( $options['layout']['height'] );?>" size="2" />	
-						<span class="description"><?php _e('the slider height in pixels', 'fapro');?></span>
+						<span class="fa-optional-field-enabled" <?php fa_hide( !fa_theme_field_enabled( $active, 'layout-slider-height' ) );?>>	
+							<input type="text" name="layout[height]" id="slider_height" value="<?php echo esc_attr( $options['layout']['height'] );?>" size="2" />	
+							<span class="description"><?php _e('the slider height in pixels', 'fapro');?></span>
+						</span>
+						<span class="fa-optional-field-disabled" <?php fa_hide( fa_theme_field_enabled( $active, 'layout-slider-height' ) );?>>
+							<?php _e('NOT AVAILABLE (set by slider theme settings)', 'fapro');?>
+						</span>
 					</td>
 				</tr>
 				
-				<tr>
+				<tr class="optional layout-height-resize"<?php fa_optional_field_data( 'layout-height-resize' );?>>
 					<th><label for="layout_height_resize"><?php _e('Allow height resize', 'fapro');?>:</label></th>
 					<td>
-						<input type="checkbox" name="layout[height_resize]" id="layout_height_resize" value="1" <?php fa_checked( (bool) $options['layout']['height_resize'] );?> />
-						<span class="description"><?php _e('when checked, full width slider will resize height proportionally', 'fapro');?></span>						
+						<span class="fa-optional-field-enabled" <?php fa_hide( !fa_theme_field_enabled( $active, 'layout-height-resize' ) );?>>
+							<input type="checkbox" name="layout[height_resize]" id="layout_height_resize" value="1" <?php fa_checked( (bool) $options['layout']['height_resize'] );?> />
+							<span class="description"><?php _e('when checked, full width slider will resize height proportionally', 'fapro');?></span>						
+						</span>
+						<span class="fa-optional-field-disabled" <?php fa_hide( fa_theme_field_enabled( $active, 'layout-height-resize' ) );?>>
+							<?php _e('NOT AVAILABLE (set by slider theme settings)', 'fapro');?>
+						</span>
 					</td>
 				</tr>
 				
 				<!-- Font size -->
-				<tr>
+				<tr class="optional layout-font-size"<?php fa_optional_field_data( 'layout-font-size' );?>>
 					<th><label for="font_size"><?php _e('Font size', 'fapro');?>:</label></th>
 					<td>
-						<input type="text" name="layout[font_size]" id="font_size" value="<?php echo esc_attr( $options['layout']['font_size'] );?>" size="2" />	
-						<span class="description"><?php _e('percentual slider font size', 'fapro');?></span>
+						<span class="fa-optional-field-enabled" <?php fa_hide( !fa_theme_field_enabled( $active, 'layout-font-size' ) );?>>	
+							<input type="text" name="layout[font_size]" id="font_size" value="<?php echo esc_attr( $options['layout']['font_size'] );?>" size="2" />	
+							<span class="description"><?php _e('percentual slider font size', 'fapro');?></span>
+						</span>
+						<span class="fa-optional-field-disabled" <?php fa_hide( fa_theme_field_enabled( $active, 'layout-font-size' ) );?>>
+							<?php _e('NOT AVAILABLE (set by slider theme settings)', 'fapro');?>
+						</span>
 					</td>
 				</tr>
 				
@@ -371,18 +386,23 @@
 					</td>
 				</tr>	
 				<!-- Click event -->
-				<tr>					
+				<tr class="optional js-click-event"<?php fa_optional_field_data('js-click-event');?>>					
 					<th><label for="event"><?php _e('Slide change event', 'fapro');?>:</label></th>
 					<td>
-						<?php 
-							$args = array(
-								'name' 	=> 'js[event]',
-								'id'	=> 'event',
-								'selected' => $options['js']['event']
-							);
-							fa_sliding_event_dropdown( $args );
-						?>
-						<span class="description"><?php _e('the event that should trigger slides to change when using the slider navigation', 'fapro');?></span>
+						<span class="fa-optional-field-enabled" <?php fa_hide( !fa_theme_field_enabled( $active, 'js-click-event' ) );?>>	
+							<?php 
+								$args = array(
+									'name' 	=> 'js[event]',
+									'id'	=> 'event',
+									'selected' => $options['js']['event']
+								);
+								fa_sliding_event_dropdown( $args );
+							?>
+							<span class="description"><?php _e('the event that should trigger slides to change when using the slider navigation', 'fapro');?></span>
+						</span>
+						<span class="fa-optional-field-disabled" <?php fa_hide( fa_theme_field_enabled( $active, 'js-click-event' ) );?>>
+							<?php _e('NOT AVAILABLE (set by slider theme settings)', 'fapro');?>
+						</span>	
 					</td>
 				</tr>	
 			</tbody>

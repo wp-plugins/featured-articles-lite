@@ -495,17 +495,6 @@ function get_the_fa_image_id( $post_id = false ){
  * @return array( 'url' => URL of image, 'width' => image width, 'height' => image height, 'id' => image ID if found in media gallery )
  */
 function get_the_fa_slide_image_url( $post_id = false, $slider_id = false ){
-	// set the post ID
-	if( !$post_id ){
-		global $post;
-		if( $post ){
-			$post_id = $post->ID;
-		}else{
-			_doing_it_wrong( 'get_the_fa_image_url()' , __( 'Use this function inside a slide loop or pass the slide (post) ID to the function.', 'fapro' ), '3.0');
-		}
-	}else{
-		$post = get_post( $post_id );
-	}
 	// get the slider ID
 	if( !$slider_id ){
 		global $fa_slider;
@@ -515,6 +504,23 @@ function get_the_fa_slide_image_url( $post_id = false, $slider_id = false ){
 			_doing_it_wrong( 'get_the_fa_image_url()' , __( 'Use this function inside a slide loop or pass the slider ID to the function.', 'fapro' ), '3.0');
 		}
 	}
+	
+	// set the post ID
+	if( !$post_id ){
+		if( isset( $fa_slider ) ){
+			$post = get_current_slide();
+		}else{		
+			global $post;
+		}	
+		if( $post ){
+			$post_id = $post->ID;
+		}else{
+			_doing_it_wrong( 'get_the_fa_image_url()' , __( 'Use this function inside a slide loop or pass the slide (post) ID to the function.', 'fapro' ), '3.0');
+		}
+	}else{
+		$post = get_post( $post_id );
+	}	
+	
 	if( !$post || !$post_id || !$slider_id ){
 		return false;
 	}

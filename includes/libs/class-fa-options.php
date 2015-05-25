@@ -225,6 +225,14 @@ class FA_Slider_Options extends FA_Options{
 			}
 		}
 		
+		// for themes params, merge the defaults with the options retrieved from DB
+		// this is needed in case the theme implements new other fields to any existing ones
+		foreach( $this->defaults['themes_params'] as $theme => $params ){
+			if( isset( $options['themes_params'][ $theme ] ) ){
+				$options['themes_params'][ $theme ] = wp_parse_args( $options['themes_params'][ $theme ], $params );
+			}	
+		}
+		
 		if( $key && array_key_exists( $key, $options ) ){
 			return $options[ $key ];
 		}
@@ -512,6 +520,7 @@ class FA_Plugin_Options extends FA_Options {
 				'edit_links'		 => false, // when true, it will display an edit link under the slider for logged in users that can edit
 				'preload_sliders'	 => false, // when true, it will load a small script and some styles into the head section of the website to preload any existing sliders
 				'load_font_awesome'	 => true, // when true, if slider themes require font awesome it will be enqueued
+				'lite_admin_menu'	 => false, // when true will remove PRO pages from admin menu
 			),
 			/**
 			 * Part of hooks management feature. Stores different hooks that can be used to display the slider

@@ -128,7 +128,7 @@
        		}       		
        		
        		// change aspect on window resize (part of the responsive functionality)
-       		$(window).resize( set_aspect );
+       		$(window).resize( on_resize );
        		
        		/**
        		 * Slider load event
@@ -147,6 +147,14 @@
        		$(self).removeClass('slider-loading').children().show();
        		
        		return self;
+       	}
+       	
+       	var on_resize = function(){
+       		set_aspect();
+       		/**
+			 * Resize event callback
+			 */
+			options.resize.call( self, slides );
        	}
        	
        	/**
@@ -187,11 +195,6 @@
 				});
 			//}
 			
-			/**
-			 * Resize event callback
-			 */
-			options.resize.call( self, slides );
-						
 			// process current slide first
 			var current = get_current();
 			if( current ){
@@ -1075,6 +1078,11 @@
        	
        	this.get_navs = function(){
        		return navs;
+       	}
+       	
+    	this.center_img = function( el ){
+       		var img = $( el ).find( options.image_container +' '+ options._image );
+       		center_image( img );
        	}
        	
        	return init();

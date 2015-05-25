@@ -258,6 +258,14 @@ function the_slider_data( $echo = true ){
 	$data[] = 'data-font_size="' . absint( $options['layout']['font_size'] ) . '"';
 	$data[] = 'data-is_mobile="' . wp_is_mobile() . '"';
 	
+	// set theme data on slider data attributes
+	$theme_options = get_slider_theme_options();
+	if( $theme_options ){
+		foreach( $theme_options as $option => $value ){
+			$data[] = 'data-theme_opt_' . $option . '="' . esc_attr( (string)$value ) . '"';
+		}	
+	}
+	
 	$output = implode( ' ', $data );
 	if( $echo ){
 		echo $output;
@@ -575,6 +583,26 @@ function get_the_fa_title(){
 		$title = $post->post_title;
 	}
 	return $title;
+}
+
+/**
+ * Get the URL for current slide in the slides loop
+ */
+function get_the_slide_url(){
+	global $fa_slider;
+	$post = get_current_slide();
+	
+	// slide options
+	$options = fa_get_slide_options( $post->ID );
+	$url = '';		
+	
+	if( !empty( $options['url'] ) && !$options['link_to_post'] ){
+		$url = $options['url'];
+	}else{
+		$url = get_permalink( $post->ID );
+	}
+		
+	return $url;
 }
 
 /**

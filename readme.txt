@@ -1,6 +1,6 @@
 === FA Lite - WP responsive slider plugin ===
 Contributors: codeflavors
-Tags:  javascript slider, wordpress slideshow, image slider, wordpress slider plugin, rotator, image rotator,customizable slider, wp slider, responsive slider, wordpress slider, best wordpress slider, slideshow plugin, wordpress picture slider, javascript rotator, responsive slideshow plugin, best slider wordpress, video slider, jquery slider, responsive slider plugin, picture slider, custom post types, responsive rotator, responsive image slider, responsive picture slider, responsive image slider plugin, best slider, responsive, featured articles slider, responsive slideshow, photo rotator, slideshow, photo slider, photo gallery, wordpress responsive slider, image gallery, wordpress video slider, wordpress picture gallery, wordpress gallery, template tag, best responsive slider, wordpress image slider, image slider plugin, wordpress photo gallery, best responsive wordpress slider plugin, slider plugin, jquery rotator, slider, featured articles, featured posts slider, shortcode
+Tags:  javascript slider, nivo slider, wordpress nivo slider, wordpress slideshow, image slider, wordpress slider plugin, rotator, image rotator,customizable slider, wp slider, responsive slider, wordpress slider, best wordpress slider, slideshow plugin, wordpress picture slider, javascript rotator, responsive slideshow plugin, best slider wordpress, video slider, jquery slider, responsive slider plugin, picture slider, custom post types, responsive rotator, responsive image slider, responsive picture slider, responsive image slider plugin, best slider, responsive, featured articles slider, responsive slideshow, photo rotator, slideshow, photo slider, photo gallery, wordpress responsive slider, image gallery, wordpress video slider, wordpress picture gallery, wordpress gallery, template tag, best responsive slider, wordpress image slider, image slider plugin, wordpress photo gallery, best responsive wordpress slider plugin, slider plugin, jquery rotator, slider, featured articles, featured posts slider, shortcode
 Requires at least: 4.0
 Tested up to: 4.2.2
 Stable tag: trunk
@@ -9,12 +9,19 @@ WordPress slider plugin for Featured Content that can create responsive, video e
 
 == Description ==
 
-**Featured Articles** is a [WordPress slider plugin](http://www.codeflavors.com/featured-articles-pro/ "Best WordPress slider plugin") that allows you to create sliders in your blog pages directly from your already written content, be it posts, custom posts, pages or WordPress Gallery images. Some of its features are:
+**Featured Articles** is a [WordPress slider plugin](http://www.codeflavors.com/featured-articles-pro/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Best WordPress slider plugin") that allows you to create sliders in your blog pages directly from your already written content, be it posts, custom posts, pages or WordPress Gallery images.
+For a quick tutorial see [How to create a WordPress slider with Featured Articles](http://www.codeflavors.com/documentation/featured-articles-pro-3/creating-sliders/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Best WordPress slider plugin").
+
+Coming with multiple, configurable WordPress slider themes and the possibility to extend it with new themes and slider scripts, Featured Articles is the best WordPress slider plugin available.
+
+(Some) Features:
 
 * Responsive and mobile ready;
+* Allows you to create sliders based on **Nivo slider** by implementing a slider theme compatible with Nivo slider;
 * Sliders can be created from posts, pages, gallery images (PRO) or custom post types (PRO);
 * Navigation arrows and pagination;
-* Multiple slider themes(PRO);
+* Multiple slider themes;
+* Third party slider scripts implementation;
 * Preloading functionality on page load;
 * Lots of actions and filters for customizing output and functionality;
 * SEO friendly;
@@ -38,7 +45,7 @@ Sliders can be published in WordPress by any of these ways (or all at the same t
 * widget placement into any widget areas your theme has;
 * automatic placement in any page just above the page loop.
 
-While Lite version of Featured Articles provides all the neccessary tools for creating very nice slideshows, PRO version of this same plugin comes in addition with:
+While Lite version of Featured Articles provides all the neccessary tools for creating a beautiful WordPress slider, PRO version comes in addition with:
 
 * more slider themes, all video enabled and responsive;
 * **video enabled** custom slides for **YouTube and Vimeo** that can embed videos in your WordPress sliders;
@@ -57,12 +64,12 @@ While Lite version of Featured Articles provides all the neccessary tools for cr
 
 **Important links:**
 
-* [Documentation](http://www.codeflavors.com/documents/featured-articles-pro-3/ "Featured Articles for WordPress documentation") on plugin usage and slider theme structure;
-* [Forums](http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/ "CodeFlavors Community Forums") (while we try to keep up with the forums here, please post any requests on our forums for a faster response);
-* [WordPress slider plugin homepage](http://www.codeflavors.com/featured-articles-pro/ "Best WordPress slider plugin")
-* [CodeFlavors News](http://www.codeflavors.com/news/ "CodeFlavors news on Featured Articles for WordPress plugin") - [CodeFlavors](http://www.codeflavors.com/ "CodeFlavors - devoted to WordPress") is our new home.
+* [Documentation](http://www.codeflavors.com/documents/featured-articles-pro-3/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Featured Articles for WordPress documentation") on plugin usage and slider theme structure;
+* [Forums](http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "CodeFlavors Community Forums") (while we try to keep up with the forums here, please post any requests on our forums for a faster response);
+* [WordPress slider plugin homepage](http://www.codeflavors.com/featured-articles-pro/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Best WordPress slider plugin")
+* [CodeFlavors News](http://www.codeflavors.com/news/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "CodeFlavors news on Featured Articles for WordPress plugin") - [CodeFlavors](http://www.codeflavors.com/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "CodeFlavors - devoted to WordPress") is our new home.
 
-These are just a few of the things this plugin can do so just go on and try it for yourself.
+These are just a few of the things this plugin can do so just go on and try it for yourself!
 
 The plugin can be used to display your fresh content on your homepage, display related posts on single post pages, put special offers into sliders to create attention and any other way you see fit. 
 
@@ -80,7 +87,7 @@ If you are upgrading to the current version, make sure you backup all the files 
 
 Next, either update version 3.X from WordPress admin page Plugins or by FTP. If updatng by FTP, make sure that you first remove the previous plugin version completely before uploading version 3.X.
 
-For any clarifications ask for help on our [Forums] (http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/ "Featured Articles 3 Forums").
+For any clarifications ask for help on our [Forums] (http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Featured Articles 3 Forums").
 We don't actively monitor the forum here on Wordpres.org so responses to questions posted here might take a while to get answered.
 
 == Screenshots ==
@@ -90,7 +97,17 @@ https://vimeo.com/113921051
 == Changelog ==
 
 **Please note**, if you modified or created new slider themes, you should set up a slider themes folder outside the plugin folder to avoid having your modifications overwritten.
-The process of moving the slider themes folder from within the plugin folder is described here: [How to move slider themes folder](http://www.codeflavors.com/documentation/featured-articles-pro-3/moving-slider-themes-folder/ "Move Featured Articles WP slider themes outside the plugin folder").
+The process of moving the slider themes folder from within the plugin folder is described here: [How to move slider themes folder](http://www.codeflavors.com/documentation/featured-articles-pro-3/moving-slider-themes-folder/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Move Featured Articles WP slider themes outside the plugin folder").
+
+= 3.1 =
+
+* New slider theme based on **Nivo Slider** script; combines the Nivo Slider script with the powerful plugin slider settings;
+* Modified back-end slider editing functionality to accomodate Nivo Slider theme options;
+* Modified slider class to allow selective script enqueue from slider theme functions file;
+* Added new option in plugin Settings page that allows removal of PRO pages from plugin admin menu;
+* New meta panel on slider editing screen with links directing to different tutorials for plugin usage;
+* New option for theme **Simple** to adjust the height to each slide content while navigating slides (in panel **Slider Output**, tab **Layout**);
+* Solved a CSS bug for slider themes that wasn't applying styling to paragraphs.
 
 = 3.0.4 =
 
@@ -273,5 +290,5 @@ Plugin is guaranteed to work on a clean WordPress install. Since themes and othe
 3. Use the proper Wordpress version (4 +).
 4. See if your theme footer.php file calls wp_footer().
 
-If all options are exhausted, you can always ask for help on our forums at [CodeFlavors Featured Articles WP forum](http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/ "Featured Articles 3 for WordPress forum"). We'll help you figure out things.
+If all options are exhausted, you can always ask for help on our forums at [CodeFlavors Featured Articles WP forum](http://www.codeflavors.com/codeflavors-forums/forum/featured-articles-3-0/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Featured Articles 3 for WordPress forum"). We'll help you figure out things.
 

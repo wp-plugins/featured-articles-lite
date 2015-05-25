@@ -97,6 +97,18 @@
 							</td>
 						</tr>
 						
+						<tr valign="top">
+							<th scope="row">
+								<label for="lite_admin_menu"><?php _e('Remove PRO pages from admin menu', 'fapro');?>:</label>
+							</th>
+							<td>
+								<input type="checkbox" name="lite_admin_menu" id="lite_admin_menu" value="1"<?php fa_checked( (bool) $settings['lite_admin_menu'] );?> />
+								<span class="description">
+									<?php _e('When checked, PRO pages will be removed from admin menu.', 'fapro');?>
+								</span>
+							</td>
+						</tr>
+						
 						<?php if( fa_is_wptouch_installed() ):?>
 						<tr valign="top">
 							<th scope="row">

@@ -423,32 +423,52 @@
 				</tr>
 				
 				<!-- /Optional show image field -->
-				<tr class="image-options" <?php fa_hide( !$show_image );?>>
+				<tr class="image-options optional content-image-preload"<?php fa_optional_field_data('content-image-preload')?> <?php fa_hide( !$show_image );?>>
 					<th><label for="content-image-preload"><?php _e( 'Preload images', 'fapro' );?>:</label></th>
 					<td>
-						<input type="checkbox" name="content_image[preload]" id="content-image-preload" value="1"<?php fa_checked( $options['content_image']['preload'] );?> />
-						<span class="description"><?php _e( 'preloads images when checked', 'fapro' );?></span>
+						<span class="fa-optional-field-enabled" <?php fa_hide( !fa_theme_field_enabled( $active, 'content-image-preload' ) );?>>	
+							<input type="checkbox" name="content_image[preload]" id="content-image-preload" value="1"<?php fa_checked( $options['content_image']['preload'] );?> />
+							<span class="description"><?php _e( 'preloads images when checked', 'fapro' );?></span>
+						</span>
+						<span class="fa-optional-field-disabled" <?php fa_hide( fa_theme_field_enabled( $active, 'content-image-preload' ) );?>>
+							<?php _e('NOT AVAILABLE (set by slider theme settings)', 'fapro');?>
+						</span>	
 					</td>
 				</tr>
-				<tr class="image-options" <?php fa_hide( !$show_image );?>>
+				<tr class="image-options optional content-image-width-attr"<?php fa_optional_field_data('content-image-width-attr')?> <?php fa_hide( !$show_image );?>>
 					<th><label for="content-image-show_width"><?php _e( 'Use width attribute', 'fapro' );?>:</label></th>
 					<td>
-						<input type="checkbox" name="content_image[show_width]" id="content-image-show_width" value="1"<?php fa_checked( $options['content_image']['show_width'] );?> />
-						<span class="description"><?php _e( 'when checked, will add width attribute on image', 'fapro' );?></span>
+						<span class="fa-optional-field-enabled" <?php fa_hide( !fa_theme_field_enabled( $active, 'content-image-width-attr' ) );?>>	
+							<input type="checkbox" name="content_image[show_width]" id="content-image-show_width" value="1"<?php fa_checked( $options['content_image']['show_width'] );?> />
+							<span class="description"><?php _e( 'when checked, will add width attribute on image', 'fapro' );?></span>
+						</span>
+						<span class="fa-optional-field-disabled" <?php fa_hide( fa_theme_field_enabled( $active, 'content-image-width-attr' ) );?>>
+							<?php _e('NOT AVAILABLE (set by slider theme settings)', 'fapro');?>
+						</span>	
 					</td>
 				</tr>
-				<tr class="image-options" <?php fa_hide( !$show_image );?>>
+				<tr class="image-options optional content-image-height-attr"<?php fa_optional_field_data('content-image-height-attr')?> <?php fa_hide( !$show_image );?>>
 					<th><label for="content-image-show_height"><?php _e( 'Use height attribute', 'fapro' );?>:</label></th>
 					<td>
-						<input type="checkbox" name="content_image[show_height]" id="content-image-show_height" value="1"<?php fa_checked( $options['content_image']['show_height'] );?> />
-						<span class="description"><?php _e( 'when checked, will add height attribute on image', 'fapro' );?></span>
+						<span class="fa-optional-field-enabled" <?php fa_hide( !fa_theme_field_enabled( $active, 'content-image-height-attr' ) );?>>	
+							<input type="checkbox" name="content_image[show_height]" id="content-image-show_height" value="1"<?php fa_checked( $options['content_image']['show_height'] );?> />
+							<span class="description"><?php _e( 'when checked, will add height attribute on image', 'fapro' );?></span>
+						</span>
+						<span class="fa-optional-field-disabled" <?php fa_hide( fa_theme_field_enabled( $active, 'content-image-height-attr' ) );?>>
+							<?php _e('NOT AVAILABLE (set by slider theme settings)', 'fapro');?>
+						</span>	
 					</td>
 				</tr>
-				<tr class="image-options" <?php fa_hide( !$show_image );?>>
+				<tr class="image-options optional content-image-link"<?php fa_optional_field_data('content-image-link')?> <?php fa_hide( !$show_image );?>>
 					<th><label for="content-image-clickable"><?php _e( 'Link image', 'fapro' );?>:</label></th>
 					<td>
-						<input type="checkbox" name="content_image[clickable]" id="content-image-clickable" value="1"<?php fa_checked( $options['content_image']['clickable'] );?> />
-						<span class="description"><?php _e( 'when checked, image will have anchor set on it poiting to the designated URL', 'fapro' );?></span>
+						<span class="fa-optional-field-enabled" <?php fa_hide( !fa_theme_field_enabled( $active, 'content-image-link' ) );?>>		
+							<input type="checkbox" name="content_image[clickable]" id="content-image-clickable" value="1"<?php fa_checked( $options['content_image']['clickable'] );?> />
+							<span class="description"><?php _e( 'when checked, image will have anchor set on it poiting to the designated URL', 'fapro' );?></span>
+						</span>
+						<span class="fa-optional-field-disabled" <?php fa_hide( fa_theme_field_enabled( $active, 'content-image-link' ) );?>>
+							<?php _e('NOT AVAILABLE (set by slider theme settings)', 'fapro');?>
+						</span>	
 					</td>
 				</tr>
 				<tr class="image-options" <?php fa_hide( !$show_image );?>>
