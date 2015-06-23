@@ -93,13 +93,9 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 == Screenshots ==
 
 1. Slider theme "Simple" - slide without image
-
 2. Slider theme "Simple" - slide with image
-
 3. Slider theme "Nivo Slider"
-
 4. Create new slider screen
-
 5. Plugin Settings page
 
 **Below is a video that demonstrates some of the PRO features**
