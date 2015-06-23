@@ -36,6 +36,7 @@ With the ability to change any slider aspect by making use of slider themes that
 
 Also, it offers the possibility to create additional themes (with some PHP, CSS and JavaScript knowledge) that can have custom written animations by extending the base functionality of the main slider script.
 
+**Please note that the video includes PRO features not available in Lite version.**
 https://vimeo.com/113921051
 
 Sliders can be published in WordPress by any of these ways (or all at the same time):
@@ -97,9 +98,6 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 3. Slider theme "Nivo Slider"
 4. Create new slider screen
 5. Plugin Settings page
-
-**Below is a video that demonstrates some of the PRO features**
-https://vimeo.com/113921051
 
 == Changelog ==
 
