@@ -99,6 +99,18 @@
 						
 						<tr valign="top">
 							<th scope="row">
+								<label for="allow_image_autodetect"><?php _e('Allow slides image autodetect', 'fapro');?>:</label>
+							</th>
+							<td>
+								<input type="checkbox" name="allow_image_autodetect" id="allow_image_autodetect" value="1"<?php fa_checked( (bool) $settings['allow_image_autodetect'] );?> />
+								<span class="description">
+									<?php _e('When checked will try to autodetect image in slide content when displaying sliders if no slide or featured image is found.', 'fapro');?>
+								</span>
+							</td>
+						</tr>
+						
+						<tr valign="top">
+							<th scope="row">
 								<label for="lite_admin_menu"><?php _e('Remove PRO pages from admin menu', 'fapro');?>:</label>
 							</th>
 							<td>

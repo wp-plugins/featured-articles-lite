@@ -2,7 +2,7 @@
 Contributors: codeflavors
 Tags:  javascript slider, nivo slider, wordpress nivo slider, wordpress slideshow, image slider, wordpress slider plugin, rotator, image rotator,customizable slider, wp slider, responsive slider, wordpress slider, best wordpress slider, slideshow plugin, wordpress picture slider, javascript rotator, responsive slideshow plugin, best slider wordpress, video slider, jquery slider, responsive slider plugin, picture slider, custom post types, responsive rotator, responsive image slider, responsive picture slider, responsive image slider plugin, best slider, responsive, featured articles slider, responsive slideshow, photo rotator, slideshow, photo slider, photo gallery, wordpress responsive slider, image gallery, wordpress video slider, wordpress picture gallery, wordpress gallery, template tag, best responsive slider, wordpress image slider, image slider plugin, wordpress photo gallery, best responsive wordpress slider plugin, slider plugin, jquery rotator, slider, featured articles, featured posts slider, shortcode
 Requires at least: 4.0
-Tested up to: 4.2.2
+Tested up to: 4.3
 Stable tag: trunk
 
 WordPress slider plugin for Featured Content that can create responsive, video enabled sliders from your existing WordPress content.
@@ -11,6 +11,8 @@ WordPress slider plugin for Featured Content that can create responsive, video e
 
 **Featured Articles** is a [WordPress slider plugin](http://www.codeflavors.com/featured-articles-pro/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Best WordPress slider plugin") that allows you to create sliders in your blog pages directly from your already written content, be it posts, custom posts, pages or WordPress Gallery images.
 For a quick tutorial see [How to create a WordPress slider with Featured Articles](http://www.codeflavors.com/documentation/featured-articles-pro-3/creating-sliders/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Best WordPress slider plugin").
+
+**Compatible with WordPress 4.3**
 
 Coming with multiple, configurable WordPress slider themes and the possibility to extend it with new themes and slider scripts, Featured Articles is the best WordPress slider plugin available.
 
@@ -101,8 +103,20 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 
 == Changelog ==
 
+Previous slider themes from version 2.X.X are not compatible with Featured Articles 3.0.
+
 **Please note**, if you modified or created new slider themes, you should set up a slider themes folder outside the plugin folder to avoid having your modifications overwritten.
 The process of moving the slider themes folder from within the plugin folder is described here: [How to move slider themes folder](http://www.codeflavors.com/documentation/featured-articles-pro-3/moving-slider-themes-folder/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=fa_lite "Move Featured Articles WP slider themes outside the plugin folder").
+
+= 3.1.1 =
+
+* Plugin compatible with WordPress 4.3 (scheduled for release on August 18th, 2015);
+* Modified default slider image size option when using WP sizes from "thumbnail" to "full";
+* Modified default slide option "Allow slide editing on post edit" from false to true; this will display the slide edit metabox when editing posts;
+* Added image autodetection in post content even when displaying sliders in front-end;
+* Added new option in plugin Settings page to prevent image autodetect when displaying sliders;
+* Refined image detection regexp to include images having only src attribute;
+* Prevent 'Auto Draft' titles to be set when slide editing is set on posts and pages (from plugin Settings page).
 
 = 3.1 =
 
@@ -135,9 +149,6 @@ The process of moving the slider themes folder from within the plugin folder is 
 
 = 3.0 =
 * Complete plugin rewrite and internal functionality
-
-Before updating, please make sure sure you have a back-up. While we don't expect anything to go wrong, it's better to be safe.
-Please note, previous slider themes from version 2.5.4 are not compatible with Featured Articles 3.0.
 
 = 2.5.4 =
 * Solves compatibility with qTranslate plugin (slide text not being translated).

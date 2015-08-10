@@ -19,7 +19,7 @@ class FA_Widgets extends WP_Widget{
 	/**
 	 * Create the slider widget
 	 */
-	public function FA_Widgets(){
+	public function __construct(){
 		/* Widget settings. */
 		$widget_opts = array( 
 			'classname' => 'fa_slideshow', 
@@ -29,11 +29,11 @@ class FA_Widgets extends WP_Widget{
 		$control_opts = array( 'id_base' => 'fa-slideshow-widget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 
+		parent::__construct( 
 			'fa-slideshow-widget', 
 			__('Featured Articles slider', 'fapro'), 
 			$widget_opts, 
-			$control_opts 
+			$control_opts
 		);		
 	}
 	

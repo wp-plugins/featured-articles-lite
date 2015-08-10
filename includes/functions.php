@@ -240,6 +240,57 @@ function fa_truncate_html( $string, $length = 80, $ending = '...' ){
 	return $truncated;
 }
 
+/**
+ * Given some content, the function will returned the image ID or image URL 
+ * for the first image it finds into the content. Will return false if no image
+ * tag is found.
+ *
+ * @param string $content
+ * @return boolean/string - false if no image is found, image ID or image URL if image is found
+ */
+function fa_detect_image( $content ){
+	// check for images in text
+	preg_match_all("#\<img(.*)src\=(\"|\')(.*)(\"|\')(/?[^\>]+)?\>#Ui", $content, $matches);
+	// no image is available
+	if( !isset($matches[0][0]) ){ 
+		return false;
+	}
+	
+	$result = array(
+		'img' 	=> false, 
+		'id' 	=> false
+	);
+	
+	// get image attributes in order to determine the attachment guid
+	preg_match_all("#([a-z]+)=\"(.*)\"#Ui", $matches[0][0], $attrs);
+	$inversed = array_flip( $attrs[1] );
+	
+	// if image doesn't have width/height attributes set on it, there's no point in going further
+	if( !array_key_exists( 'width', $inversed ) || !array_key_exists( 'height', $inversed ) ){
+		$result['img'] = $matches[3][0];
+		return $result;
+	}
+	
+	// image attributes hold the image URL. Replace those to get the real image guid
+	$img_size_url = '-'.$attrs[2][$inversed['width']].'x'.$attrs[2][$inversed['height']];
+	$real_image_guid = str_replace( $img_size_url, '', $matches[3][0] );
+	
+	global $wpdb;
+	$the_image = $wpdb->get_row( 
+		$wpdb->prepare( 
+			"SELECT * FROM $wpdb->posts WHERE guid = '%s' AND post_type='attachment'", 
+			$real_image_guid 
+		) 
+	);
+	// create the result
+	$result['img'] = $matches[3][0];
+	// if image was found, add the image ID to the result
+	if( $the_image ){
+		$result['id'] = $the_image->ID;				
+	}
+	return $result;	
+}
+
 /*************************************
  * Slider options
  *************************************/
@@ -480,7 +531,22 @@ function get_the_fa_image_id( $post_id = false ){
 		$image_id = $options['temp_image_id'];
 		if( !wp_get_attachment_image_src( $image_id, 'thumbnail' ) ){
 			$image_id = false;
-		};		
+		}	
+	}else{			
+		// image still wasn't found, try to autodetect, if option is enabled
+		$plugin_options = fa_get_options( 'settings' );
+		if( isset( $plugin_options['allow_image_autodetect'] ) && $plugin_options['allow_image_autodetect'] ){
+			$current_post = get_post( $post_id );
+			if( $current_post ){
+							
+				$image = fa_detect_image( $current_post->post_content );
+				if( isset( $image['id'] ) ){
+					$image_id = $image['id'];
+					// set the temporary image ID to avoid autodetecting in the future
+					fa_update_slide_options( $post_id , array( 'temp_image_id' => $image_id ) );
+				}
+			}	
+		}
 	}
 	return $image_id;
 }
@@ -550,6 +616,19 @@ function get_the_fa_slide_image_url( $post_id = false, $slider_id = false ){
 	if( !$image_url ){
 		if( isset( $options['temp_image_url'] ) && !empty( $options['temp_image_url'] ) ){
 			$image_url = $options['temp_image_url'];
+		}else{
+			// try to autodetect the image URL in post content if option is enabled
+			$plugin_options = fa_get_options( 'settings' );
+			if( isset( $plugin_options['allow_image_autodetect'] ) && $plugin_options['allow_image_autodetect'] ){
+				$current_post = get_post( $post_id );
+				if( $current_post ){
+					$image = fa_detect_image( $current_post->post_content );
+					if( !$image['id'] && $image['img'] ){
+						$image_url = $image['img'];
+						fa_update_slide_options( $post_id, array( 'temp_image_url' => $image_url ) );
+					}
+				}
+			}
 		}
 	}
 	// if no image URL was detected, stop

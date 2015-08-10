@@ -108,7 +108,7 @@ class FA_Admin extends FA_Custom_Post_Type{
 		
 		$preview_args = array(
 			'post_id' 	=> $post->ID,
-			'theme' 	=> $_POST['theme']['active'],
+			'theme' 	=> ( isset( $_POST['theme']['active'] ) ? $_POST['theme']['active'] : '' ),
 			'vars'		=> array(
 				'color' => ( isset( $_POST['theme']['color'] ) ? $_POST['theme']['color'] : '' )
 			),
@@ -1137,46 +1137,7 @@ class FA_Admin extends FA_Custom_Post_Type{
 	 * @return array
 	 */
 	private function find_image_in_post_content( $content ){
-		// check for images in text
-		preg_match_all("#\<img(.*)src\=(\"|\')(.*)(\"|\')(/?[^\>]+)\>#Ui", $content, $matches);
-		// no image is available
-		if( !isset($matches[0][0]) ){ 
-			return false;
-		}
-		
-		$result = array(
-			'img' 	=> false, 
-			'id' 	=> false
-		);
-		
-		// get image attributes in order to determine the attachment guid
-		preg_match_all("#([a-z]+)=\"(.*)\"#Ui", $matches[0][0], $attrs);
-		$inversed = array_flip( $attrs[1] );
-		
-		// if image doesn't have width/height attributes set on it, there's no point in going further
-		if( !array_key_exists( 'width', $inversed ) || !array_key_exists( 'height', $inversed ) ){
-			$result['img'] = $matches[3][0];
-			return $result;
-		}
-		
-		// image attributes hold the image URL. Replace those to get the real image guid
-		$img_size_url = '-'.$attrs[2][$inversed['width']].'x'.$attrs[2][$inversed['height']];
-		$real_image_guid = str_replace( $img_size_url, '', $matches[3][0] );
-		
-		global $wpdb;
-		$the_image = $wpdb->get_row( 
-			$wpdb->prepare( 
-				"SELECT * FROM $wpdb->posts WHERE guid = '%s' AND post_type='attachment'", 
-				$real_image_guid 
-			) 
-		);
-		// create the result
-		$result['img'] = $matches[3][0];
-		// if image was found, add the image ID to the result
-		if( $the_image ){
-			$result['id'] = $the_image->ID;				
-		}
-		return $result;		
+		return fa_detect_image( $content );	
 	}
 	
 	/**

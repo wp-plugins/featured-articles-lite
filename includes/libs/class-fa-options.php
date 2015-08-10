@@ -71,7 +71,7 @@ class FA_Slider_Options extends FA_Options{
 				'sizing' 		=> 'wp', 		// image size can be taken from default WP sizes or entered as custom size ( values: wp/custom )
 				'width'			=> 0, 			// custom image size resize
 				'height'		=> 0, 			// custom image size resize
-				'wp_size'		=> 'thumbnail', // if sizing is wp, store the registered image size				
+				'wp_size'		=> 'full', // if sizing is wp, store the registered image size				
 			),
 			
 			// all slide title options
@@ -407,6 +407,10 @@ class FA_Slide_Options extends FA_Options{
 		$options = parent::get_the_option();
 		foreach( $options as $k => $v ){
 			if( 'title' == $k || 'content' == $k ){
+				// on auto draft, don't put any defaults
+				if( 'auto-draft' == $post['post_status'] ){
+					continue;
+				}				
 				// if title isn't set on meta show the post title and content
 				if( empty( $v ) ){
 					$options[ $k ] = $post[ 'post_' . $k ];
@@ -514,13 +518,14 @@ class FA_Plugin_Options extends FA_Options {
 			 */
 			'settings' => array(
 				'complete_uninstall' => false, // perform a complete unistall
-				'post_slide_edit'	 => false, // load slide edit meta boxes on post/page edit screen
+				'post_slide_edit'	 => true, // load slide edit meta boxes on post/page edit screen
 				'load_in_wptouch'	 => false, // load slideshows on mobile version of wp touch
 				'themes_dir' 		 => '', // extra slideshow themes relative folder path (must be inside wp-content folder)
 				'edit_links'		 => false, // when true, it will display an edit link under the slider for logged in users that can edit
 				'preload_sliders'	 => false, // when true, it will load a small script and some styles into the head section of the website to preload any existing sliders
 				'load_font_awesome'	 => true, // when true, if slider themes require font awesome it will be enqueued
 				'lite_admin_menu'	 => false, // when true will remove PRO pages from admin menu
+				'allow_image_autodetect' => true, // when true, if no image is found on a slide the plugin will check the post contents and see if an image can be found
 			),
 			/**
 			 * Part of hooks management feature. Stores different hooks that can be used to display the slider
